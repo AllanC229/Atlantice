@@ -1,0 +1,186 @@
+package controller;
+
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+import model.Adherent;
+import model.Categorie;
+import model.Utilisateur;
+import connection.DAOAcces;
+
+/**
+ * Servlet implementation class ControleurConnexion
+ */
+@WebServlet("/ControleurConnexion")
+public class ControleurConnexion extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+	
+       
+
+	/**
+     * @see HttpServlet#HttpServlet()
+     */
+    public ControleurConnexion() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
+    
+   
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		
+		HttpSession h = request.getSession();
+		String nameCheck = (String)request.getParameter("nameCo");	
+		String mdpCheck = (String)request.getParameter("mdpCo");
+		
+
+		
+		if(nameCheck.equals("") || mdpCheck.equals(""))
+		{
+			getServletContext().getRequestDispatcher("/Connexion").forward(request, response);
+			System.out.println("Veuillez compléter tous les champs svp !");
+
+		}
+		else
+		{
+			//Ouvre la connexion
+			DAOAcces dao = new DAOAcces("com.mysql.cj.jdbc.Driver", "webadherents", "root", "");
+			Connection conn = null;
+			PreparedStatement checkUser = null;
+			PreparedStatement userCateg = null;
+			PreparedStatement allCateg = null ;
+			String idUser = null;
+			
+			try {
+				conn = dao.getConn();
+				conn.setAutoCommit(false);
+				
+				String sql = "SELECT nom, prenom, role, numerolicence FROM adherents WHERE login = ? and motdepasse = ?";
+				checkUser = conn.prepareStatement(sql);
+				checkUser.setString(1, nameCheck);
+				checkUser.setString(2,  mdpCheck);
+				ResultSet identification = checkUser.executeQuery();
+				
+				if (identification.next()) {
+					
+					HashMap<String, String> categoriesUser;
+					categoriesUser = new HashMap<String, String>() ;
+						
+							if ("admin".equals(identification.getString("role"))) {
+							
+								String sql3 ="select idcategorie, nomcategorie from categoriesportive order by idcategorie;";
+								allCateg = conn.prepareStatement(sql3);
+								ResultSet selectCategories = allCateg.executeQuery();
+						
+
+							
+								
+								while(selectCategories.next()) {
+									
+								categoriesUser.put(selectCategories.getString("idcategorie"), selectCategories.getString("nomcategorie"));
+								
+								}
+								Utilisateur activeUser = new Utilisateur(identification.getString("nom"), identification.getString("prenom"),
+										identification.getString("role"), identification.getString("numerolicence"), categoriesUser );
+										h.setAttribute("activeUser", activeUser);
+								
+							}
+							
+							else if (!"admin".equals(identification.getString("role"))) {
+								String sql3 ="SELECT categoriesportive.idcategorie, nomcategorie FROM categoriesportive INNER JOIN categorieadherent "
+										+ "ON categoriesportive.idcategorie=categorieadherent.idcategorie "
+										+ "INNER JOIN adherents ON categorieadherent.numLic=adherents.numerolicence "
+										+ "WHERE numerolicence=? ORDER BY categoriesportive.idcategorie;" ;
+								allCateg = conn.prepareStatement(sql3);
+								allCateg.setString(1, identification.getString("numerolicence"));
+								ResultSet selectCategories = allCateg.executeQuery();
+						
+								/*		ArrayList<Categorie> categories;  
+								categories = new ArrayList<Categorie>(); */
+								
+								
+								while(selectCategories.next()) {
+						//			categories.add(new Categorie(selectCategories.getString("idcategorie"), selectCategories.getString("nomcategorie"), dao));
+								categoriesUser.put(selectCategories.getString("idcategorie"), selectCategories.getString("nomcategorie"));
+								
+								}
+								Utilisateur activeUser = new Utilisateur(identification.getString("nom"), identification.getString("prenom"),
+										identification.getString("role"), identification.getString("numerolicence"), categoriesUser );
+										h.setAttribute("activeUser", activeUser);
+								
+							}
+							
+							
+						/*	idUser = identification.getString("numerolicence");
+							String sql2 = "SELECT categorieUser FROM categorieutilisateur WHERE categorieutilisateur.idUser = ?";
+							userCateg = conn.prepareStatement(sql2);
+							userCateg.setString(1, idUser);
+							ResultSet categorieUser = userCateg.executeQuery();
+			
+							if (categorieUser.next()) {
+								Utilisateur activeUser = new Utilisateur(identification.getString("nom"), identification.getString("prenom"),
+								identification.getString("role"), identification.getString("numerolicence"), categorieUser.getString("categorieUser"), );
+								h.setAttribute("activeUser", activeUser);
+							
+							
+							} */
+					
+				else {
+					 System.out.println("Connexion échouée");
+					 dao.closeConnection();
+					 getServletContext().getRequestDispatcher("/Connexion").forward(request, response);
+				 } 			
+				
+			/*	if ("admin".equals(activeUser.getRole()) ) {
+					
+				}
+				String sql3 ="select * from categoriesportive order by idcategorie;";
+				allCateg = conn.prepareStatement(sql3);
+				ResultSet selectCategories = allCateg.executeQuery();
+				
+				ArrayList<Categorie> categories;  
+				categories = new ArrayList<Categorie>();
+				
+				while(selectCategories.next()) 
+				 {
+					categories.add(new Categorie(selectCategories.getString("idcategorie"), selectCategories.getString("nomcategorie"), dao));
+				 }
+				 h.setAttribute("categories", categories); */
+				 dao.closeConnection();
+				 response.sendRedirect("Accueil");
+
+				}
+			}
+			catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+		}
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		doGet(request, response);
+	}
+
+}
