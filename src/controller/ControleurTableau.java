@@ -1,8 +1,13 @@
 package controller;
 
 import java.io.IOException;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
+import connection.DAOAcces;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -31,15 +36,63 @@ public class ControleurTableau extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 	    
-
-		request.setAttribute("numLic", (String)request.getAttribute("numLic"));
+		HttpSession h = request.getSession();
 		
 		if (request.getParameter("sportif")!=null) {
 			
-			response.addHeader("numLic", (String)request.getAttribute("numLic"));
-			//response.sendRedirect("FicheSportive");
-			getServletContext().getRequestDispatcher("/FicheSportive").forward(request, response); //modifier pour afficher la fiche sportive et non le tableau général
+			//à enlever ? response.addHeader("numLic", (String)request.getAttribute("numLic"));
+			String numLic = request.getParameter("numLic");
+			System.out.println("getParameter numLic : " + numLic);
+			
+			if (numLic == null) {
+			    numLic = (String) h.getAttribute("numLic");
+			    System.out.println("session numLic : " + numLic);
+			    
+			} else {
+			    h.setAttribute("numLic", numLic);
+			}
+			System.out.println("numLic final : " + numLic);
+			
+			//HashMap : clé = nomcritere valeur=valcritere
+			HashMap<String, Integer> criteres = new HashMap() ;
+			
+			try {
+				DAOAcces dao = new DAOAcces("com.mysql.cj.jdbc.Driver", "webadherents", "root", "");
+
+				String critereSQL = "SELECT valcritere, nomcritere "
+								+ "FROM critereadherent JOIN criteres "
+								+ "ON critereadherent.idCritere = criteres.idcritere "
+								+ "WHERE numerolicence=? ;";
+				
+				// Création d'une requête préparée
+				PreparedStatement pstCritere = dao.getConn().prepareStatement(critereSQL);
+				
+				pstCritere.setString(1, numLic);
+												
+				ResultSet rsCritere = pstCritere.executeQuery();
+				System.out.println(critereSQL);
+
+				
+				//remplir une HashMap avec le résultat de la requête
+				while(rsCritere.next()) {
+					criteres.put(rsCritere.getString("nomcritere"), rsCritere.getInt("valcritere"));
+				}
+				System.out.println("taille criteres : " + criteres.size());
+				System.out.println("contenu criteres : " + criteres);
+	    		dao.closeConnection();
+
+			} catch (SQLException e) {
+	    		System.out.println("Problème SQL");
+	    		e.printStackTrace();
+			}
+			h.setAttribute("criteres", criteres); //stocker la hashmap dans la session
+			//request.setAttribute("criteres", criteres); //pour la vue ficheSportive
+			getServletContext().getRequestDispatcher("/FicheSportive").forward(request, response); //pour le controleurFicheSportive = survit à la nouvelle requête HTTP
 		}
+	
+	
+		
+		
 		if (request.getParameter("fiche")!=null) {
 			//response.sendRedirect("FicheAdministrative");
 			getServletContext().getRequestDispatcher("/FicheAdministrative").forward(request, response); //meme chose avec la fiche administrative
