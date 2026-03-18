@@ -55,9 +55,7 @@ import model.Adherent;
 				String numeroLicence = numLic;
 				String nomcritere = entry.getKey();
 				int valcritere = Integer.parseInt(request.getParameter(nomcritere));
-
-
-								
+				
 				pst.setInt (1, valcritere);
 				pst.setString (2, numeroLicence);
 				pst.setString (3, nomcritere); 

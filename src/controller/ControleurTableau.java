@@ -15,6 +15,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import model.Adherent;
+import model.Utilisateur;
 
 /**
  * Servlet implementation class ControleurFiche
@@ -37,6 +38,8 @@ public class ControleurTableau extends HttpServlet {
 		// TODO Auto-generated method stub
 	    
 		HttpSession h = request.getSession();
+		Utilisateur activeUser = (Utilisateur) h.getAttribute("activeUser");
+		String role = activeUser.getRole();
 		
 		if (request.getParameter("sportif")!=null) {
 			

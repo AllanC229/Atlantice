@@ -99,7 +99,8 @@ public class ControleurConnexion extends HttpServlet {
 								Utilisateur activeUser = new Utilisateur(identification.getString("nom"), identification.getString("prenom"),
 										identification.getString("role"), identification.getString("numerolicence"), categoriesUser );
 										h.setAttribute("activeUser", activeUser);
-								
+										System.out.println("CHECK : " + identification.getString("role"));
+
 							}
 							
 							else if (!"admin".equals(identification.getString("role"))) {
@@ -122,8 +123,7 @@ public class ControleurConnexion extends HttpServlet {
 								}
 								Utilisateur activeUser = new Utilisateur(identification.getString("nom"), identification.getString("prenom"),
 										identification.getString("role"), identification.getString("numerolicence"), categoriesUser );
-										h.setAttribute("activeUser", activeUser);
-								
+										h.setAttribute("activeUser", activeUser);								
 							}
 							
 							

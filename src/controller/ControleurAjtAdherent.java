@@ -126,11 +126,14 @@ public class ControleurAjtAdherent extends HttpServlet {
           psAdh.setString(11, mail2);
           psAdh.setString(12, commentaire);
           psAdh.executeUpdate();
-
-       /*   String sqlSport = "INSERT INTO sportif (numerolicence) VALUES (?)";
-          psSportif = conn.prepareStatement(sqlSport);
+          
+          String sqlCritere = "INSERT INTO critereadherent (numerolicence, idcritere, valcritere) "
+                  			+ "SELECT ?, idcritere, 0 FROM criteres;";          
+          
+          psSportif = conn.prepareStatement(sqlCritere);
           psSportif.setString(1, numeroLic);
-          psSportif.executeUpdate(); */
+          
+          psSportif.executeUpdate(); 
           
           if (categories != null && categories.length != 0) {
         	  System.out.println("entrée dans la requete");
