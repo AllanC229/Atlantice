@@ -11,6 +11,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import model.Adherent;
+import model.Utilisateur;
 
 /**
  * Servlet implementation class FicheSportive
@@ -31,7 +32,9 @@ public class FicheSportive extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession h = request.getSession();
-		String role = (String) h.getAttribute("role");
+		Utilisateur activeUser = (Utilisateur) h.getAttribute("activeUser");
+		String role = activeUser.getRole();
+		System.out.println("role:" + role);
 		
 		
 		if ("fichesport".equals(request.getParameter("fichesport"))) {
