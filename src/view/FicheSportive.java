@@ -2,6 +2,7 @@ package view;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -43,33 +44,31 @@ public class FicheSportive extends HttpServlet {
 		
 		else {
 		Adherent a;
+		
+		HashMap<String, Integer> criteres = (HashMap<String, Integer>) h.getAttribute("criteres");
+		String numLic = request.getParameter("numLic");
+		if (numLic == null) {
+		    numLic = (String) h.getAttribute("numLic");
+		}
+		System.out.println(numLic);
+		
 		String affichage = "";
 		for (Adherent adh : (ArrayList<Adherent>) h.getAttribute("adherents")) {
-			if(adh.getNumLicence().equals(request.getParameter("numLic"))) {
+			if(adh.getNumLicence().equals(numLic)) {
 				a = adh;
 				affichage = "<!Doctype html><html><head><meta charset=\"utf-8\"/> \r\n"
 						+"<link href=\"licence.css\" rel=\"stylesheet\">"
-						+ "</head><body><h1 align=center> Formulaire adhérent : </h1></br>"
-						+ "	<div align=center><form action=\"ControleurFicheAdministrative\" method=GET>"
-						+ " <table border>"
-						+ "		<tr><td>Nom : </td><td><input type='text' name='nom' value='"+a.getNom()+"' ></br></td></tr>"
+						+ "</head><body><h1 align=center>Suivi sportif : </h1></br>"
+						+ "<div align=center><form action=\"ControleurFicheSportive\" method=GET>"
+						+ "<table border>"
+						+ "		<tr><td>Nom : </td><td><input type='text' name='nom' value='"+a.getNom()+"'></br></td></tr>"
 						+ "		<tr><td>Prénom : </td><td><input align=center type='text' name='prenom' value='"+a.getPrenom()+"'></br></td></tr>"
-						+ "		<tr><td>Numéro de licence : </td><td><input type='text' name='numeroLicence' value='"+a.getNumLicence()+"'></br></td></tr>"
-						+ "		<tr><td>Dernière année de licence active : </td><td><input type='text' name='derniereAnneeLicence' value='"+a.getDerniereLicenceActive()+"'></br></td></tr>"
-						+ "		<tr><td>Année de naissance : </td><td><input align=center type='text' name='anneeNaissance' value='"+a.getAnneeNaissance()+"'></br></td></tr>"
-						+ "		<tr><td>Téléphone 1 : </td><td><input type='text' name='telephone1' value='"+a.getTel1()+"'></br></td></tr>"
-						+ "		<tr><td>Téléphone 2 : </td><td><input align=center type='text' name='telephone2' value='"+a.getTel2()+"'></br></td></tr>"
-						+ "		<tr><td>Adresse 1 : </td><td><input type='text' name='adresse1' value='"+a.getAdresse1()+"'></br></td></tr>"
-						+ "		<tr><td>Adresse 2 : </td><td><input align=center type='text' name='adresse2' value='"+a.getAdresse2()+"'></br></td></tr>"
-						+ "		<tr><td>Mail 1 : </td><td><input type='text' name='mail1' value='"+a.getMail1()+"'></br></td></tr>"
-						+ "		<tr><td>Mail 2 : </td><td><input align=center type='text' name='mail2' value='"+a.getMail2()+"'></br></td></tr>"
-						+ "		<tr><td>Commentaire : </td><td><input type='text' name='commentaire' value='"+a.getCommentaire()+"'></br></td></tr>"
-						+ "		<tr><td>Contact 1 : </td><td><input align=center type='text' name='contact1' value='"+a.getContact1()+"'></br></td></tr>"
-						+ "		<tr><td>Contact 2 : </td><td><input type='text' name='contact2' value='"+a.getContact2()+"'></br></td></tr>"
-						+ "		<tr><td>Sexe : </td><td><input align=center type='text' name='sexe' value='"+a.getSexe()+"'></br></td></tr>"
-						+ "		<tr><td>Droit à l'image : </td><td><input align=center type='text' name='droitImage' value='"+a.getDroitImage()+"'></br></td></tr>"
-					//	+ "		<tr><td>Critère 1 : </td><td><input align=center type='text' name='critere1' value='"+a.getCritere1()+"'></input></br></td></tr>"  //modif critere le 04/12 12:56
-						+ "</table>";
+						+ "		<tr><td>Numéro de licence : </td><td><input type='text' name='numeroLicence' value='"+a.getNumLicence()+"'></br></td></tr>" ;
+						for (HashMap.Entry<String, Integer> entry : criteres.entrySet()) {
+							affichage +=  "<tr><td>"+entry.getKey()+"</td><td>"
+										+ "<input id='"+entry.getKey()+"' name='"+entry.getKey()+"' type='range' min='0' max='5' value='" + entry.getValue() +"'/>\r\n";
+						}
+						affichage += "</table>";
 						if ("admin".equals(role)) {				
 						affichage += "	<input type=submit name='modifAd' value=\"Modification de l'adhérent\"></input>";
 						}

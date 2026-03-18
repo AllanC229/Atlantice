@@ -270,6 +270,13 @@ public class ControleurAccueil extends HttpServlet {
 				String[] categorie = request.getParameterValues("categorie[]"); 
 				boolean flag = false;
 				
+				 //début : ajout du 17/03/2026 - pauline
+				if (categorie == null || categorie.length == 0) { /* traite l'erreur où l'utilisateur coche rien et où il accède au site via l'url */
+					request.getSession().setAttribute("erreur", "Veuillez sélectionner au moins une catégorie.");
+					getServletContext().getRequestDispatcher("/Accueil").forward(request, response);
+				    return; // Arrête l'exécution de doGet() ICI, retour à l'accueil, le code reprend au début
+				} //fin 
+				
 				for (String categ : categorie) {
 				
 					if (categ.equals("Toutes")) {
