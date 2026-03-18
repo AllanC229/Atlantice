@@ -40,11 +40,11 @@ public class ControleurAccueil extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		HttpSession h = request.getSession();
-		Utilisateur activeUser = (Utilisateur) h.getAttribute("activeUser");
-		String direction =  (String)request.getParameter("test");
-		HashMap<String, String> categoriesAdh = new HashMap<>();
+		
+		HttpSession h = request.getSession();	//Charge la variable de session
+		Utilisateur activeUser = (Utilisateur) h.getAttribute("activeUser");	//Récupère le profil de l'utilisateur de la session en cours
+		String direction =  (String)request.getParameter("test");		//J'ai oublié ce que ça fait : à investiguer
+		HashMap<String, String> categoriesAdh = new HashMap<>();		//Créé la HashMap qui stocke les catégorie sportives associées  l'utilisateur en cours
 		
 		
 		if ("ficheadmin".equals(request.getParameter("ficheadmin")) && !activeUser.getRole().equals("admin")) {  //tout ce bloc permet d'afficher seulement les adhérents qui appartiennt à la même catégorie que l'utilisateur actif, si celui ci n'est pas l'admin 
@@ -52,45 +52,43 @@ public class ControleurAccueil extends HttpServlet {
 			Connection conn = null;
 			PreparedStatement psAdhCateg = null;
 			
-			ArrayList<Adherent> adherents = new ArrayList<Adherent>(); //en arrivant d'accueil, instancie une liste vide d'adhérents
+			ArrayList<Adherent> adherents = new ArrayList<Adherent>(); //Instancie une liste vide d'adhérents
 			DAOAcces dao = new DAOAcces("com.mysql.cj.jdbc.Driver", "webadherents", "root", "");
 			
-				try {
+			try { //Prépare la requête qui récupère les infos des adhérents dont les catégories sportives correspondent à l'utilisateur en cours
 					
-					conn = dao.getConn();
-					conn.setAutoCommit(false);
+				conn = dao.getConn();
+				conn.setAutoCommit(false);
 
-					String sql =
-					    "SELECT a.numerolicence, a.nom, a.prenom, a.dernierelicenceactive, a.annee, " +
-					    "a.tel1, a.tel2, a.adresse1, a.adresse2, a.mail1, a.mail2, a.commentaire, " +
-					    "a.contact1, a.contact2, a.sexe, a.droitimage, " +
-					    "c.idcategorie, c.nomcategorie " +
-					    "FROM adherents a " +
-					    "LEFT JOIN categorieadherent ca ON a.numerolicence = ca.numLic " +
-					    "LEFT JOIN categoriesportive c ON ca.idcategorie = c.idcategorie " +
-					    "WHERE ca.idcategorie IN (";
+				String sql =
+				"SELECT a.numerolicence, a.nom, a.prenom, a.dernierelicenceactive, a.annee, " +
+				"a.tel1, a.tel2, a.adresse1, a.adresse2, a.mail1, a.mail2, a.commentaire, " +
+				"a.contact1, a.contact2, a.sexe, a.droitimage, " +
+				"c.idcategorie, c.nomcategorie " +
+				"FROM adherents a " +
+				"LEFT JOIN categorieadherent ca ON a.numerolicence = ca.numLic " +
+				"LEFT JOIN categoriesportive c ON ca.idcategorie = c.idcategorie " +
+				"WHERE ca.idcategorie IN (";
 					
-					for (String id : activeUser.getCategoriesUser().keySet()) {
+					for (String id : activeUser.getCategoriesUser().keySet()) {		//Ajoute un nombre de ? dans la requête égal au nombre de catégories associées à l'utilisateur
 						sql += "?, " ;
 					}
-					  sql = sql.substring(0, sql.length() -2);
-					  sql+=  ") ORDER BY a.numerolicence;";
+					 
+					sql = sql.substring(0, sql.length() -2);
+					sql+=  ") ORDER BY a.numerolicence;";
 					  
-					  psAdhCateg = conn.prepareStatement(sql);
+					psAdhCateg = conn.prepareStatement(sql);
 					  
-					  	int i = 1;
+					int i = 1;
 					  	
-					for (Map.Entry<String, String> entry : activeUser.categoriesUser.entrySet()) {
+					for (Map.Entry<String, String> entry : activeUser.categoriesUser.entrySet()) {	//Prépare la requête avec les catégories associées à l'utilisateur
 							psAdhCateg.setString(i,  entry.getKey());
 							i++;
-						}
-				
-
+					}
 					
 					ResultSet rsAdh = psAdhCateg.executeQuery();
 
 					String currentLicence = null;
-					//HashMap<String, String> categoriesAdh = null;
 
 					while (rsAdh.next()) {
 
@@ -133,25 +131,23 @@ public class ControleurAccueil extends HttpServlet {
 					            rsAdh.getString("nomcategorie")
 					        );
 					    }
-					}
-					
-										
-					
-				}
-				catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+					}	
+			}
+			
+			catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+				
 				request.setAttribute("adherents", adherents);
 				dao.closeConnection();
 				getServletContext().getRequestDispatcher("/Tableau").forward(request, response);
 		}
 		
-			if ("ficheadmin".equals(request.getParameter("ficheadmin")) && activeUser.getRole().equals("admin")) {  //ce bloc sert à afficher tous les adhérents independamment de la catégorie de l'utilisateur actif si celui ci est l'admin 
+		if ("ficheadmin".equals(request.getParameter("ficheadmin")) && activeUser.getRole().equals("admin")) {  //ce bloc sert à afficher tous les adhérents independamment de la catégorie de l'utilisateur actif si celui ci est l'admin 
 			
 			Connection conn = null;
-			PreparedStatement psAdh = null;
-			
+			PreparedStatement psAdh = null;			
 			ArrayList<Adherent> adherents = new ArrayList<Adherent>();
 			DAOAcces dao = new DAOAcces("com.mysql.cj.jdbc.Driver", "webadherents", "root", "");
 			
@@ -160,22 +156,20 @@ public class ControleurAccueil extends HttpServlet {
 				conn = dao.getConn();
 				conn.setAutoCommit(false);
 
-				String sql =
-				    "SELECT a.numerolicence, a.nom, a.prenom, a.dernierelicenceactive, a.annee, " +
-				    "a.tel1, a.tel2, a.adresse1, a.adresse2, a.mail1, a.mail2, a.commentaire, " +
-				    "a.contact1, a.contact2, a.sexe, a.droitimage, " +
-				    "c.idcategorie, c.nomcategorie " +
-				    "FROM adherents a " +
-				    "LEFT JOIN categorieadherent ca ON a.numerolicence = ca.numLic " +
-				    "LEFT JOIN categoriesportive c ON ca.idcategorie = c.idcategorie " +
-				    "ORDER BY a.numerolicence";
+				String sql = "SELECT a.numerolicence, a.nom, a.prenom, a.dernierelicenceactive, a.annee, " +
+							 "a.tel1, a.tel2, a.adresse1, a.adresse2, a.mail1, a.mail2, a.commentaire, " +
+							 "a.contact1, a.contact2, a.sexe, a.droitimage, " +
+							 "c.idcategorie, c.nomcategorie " +
+							 "FROM adherents a " +
+							 "LEFT JOIN categorieadherent ca ON a.numerolicence = ca.numLic " +
+							 "LEFT JOIN categoriesportive c ON ca.idcategorie = c.idcategorie " +
+							 "ORDER BY a.numerolicence";
 
 				psAdh = conn.prepareStatement(sql);
 				ResultSet rsAdh = psAdh.executeQuery();
 
 				String currentLicence = null;
 				
-
 				while (rsAdh.next()) {
 
 				    String licence = rsAdh.getString("numerolicence");
@@ -230,19 +224,22 @@ public class ControleurAccueil extends HttpServlet {
 		
 		
 		
-		if("Catégories".equals(direction))
-		{
+		if("Catégories".equals(direction)) {
+			
 			DAOAcces dao = new DAOAcces("com.mysql.cj.jdbc.Driver", "webadherents", "root", "");
 			ArrayList<Categorie> categories= new ArrayList<Categorie>();
+			
 			try {
 				String req = "SELECT * FROM categorie";
 				ResultSet rscat = dao.getStatement().executeQuery(req);
+				
 				while(rscat.next()) {
 					categories.add(new Categorie(rscat.getString("categories"), rscat.getString("annee"),  dao));
 				}
-				request.setAttribute("categories", categories);
 				
-			}catch (SQLException e) {
+				request.setAttribute("categories", categories);				
+			}
+			catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
@@ -251,136 +248,154 @@ public class ControleurAccueil extends HttpServlet {
 			getServletContext().getRequestDispatcher("/Categories").forward(request, response);
 		}
 		
-		else if("Créer un adhérent".equals(direction))
-		{
+		else if("Créer un adhérent".equals(direction)) {
+			
 			getServletContext().getRequestDispatcher("/CreationAdherent").forward(request, response);
 		}
 		
-		else if ("Valider".equals(request.getParameter("categorie"))) {
+		else if ("Valider".equals(request.getParameter("categorie"))) {  //si on a choisi une/plusieurs/toutes les catégories sur l'écran d'accueil
+			
 			h.setAttribute("cat", request.getParameterValues("categorie[]"));
 			
 			Connection conn = null;
 			PreparedStatement psAdh = null;
-			
+			String sql;			
 			ArrayList<Adherent> adherents = new ArrayList<Adherent>(); //en arrivant d'accueil, instancie une liste vide d'adhérents
 			DAOAcces dao = new DAOAcces("com.mysql.cj.jdbc.Driver", "webadherents", "root", "");
-			
+		
 			try {
-			
-			conn = dao.getConn(); 
-			conn.setAutoCommit(false);
-		    
-			String[] categorie = request.getParameterValues("categorie[]"); 
-			boolean flag = false;
-			for (String categ : categorie) {
 				
-				if (categ.equals("Toutes")) {
-					flag = true;
-				}
-			}
-			String sql;
-			
-			if (flag == false) {
-				sql= "select * from adherents join categorieadherent ON categorieadherent.numLic=adherents.numerolicence AND (";
-		//obsolète, à refaire
+				conn = dao.getConn(); 
+				conn.setAutoCommit(false);
+				String[] categorie = request.getParameterValues("categorie[]"); 
+				boolean flag = false;
+				
 				for (String categ : categorie) {
+				
+					if (categ.equals("Toutes")) {
+						
+						flag = true;
 					
-					sql += " idcategorie= ? OR" ;
-					
+					}
 				}
-				
-				sql = sql.substring(0, sql.length() - 3);
-				sql += ");";	
-				psAdh = conn.prepareStatement(sql);	 
-				
-				int i=1;
-				for (String categ : categorie) {
-					psAdh.setString(i,  categ);
-					i++;
-				}
-				
-			}
 			
-			else {	//GNEGNEuGNEU	
+			
+				if (flag == false) {  //Si on a choisi une ou plusieurs catégories sur le menu déroulant
 				
-				/*sql= "SELECT a.numerolicence, a.nom, a.prenom, a.dernierelicenceactive, a.annee, " +
-					    "a.tel1, a.tel2, a.adresse1, a.adresse2, a.mail1, a.mail2, a.commentaire, " +
-					    "a.contact1, a.contact2, a.sexe, a.droitimage, " +
-					    "c.idcategorie, cs.nomcategorie " +
-					    "FROM adherents a JOIN categorieadherent c ON numLic = numerolicence JOIN categoriesportive cs USING (idcategorie) WHERE c.idcategorie = ";
-				*/
-				sql = "SELECT a.numerolicence, a.nom, a.prenom, a.dernierelicenceactive, a.annee, " +
-						"a.tel1, a.tel2, a.adresse1, a.adresse2, a.mail1, a.mail2, a.commentaire, " +
-						"a.contact1, a.contact2, a.sexe, c.nomcategorie, a.droitimage, c.idcategorie " +
-						"FROM categoriesportive c " +
-						"JOIN categorieadherent ca ON ca.idcategorie = c.idcategorie " +
-						"JOIN adherents a ON ca.numLic = a.numerolicence " +
-						"WHERE c.idcategorie IN(";
-				
-				for (String i : activeUser.getCategoriesUser().keySet()) {
-					sql += "?, ";
+					sql = "SELECT a.numerolicence, a.nom, a.prenom, a.dernierelicenceactive, a.annee, " +
+					"a.tel1, a.tel2, a.adresse1, a.adresse2, a.mail1, a.mail2, a.commentaire, " +
+					"a.contact1, a.contact2, a.sexe, a.droitimage, GROUP_CONCAT(c.nomcategorie) AS categories " +
+					"FROM categoriesportive c " +
+					"JOIN categorieadherent ca ON ca.idcategorie = c.idcategorie " +
+					"JOIN adherents a ON ca.numLic = a.numerolicence " +
+					"WHERE a.numerolicence IN (SELECT ca2.numLic FROM categorieadherent ca2 WHERE ca2.idcategorie IN (";
+		
+					for (String categ : categorie) {
+						
+						sql += "?, ";
+						
+					}
+					
+					sql = sql.substring(0, sql.length() -2);
+					sql += ")) GROUP BY  a.numerolicence, a.nom,  a.prenom, a.dernierelicenceactive, a.annee,"
+						+ "    a.tel1, a.tel2, a.adresse1, a.adresse2, a.mail1, a.mail2, a.commentaire, a.contact1,"
+						+ "    a.contact2, a.sexe, a.droitimage;";
+		 
+					psAdh = conn.prepareStatement(sql);
+		 
+					int i = 1 ;
+		  	
+					for (String categ : categorie) {  
+						
+						int valeur = Integer.parseInt(categ);
+						psAdh.setLong(i,  valeur);
+						i++;
+					}	
+	
 				}
-				sql = sql.substring(0, sql.length() -2);
-				sql += ") ORDER BY a.numerolicence, c.idcategorie;";
-				 
-				psAdh = conn.prepareStatement(sql);
-				 
-				  	int i = 1 ;
-				  	
-			for (String categ : activeUser.getCategoriesUser().keySet()) {
-					psAdh.setString(i,  categ);
+			
+				else {		//Si on a choisi toutes les catégories
+
+					sql = "SELECT a.numerolicence, a.nom, a.prenom, a.dernierelicenceactive, a.annee, " +
+						  "a.tel1, a.tel2, a.adresse1, a.adresse2, a.mail1, a.mail2, a.commentaire, " +
+						  "a.contact1, a.contact2, a.sexe, a.droitimage, " +
+						  "GROUP_CONCAT(c.nomcategorie) AS categories " +
+						  "FROM adherents a " +
+						  "LEFT JOIN categorieadherent ca ON a.numerolicence = ca.numLic " +
+						  "LEFT JOIN categoriesportive c ON ca.idcategorie = c.idcategorie " +
+						  "WHERE a.numerolicence IN (SELECT ca2.numLic FROM categorieadherent ca2 WHERE ca2.idcategorie IN (";
+						
+					for (String id : activeUser.getCategoriesUser().keySet()) {
+						
+							sql += "?, " ;
+					}
+					
+					sql = sql.substring(0, sql.length() -2);
+					
+					sql+=")) GROUP BY  a.numerolicence, a.nom,  a.prenom, a.dernierelicenceactive, a.annee,"
+						+"    a.tel1, a.tel2, a.adresse1, a.adresse2, a.mail1, a.mail2, a.commentaire, a.contact1,"
+						+"    a.contact2, a.sexe, a.droitimage;";
+						  
+					psAdh = conn.prepareStatement(sql);
+						  
+					int i = 1;
+						  	
+					for (Map.Entry<String, String> entry : activeUser.categoriesUser.entrySet()) {
+							
+						int valeur = Integer.parseInt(entry.getKey());
+						psAdh.setLong(i,  valeur);
+						psAdh.setLong(i, valeur);
 						i++;
 					}
-			}
+				}
+		
+				System.out.println(psAdh);
+				
+				ResultSet rsAdherent = psAdh.executeQuery();
 			
-			ResultSet rsAdherent = psAdh.executeQuery();
-			
-			String currentlicence = null ;
+				String currentlicence = null ;
 				
 				while (rsAdherent.next()) {
-					
-				
-					 String licence = rsAdherent.getString("numerolicence");
+
+					String licence = rsAdherent.getString("numerolicence");
 					 
 					if (!licence.equals(currentlicence)) {
 						
 						categoriesAdh = new HashMap<>();
-						
 
-			        adherents.add(new Adherent(
-			            licence,
-			            rsAdherent.getString("nom"),
-			            rsAdherent.getString("prenom"),
-			            rsAdherent.getString("annee"),
-			            rsAdherent.getString("tel1"),
-			            rsAdherent.getString("tel2"),
-			            rsAdherent.getString("adresse1"),
-			            rsAdherent.getString("adresse2"),
-			            rsAdherent.getString("mail1"),
-			            rsAdherent.getString("mail2"),
-			            rsAdherent.getString("commentaire"),
-			            rsAdherent.getString("dernierelicenceactive"),
-			            rsAdherent.getString("contact1"),
-			            rsAdherent.getString("contact2"),
-			            rsAdherent.getString("sexe"),
-			            rsAdherent.getString("droitimage"),
-			            categoriesAdh,
-			            dao
-			        ));
-
-			       currentlicence = licence;
+				        adherents.add(new Adherent(
+				            licence,
+				            rsAdherent.getString("nom"),
+				            rsAdherent.getString("prenom"),
+				            rsAdherent.getString("annee"),
+				            rsAdherent.getString("tel1"),
+				            rsAdherent.getString("tel2"),
+				            rsAdherent.getString("adresse1"),
+				            rsAdherent.getString("adresse2"),
+				            rsAdherent.getString("mail1"),
+				            rsAdherent.getString("mail2"),
+				            rsAdherent.getString("commentaire"),
+				            rsAdherent.getString("dernierelicenceactive"),
+				            rsAdherent.getString("contact1"),
+				            rsAdherent.getString("contact2"),
+				            rsAdherent.getString("sexe"),
+				            rsAdherent.getString("droitimage"),
+				            categoriesAdh,
+				            dao
+				        ));
+	
+				       currentlicence = licence;
 			      
 			       
-			    // Ajout d’une catégorie si elle existe
-				  /* if (rsAdherent.getString("idcategorie") != null) {
-				        categoriesAdh.put(			        		
-				            rsAdherent.getString("idcategorie"),
-				            rsAdherent.getString("nomcategorie")
-				        );
-				   }*/
-			    }		    			
-			}				
-		}	
+				       // Ajout d’une catégorie si elle existe
+				       	if (rsAdherent.getString("categories") != null) {
+				    	   
+				       		categoriesAdh.put(rsAdherent.getString("categories"), rsAdherent.getString("categories"));
+				    	   
+				       	}
+					}		    			
+				}						
+			}
 			 		
 			catch (SQLException e) {
 				// TODO Auto-generated catch block
@@ -394,9 +409,8 @@ public class ControleurAccueil extends HttpServlet {
 			getServletContext().getRequestDispatcher("/Tableau").forward(request, response);
 
 		}
-
 	}
-
+	
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
