@@ -224,7 +224,7 @@ public class ControleurAccueil extends HttpServlet {
 		
 		
 		
-		if("Catégories".equals(direction)) {
+		if("Catégories".equals(direction)) {  //Ca c'est si on clique sur le bouton Categories en haut à gauche de l'accueil : pour le moment, renvoie une erreur
 			
 			DAOAcces dao = new DAOAcces("com.mysql.cj.jdbc.Driver", "webadherents", "root", "");
 			ArrayList<Categorie> categories= new ArrayList<Categorie>();
