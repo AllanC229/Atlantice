@@ -42,6 +42,9 @@ public class ControleurFicheAdministrative extends HttpServlet {
 	    
 	    Connection conn = null;
 		PreparedStatement updateAdh = null;	
+		PreparedStatement supprcritadh = null;
+		PreparedStatement supprcategadh = null;
+		PreparedStatement suppradh = null;
 		
 	    ArrayList<String> adherentupdate = new ArrayList<>();
 	    adherentupdate.addAll(Arrays.asList(request.getParameter("nom"), request.getParameter("prenom"), request.getParameter("derniereAnneeLicence"), 
@@ -50,36 +53,85 @@ public class ControleurFicheAdministrative extends HttpServlet {
 	    		request.getParameter("commentaire"), request.getParameter("contact1"), request.getParameter("contact2"), 
 	    		request.getParameter("sexe"), request.getParameter("droitImage"), request.getParameter("numeroLicence")));
 	    
+	    if (request.getParameter("modifAd") != null) {
+	    	System.out.println("bouton modif cliqué");
+	    	
+	    	try {
+				
+				conn = dao.getConn();
+				conn.setAutoCommit(false);
+				
+				String sql = "UPDATE adherents SET nom= ? , prenom= ? , dernierelicenceactive= ? , annee= ? , tel1= ? , tel2= ? , adresse1= ? , adresse2= ? ,"
+						+ " mail1= ? , mail2= ? , commentaire= ? , contact1= ? , contact2= ? , sexe= ? , droitimage= ? WHERE numerolicence= ? ;";
+				
+				updateAdh = conn.prepareStatement(sql);
+				int i = 1;
+				
+				for (String adherent : adherentupdate) {  
+					System.out.println(adherent);
+					updateAdh.setString(i, adherent);
+					i++;
+				}
+				
+				System.out.println(updateAdh);
+				updateAdh.executeUpdate();
+				conn.commit();
+				
+					
+			} 
+			catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			dao.closeConnection();
+	    }
+	    
+	    else if (request.getParameter("supprAd") != null) {
+	    	System.out.println("bouton supprimer cliqué");
+	    	
+	    		try {
+				
+				conn = dao.getConn();
+				conn.setAutoCommit(false);
+				
+				supprcritadh = conn.prepareStatement("DELETE FROM critereadherent WHERE numerolicence = ? ");
+				supprcritadh.setString(1, request.getParameter("numeroLicence"));
+				supprcritadh.executeUpdate();
+				
+				supprcategadh = conn.prepareStatement("DELETE FROM categorieadherent WHERE numLic = ? ");
+				supprcategadh.setString(1,  request.getParameter("numeroLicence"));
+				supprcategadh.executeUpdate();
+				
+				suppradh = conn.prepareStatement("DELETE FROM adherents WHERE numerolicence = ? ");
+				suppradh.setString(1,  request.getParameter("numeroLicence"));
+				suppradh.executeUpdate();
+				
+				System.out.println("adherent "+ request.getParameter("numeroLicence") +" correctement supprimé");
+				conn.commit();
+	    		}
+	    		
+	    		catch (SQLException e) {
+					if (conn != null) {
+						try {
+							conn.rollback();
+						}
+						catch (SQLException ex) {
+							ex.printStackTrace();
+						}
+					}
+					e.printStackTrace();
+				}
+	    		
+	    		finally {
+	    		
+				dao.closeConnection();
+				
+	    		}
+	    		
+	    }
 
 	    
-		try {
-			
-			conn = dao.getConn();
-			conn.setAutoCommit(false);
-			
-			String sql = "UPDATE adherents SET nom= ? , prenom= ? , dernierelicenceactive= ? , annee= ? , tel1= ? , tel2= ? , adresse1= ? , adresse2= ? ,"
-					+ " mail1= ? , mail2= ? , commentaire= ? , contact1= ? , contact2= ? , sexe= ? , droitimage= ? WHERE numerolicence= ? ;";
-			
-			updateAdh = conn.prepareStatement(sql);
-			int i = 1;
-			
-			for (String adherent : adherentupdate) {  
-				System.out.println(adherent);
-				updateAdh.setString(i, adherent);
-				i++;
-			}
-			
-			System.out.println(updateAdh);
-			updateAdh.executeUpdate();
-			conn.commit();
-			
-				
-		} 
-		catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		dao.closeConnection();
+		
 		
 		getServletContext().getRequestDispatcher("/Accueil").forward(request, response); //Renvoie vers l'accueil
 	}

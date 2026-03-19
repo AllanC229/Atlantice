@@ -53,8 +53,8 @@ public class FicheAdministrative extends HttpServlet {
 							+ "<div align=center><form action=\"ControleurFicheAdministrative\" method=GET>"
 							+ "<table border>"
 							+ "<tr><td>Nom : </td><td><input type='text' name='nom' value='"+a.getNom()+"'></br></td></tr>"
-							+ "<tr><td>Prénom : </td><td><input align=center type='text' name='prenom' value='"+a.getPrenom()+"'></br></td></tr>"
-							+ "<tr><td>Numéro de licence : </td><td><input type='text' name='numeroLicence' value='"+a.getNumLicence()+"'></br></td></tr>"
+							+ "<tr><td>Prénom : </td><td><input align=center type='text' name='prenom' value='"+a.getPrenom()+"'></br></td></tr>"							
+							+ "<tr><td>Numéro de licence : </td><td><input type='text' name='numeroLicence' value='" +a.getNumLicence()+ "' readonly></br></td></tr>"
 							+ "<tr><td>Dernière année de licence active : </td><td><input type='text' name='derniereAnneeLicence' value='"+a.getDerniereLicenceActive()+"'></br></td></tr>"
 							+ "<tr><td>Année de naissance : </td><td><input align=center type='text' name='anneeNaissance' value='"+a.getAnneeNaissance()+"'></br></td></tr>"
 							+ "<tr><td>Téléphone 1 : </td><td><input type='text' name='telephone1' value='"+a.getTel1()+"'></br></td></tr>"
@@ -70,8 +70,8 @@ public class FicheAdministrative extends HttpServlet {
 							+ "<tr><td>Droit à l'image : </td><td><input align=center type='text' name='droitImage' value='"+a.getDroitImage()+"'></br></td></tr>"
 							+ "</table>"
 							+ "<div>"
-							+ "<input type=submit name='modifAd' value=\"Modification de l'adhérent\"></input>"							
-							+ "<input type='submit' value='Supprimer cet adhérent'></input>"
+							+ "<input type='submit' name='modifAd' value='Modification de l'adhérent'></input>"							
+							+ "<input type='submit' name='supprAd' value='Supprimer cet adhérent'></input>"
 							+ "</form></div>");
 				}
 			}
