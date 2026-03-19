@@ -183,9 +183,9 @@ public class Tableau extends HttpServlet {
 		out.println("</table></div>");
 		h.setAttribute("adherents", (ArrayList<Adherent>)request.getAttribute("adherents"));
 	
-		if(activeUser.getRole().equals("admin"))
+		if(activeUser.getRole().equals("admin") || activeUser.getRole().equals("modif"))
 		{		
-			out.println("<div><form action=\"FormAdherent\" name=\"boutonAjoutAdherent\" value=\"ajoutAdherent\" method=\"get\">"
+			out.println("<div><form action=\"CreationAdherent\" name=\"boutonAjoutAdherent\" value=\"ajoutAdherent\" method=\"get\">"
 				+ "<input type=\"submit\" name=\"test\" value=\"Créer un adhérent\"> </form>"
 				+ "</div></body></html>");
 		}
