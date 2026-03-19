@@ -67,8 +67,18 @@ public class FicheAdministrative extends HttpServlet {
 							+ "<tr><td>Contact 1 : </td><td><input align=center type='text' name='contact1' value='"+a.getContact1()+"'></br></td></tr>"
 							+ "<tr><td>Contact 2 : </td><td><input type='text' name='contact2' value='"+a.getContact2()+"'></br></td></tr>"
 							+ "<tr><td>Sexe : </td><td><input align=center type='text' name='sexe' value='"+a.getSexe()+"'></br></td></tr>"
-							+ "<tr><td>Droit à l'image : </td><td><input align=center type='text' name='droitImage' value='"+a.getDroitImage()+"'></br></td></tr>"
-							+ "</table>"
+							+ "<tr><td>Droit à l'image : </td><td><input align=center type='text' name='droitImage' value='"+a.getDroitImage()+"'></br></td></tr>");
+					if (activeUser.getRole().equals("admin")) { //Rajout de la modification du rôle (accessible seulement par l'admin)
+					        	
+					        	out.println("<div>"
+					        			+ "<tr><td>Rôle</td>"		//Penser à rajouter une option "ne rien modifier" sinon requête modifie par défaut en "Adhérent"!!
+					        			+ "<td><select name='role' id='choixrole'>"
+					        			+ "<option value ='adherent'> Adhérent </option>"
+					        			+ "<option value ='modif'> Responsable de catégorie </option>"
+					        			+ "<option value = 'admin'> Administrateur </option>"
+					        			+ "</select></td></tr></div>");	        	
+					        }									
+							out.println("</table>"
 							+ "<div>"
 							+ "<input type='submit' name='modifAd' value='Modification de l'adhérent'></input>"							
 							+ "<input type='submit' name='supprAd' value='Supprimer cet adhérent'></input>"

@@ -51,7 +51,7 @@ public class ControleurFicheAdministrative extends HttpServlet {
 	    		request.getParameter("anneeNaissance"), request.getParameter("telephone1"), request.getParameter("telephone2"), 
 	    		request.getParameter("adresse1"), request.getParameter("adresse2"), request.getParameter("mail1"), request.getParameter("mail2"), 
 	    		request.getParameter("commentaire"), request.getParameter("contact1"), request.getParameter("contact2"), 
-	    		request.getParameter("sexe"), request.getParameter("droitImage"), request.getParameter("numeroLicence")));
+	    		request.getParameter("sexe"), request.getParameter("droitImage"), request.getParameter("numeroLicence"), request.getParameter("role")));
 	    
 	    if (request.getParameter("modifAd") != null) { //Sert à modifier les valeurs d'un adhérent dans la BDD
 	    	System.out.println("bouton modif cliqué");
@@ -62,7 +62,7 @@ public class ControleurFicheAdministrative extends HttpServlet {
 				conn.setAutoCommit(false);
 				
 				String sql = "UPDATE adherents SET nom= ? , prenom= ? , dernierelicenceactive= ? , annee= ? , tel1= ? , tel2= ? , adresse1= ? , adresse2= ? ,"
-						+ " mail1= ? , mail2= ? , commentaire= ? , contact1= ? , contact2= ? , sexe= ? , droitimage= ? WHERE numerolicence= ? ;";
+						+ " mail1= ? , mail2= ? , commentaire= ? , contact1= ? , contact2= ? , sexe= ? , droitimage= ? , role = ? WHERE numerolicence= ? ;";
 				
 				updateAdh = conn.prepareStatement(sql);
 				int i = 1;
