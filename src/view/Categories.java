@@ -36,10 +36,10 @@ public class Categories extends HttpServlet {
 				+ " </head><body><h1 align=center>Catégories : </h1></br>\r\n"
 				+ "	<div align=center><form action=\"ControleurCategories\" method=GET>\r\n"
 				+ " <table border>"
-				+ " <tr><th>Nom</th><th>Années</th></tr>";
+				+ " <tr><th>Années</th><th>Nom</th></tr>";
 		
 				for(Categorie c : (ArrayList<Categorie>)request.getAttribute("categories")) {
-					r += "<tr><td>"+c.getNomCateg()+"</td><td><input type=\"text\" name=\"annee\" value='"+c.getIdCateg()+"'></td></tr>";
+					r += "<tr><td><input type=\"text\" name=\"annee\" value='"+c.getNomCateg()+"'></td><td><input type=\"text\" name=\"annee\" value='"+c.getIdCateg()+"'></td></tr>";
 				}
 				r += "</table>"
 					+ "<input type=\"submit\" name=\"categories\" value=\"Valider les modifications\"></td></tr> </form>"

@@ -1,0 +1,126 @@
+@charset "UTF-8";
+
+/* ============================================================
+   Single Range Slider — min:0 max:5
+   Basé sur yairEO/ui-range
+   codé par Claude.ai
+   ============================================================ */
+ 
+.range-slider {
+  --min: 0;
+  --max: 5;
+ 
+  --primary-color: #0366d6;
+  --fill-color: var(--primary-color);
+  --track-bg: #eee;
+  --thumb-color: white;
+ 
+  --thumb-size: 30px;
+  --track-height: 30px;
+ 
+  /* Calcul de progression 0→100% mis à jour par JS */
+  --completed-a: calc((var(--value-a) - var(--min)) / (var(--max) - var(--min)) * 100);
+ 
+  /* Clip de la zone remplie (de 0 jusqu'au pouce) */
+  --clip-end: calc(100% - var(--completed-a) * 1%);
+  --clip: inset(-20px var(--clip-end) -20px 0%);
+ 
+  display: inline-block;
+  position: relative;
+  height: var(--track-height);
+  color: var(--primary-color);
+}
+ 
+/* ---------- Progress bar ---------- */
+.range-slider__progress {
+  position: absolute;
+  left:  calc(var(--thumb-size) / 2);
+  right: calc(var(--thumb-size) / 2);
+  top: 0;
+  height: var(--track-height);
+  background: var(--track-bg);
+  pointer-events: none;
+  z-index: 0;
+}
+ 
+/* Zone remplie */
+.range-slider__progress::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  clip-path: var(--clip);
+  background: var(--fill-color);
+  opacity: 0.25;
+}
+ 
+/* ---------- Input ---------- */
+.range-slider > input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: var(--thumb-size);
+  margin: 0;
+  position: absolute;
+  left: 0;
+  top: 0;
+  cursor: grab;
+  outline: none;
+  background: none;
+  z-index: 2;
+}
+ 
+.range-slider > input[type="range"]:active {
+  cursor: grabbing;
+}
+ 
+/* Thumb WebKit */
+.range-slider > input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  height: var(--thumb-size);
+  width: var(--thumb-size);
+  border-radius: 50%;
+  background: white;
+  box-shadow: 0 0 3px rgba(0,0,0,0.4), 0 0 0 99px white inset;
+  border: none;
+  pointer-events: auto;
+  transition: box-shadow 0.1s;
+}
+ /*
+.range-slider > input[type="range"]:hover::-webkit-slider-thumb {
+  box-shadow: 25px 0 0 -15px #0366d6 inset, 0 0 3px rgba(0,0,0,0.4), 0 0 0 99px white inset;
+}*/
+ 
+/* Thumb Firefox */
+.range-slider > input[type="range"]::-moz-range-thumb {
+  height: var(--thumb-size);
+  width: var(--thumb-size);
+  border-radius: 50%;
+  background: white;
+  box-shadow: 0 0 3px rgba(0,0,0,0.4);
+  border: none;
+  pointer-events: auto;
+  transition: 0.1s;
+}
+ 
+/* ---------- Ligne de valeurs ---------- */
+.range-slider__values {
+  position: relative;
+  top: 50%;
+  line-height: 0;
+  text-align: justify;
+  /* Aligne les valeurs sous les positions exactes du slider */
+  width: calc(100% - 50% / (var(--max) - var(--min)));
+  pointer-events: none;
+  margin: 0 auto;
+  z-index: 5;
+  font: 700 18px Arial;
+  color: #0366d6;
+}
+ 
+/* Trick justify sur une seule ligne */
+.range-slider__values::after {
+  content: "";
+  width: 100%;
+  display: inline-block;
+  height: 0;
+}

@@ -42,7 +42,7 @@ public class CreationCategorie extends HttpServlet {
 						+ "<br>");
 			
 			out.println("Nom de la catégorie: <input type=\"text\" name=\"nmC\"> </input> <br><br>");
-			out.println("Ann�e de la catégorie: <input type=\"text\" name=\"annee\"> </input> <br><br>");
+			out.println("Année de la catégorie: <input type=\"text\" name=\"annee\"> </input> <br><br>");
 
 			out.print("<input type=\"submit\" value = \"Valider\" /></input></div>");   
 			out.print("</form></body></html>");
