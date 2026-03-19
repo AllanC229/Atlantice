@@ -73,6 +73,9 @@ import model.Adherent;
 			h.setAttribute("numLic", numLic);
 			response.sendRedirect("ControleurTableau?sportif=true");
 			//response.sendRedirect("Accueil"); // au lieu de renvoyer direct vers Accueil, est ce que ça serait pas + pertinent de d'actualiser la page?
+		
+			
+			
 		}
 
 		/**

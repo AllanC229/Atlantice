@@ -73,7 +73,6 @@ public class FicheAdministrative extends HttpServlet {
 						+ "		<tr><td>Contact 2 : </td><td><input type='text' name='contact2' value='"+a.getContact2()+"'></br></td></tr>"
 						+ "		<tr><td>Sexe : </td><td><input align=center type='text' name='sexe' value='"+a.getSexe()+"'></br></td></tr>"
 						+ "		<tr><td>Droit à l'image : </td><td><input align=center type='text' name='droitImage' value='"+a.getDroitImage()+"'></br></td></tr>"
-					//	+ "		<tr><td>Critère 1 : </td><td><input align=center type='text' name='critere1' value='"+a.getCritere1()+"'></input></br></td></tr>"  //modif critere le 04/12 14:09, possible de rajouter les autres criteres si besoin
 						+ "</table>";
 						if (activeUser.getRole().equals("admin")) {				
 							affichage += "	<input type=submit name='modifAd' value=\"Modification de l'adhérent\"></input>"

@@ -36,16 +36,6 @@ public class FicheSportive extends HttpServlet {
 		String role = activeUser.getRole();
 		System.out.println("role:" + role);
 		
-		
-		if ("fichesport".equals(request.getParameter("fichesport"))) {
-			//Créer un tableau qui demande quel adhérent afficher
-			String affichage = "";
-			//Créer un tableau qui demande quel adhérent afficher
-			affichage = "<html><body> Ca fonctionne bien</body></hmtl>";
-			response.getWriter().append(affichage);
-		}
-		
-		else {
 		Adherent a;
 		
 		HashMap<String, Integer> criteres = (HashMap<String, Integer>) h.getAttribute("criteres");
@@ -72,11 +62,14 @@ public class FicheSportive extends HttpServlet {
 										+ "<input id='"+entry.getKey()+"' name='"+entry.getKey()+"' type='range' min='0' max='5' value='" + entry.getValue() +"'/>\r\n";
 						}
 						affichage += "</table>";
-						if ("admin".equals(role)) {				
-						affichage += "	<input type=submit name='modifAd' value=\"Modification de l'adhérent\"></input>";
+						if ((activeUser.getRole().equals("admin") || activeUser.getRole().equals("modif"))) {				
+						affichage += "	<input type=submit name='modifAd' value=\"Modification de l'adhérent\"></input></form>";
+						
+						
 						}
-						affichage += "<div><form action=\"Accueil\" name=\"boutonAccueil\" value=\"accueil\" method=\"get\">"
-						+ "<input type=\"submit\" name=\"accueil\" value=\"Accueil\"> </form>"
+						
+						affichage += "<div><form action=\"Accueil\" name=\"retouraccueil\" value=\"accueil\" method=\"GET\">"
+						+ "<input type=\"submit\" name=\"retouraccueil\" value=\"Retour à l'accueil\"> </form>"
 						+ "</div></body></html>";
 						
 			}
@@ -84,7 +77,7 @@ public class FicheSportive extends HttpServlet {
 		
 		
 		response.getWriter().append(affichage);
-	}
+	
 	}
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)

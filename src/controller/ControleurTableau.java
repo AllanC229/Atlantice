@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 import connection.DAOAcces;
 import jakarta.servlet.ServletException;
@@ -43,21 +45,18 @@ public class ControleurTableau extends HttpServlet {
 		
 		if (request.getParameter("sportif")!=null) {
 			
-			//à enlever ? response.addHeader("numLic", (String)request.getAttribute("numLic"));
 			String numLic = request.getParameter("numLic");
 			System.out.println("getParameter numLic : " + numLic);
-			
+
 			if (numLic == null) {
 			    numLic = (String) h.getAttribute("numLic");
-			    System.out.println("session numLic : " + numLic);
-			    
+				System.out.println("session numLic : " + numLic);
 			} else {
 			    h.setAttribute("numLic", numLic);
 			}
-			System.out.println("numLic final : " + numLic);
-			
+		
 			//HashMap : clé = nomcritere valeur=valcritere
-			HashMap<String, Integer> criteres = new HashMap() ;
+			HashMap<String, Integer> criteres = new LinkedHashMap<>() ; //linkedHashMap pour garder l'ordre d'insertion à l'affichage
 			
 			try {
 				DAOAcces dao = new DAOAcces("com.mysql.cj.jdbc.Driver", "webadherents", "root", "");
@@ -65,7 +64,8 @@ public class ControleurTableau extends HttpServlet {
 				String critereSQL = "SELECT valcritere, nomcritere "
 								+ "FROM critereadherent JOIN criteres "
 								+ "ON critereadherent.idCritere = criteres.idcritere "
-								+ "WHERE numerolicence=? ;";
+								+ "WHERE numerolicence=? "
+								+ "ORDER BY critereadherent.idcritere;"; //ordre ascendant des idcriteres
 				
 				// Création d'une requête préparée
 				PreparedStatement pstCritere = dao.getConn().prepareStatement(critereSQL);
