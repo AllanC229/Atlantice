@@ -74,7 +74,6 @@ public class FicheAdministrative extends HttpServlet {
 							+ "<input type='submit' name='supprAd' value='Supprimer cet adhérent'></input>"
 							+ "</form></div>");
 				}
-
 			}
 		}
 		
