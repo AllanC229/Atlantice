@@ -53,7 +53,7 @@ public class ControleurFicheAdministrative extends HttpServlet {
 	    		request.getParameter("commentaire"), request.getParameter("contact1"), request.getParameter("contact2"), 
 	    		request.getParameter("sexe"), request.getParameter("droitImage"), request.getParameter("numeroLicence")));
 	    
-	    if (request.getParameter("modifAd") != null) {
+	    if (request.getParameter("modifAd") != null) { //Sert à modifier les valeurs d'un adhérent dans la BDD
 	    	System.out.println("bouton modif cliqué");
 	    	
 	    	try {
@@ -86,7 +86,7 @@ public class ControleurFicheAdministrative extends HttpServlet {
 			dao.closeConnection();
 	    }
 	    
-	    else if (request.getParameter("supprAd") != null) {
+	    else if (request.getParameter("supprAd") != null) {	//Sert à supprimer les infos d'un adhérent dans la BDD ainsi que ses critères sportifs et ses categories
 	    	System.out.println("bouton supprimer cliqué");
 	    	
 	    		try {

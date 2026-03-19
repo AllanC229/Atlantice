@@ -230,7 +230,7 @@ public class ControleurAccueil extends HttpServlet {
 			ArrayList<Categorie> categories= new ArrayList<Categorie>();
 			
 			try {
-				String req = "SELECT * FROM categorie";
+				String req = "SELECT * FROM anneecategorie";
 				ResultSet rscat = dao.getStatement().executeQuery(req);
 				
 				while(rscat.next()) {
