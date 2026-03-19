@@ -21,13 +21,11 @@ public class Adherent {
 	private String mail1;
 	private String mail2;
 	private String commentaire;
-	//private String categorie;
 	private String derniereLicenceActive;
 	private String contact1;
 	private String contact2;
 	private String sexe;
 	private String droitImage;
-	// role adherent --> fusionner classe utilisateur avec adherent (ajouter role, liste de categorie)
 	public HashMap<String, String> categoriesAdh;
 	
 	
