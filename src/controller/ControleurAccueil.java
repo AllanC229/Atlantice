@@ -117,8 +117,8 @@ public class ControleurAccueil extends HttpServlet {
 					            rsAdh.getString("contact2"),
 					            rsAdh.getString("sexe"),
 					            rsAdh.getString("droitimage"),
-					            categoriesAdh,
-					            dao
+					            categoriesAdh
+					            //dao
 					        ));
 
 					        currentLicence = licence;
@@ -196,8 +196,8 @@ public class ControleurAccueil extends HttpServlet {
 				            rsAdh.getString("contact2"),
 				            rsAdh.getString("sexe"),
 				            rsAdh.getString("droitimage"),
-				            categoriesAdh,
-				            dao
+				            categoriesAdh
+				           //dao
 				        ));
 
 				        currentLicence = licence;
@@ -387,8 +387,8 @@ public class ControleurAccueil extends HttpServlet {
 				            rsAdherent.getString("contact2"),
 				            rsAdherent.getString("sexe"),
 				            rsAdherent.getString("droitimage"),
-				            categoriesAdh,
-				            dao
+				            categoriesAdh
+				            //dao
 				        ));
 	
 				       currentlicence = licence;

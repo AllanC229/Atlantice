@@ -1,0 +1,20 @@
+# Fichiers compilés
+*.class
+
+# Logs
+*.log
+
+# Fichiers temporaires
+*.tmp
+*.swp
+*~
+
+# Dossiers de build
+/target/
+/build/
+/out/
+
+# Eclipse
+.project
+.classpath
+.settings/
