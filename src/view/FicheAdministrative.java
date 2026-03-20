@@ -73,6 +73,7 @@ public class FicheAdministrative extends HttpServlet {
 					        	out.println("<div>"
 					        			+ "<tr><td>Rôle</td>"		//Penser à rajouter une option "ne rien modifier" sinon requête modifie par défaut en "Adhérent"!!
 					        			+ "<td><select name='role' id='choixrole'>"
+					        			+ "<option value ='nochange'>  </option>"
 					        			+ "<option value ='adherent'> Adhérent </option>"
 					        			+ "<option value ='modif'> Responsable de catégorie </option>"
 					        			+ "<option value = 'admin'> Administrateur </option>"
@@ -80,7 +81,7 @@ public class FicheAdministrative extends HttpServlet {
 					        }									
 							out.println("</table>"
 							+ "<div>"
-							+ "<input type='submit' name='modifAd' value='Modification de l'adhérent'></input>"							
+							+ "<input type='submit' name='modifAd' value='Modification de l'adhérent'></input>"
 							+ "<input type='submit' name='supprAd' value='Supprimer cet adhérent'></input>"
 							+ "</form></div>");
 				}

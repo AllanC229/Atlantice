@@ -45,25 +45,36 @@ public class ControleurFicheAdministrative extends HttpServlet {
 		PreparedStatement supprcritadh = null;
 		PreparedStatement supprcategadh = null;
 		PreparedStatement suppradh = null;
+		String sql = null;
 		
 	    ArrayList<String> adherentupdate = new ArrayList<>();
 	    adherentupdate.addAll(Arrays.asList(request.getParameter("nom"), request.getParameter("prenom"), request.getParameter("derniereAnneeLicence"), 
 	    		request.getParameter("anneeNaissance"), request.getParameter("telephone1"), request.getParameter("telephone2"), 
 	    		request.getParameter("adresse1"), request.getParameter("adresse2"), request.getParameter("mail1"), request.getParameter("mail2"), 
 	    		request.getParameter("commentaire"), request.getParameter("contact1"), request.getParameter("contact2"), 
-	    		request.getParameter("sexe"), request.getParameter("droitImage"), request.getParameter("numeroLicence"), request.getParameter("role")));
+	    		request.getParameter("sexe"), request.getParameter("droitImage"),  request.getParameter("role"), request.getParameter("numeroLicence")));
 	    
 	    if (request.getParameter("modifAd") != null) { //Sert à modifier les valeurs d'un adhérent dans la BDD
 	    	System.out.println("bouton modif cliqué");
 	    	
 	    	try {
-				
-				conn = dao.getConn();
+	    		
+	    		conn = dao.getConn();
 				conn.setAutoCommit(false);
+	    		
+	    		if (request.getParameter("role").equals("nochange")) {	//If/else créé deux chaines sql différentes en fonction du choix du rôle dans la ficheadmin, une sans update le role (if) l'autre en update le role (else)
+	    			adherentupdate.remove(15);  
+	    			
+	    			sql = "UPDATE adherents SET nom= ? , prenom= ? , dernierelicenceactive= ? , annee= ? , tel1= ? , tel2= ? , adresse1= ? , adresse2= ? ,"
+							+ " mail1= ? , mail2= ? , commentaire= ? , contact1= ? , contact2= ? , sexe= ? , droitimage= ? WHERE numerolicence= ? ;";
+	    		}
 				
-				String sql = "UPDATE adherents SET nom= ? , prenom= ? , dernierelicenceactive= ? , annee= ? , tel1= ? , tel2= ? , adresse1= ? , adresse2= ? ,"
+	    		else {				
+				
+	    			sql = "UPDATE adherents SET nom= ? , prenom= ? , dernierelicenceactive= ? , annee= ? , tel1= ? , tel2= ? , adresse1= ? , adresse2= ? ,"
 						+ " mail1= ? , mail2= ? , commentaire= ? , contact1= ? , contact2= ? , sexe= ? , droitimage= ? , role = ? WHERE numerolicence= ? ;";
-				
+	    		}
+	    		
 				updateAdh = conn.prepareStatement(sql);
 				int i = 1;
 				
