@@ -51,19 +51,25 @@ public class FicheSportive extends HttpServlet {
 				a = adh;
 				affichage = "<!Doctype html><html><head><meta charset=\"utf-8\"/> \r\n"
 						+"<link href=\"licence.css\" rel=\"stylesheet\">"
+						+ "<link href=\"range-slider-fiche-sportive.css\" rel=\"stylesheet\">" //fichier CSS pour l'input range-slider
 						+ "</head><body><h1 align=center>Suivi sportif : </h1></br>"
 						+ "<div align=center><form action=\"ControleurFicheSportive\" method=GET>"
 						+ "<table border>"
-						+ "		<tr><td>Nom : </td><td><input type='text' name='nom' value='"+a.getNom()+"'></br></td></tr>"
-						+ "		<tr><td>Prénom : </td><td><input align=center type='text' name='prenom' value='"+a.getPrenom()+"'></br></td></tr>"
-						+ "		<tr><td>Numéro de licence : </td><td><input type='text' name='numeroLicence' value='"+a.getNumLicence()+"'></br></td></tr>" ;
+						+ "		<tr><td>Nom : </td><td><input type='text' name='nom' value='"+a.getNom()+"'readonly></br></td></tr>"
+						+ "		<tr><td>Prénom : </td><td><input align=center type='text' name='prenom' value='"+a.getPrenom()+"'readonly></br></td></tr>"
+						+ "		<tr><td>Numéro de licence : </td><td><input type='text' name='numeroLicence' value='"+a.getNumLicence()+"'readonly></br></td></tr>" ;
 						for (HashMap.Entry<String, Integer> entry : criteres.entrySet()) {
 							affichage +=  "<tr><td>"+entry.getKey()+"</td><td>"
-										+ "<input id='"+entry.getKey()+"' name='"+entry.getKey()+"' type='range' min='0' max='5' value='" + entry.getValue() +"'/>\r\n";
+										+ "<div class=\"range-slider\" style=\"--value-a: 0; width: 350px;\">"
+										+ "<input id='"+entry.getKey()+"' name='"+entry.getKey()+"' type='range' min='0' max='5' value='" + entry.getValue() +"'oninput=\"this.parentNode.style.setProperty('--value-a', this.value)\"/>\r\n"
+										+ "<div class=\"range-slider__values\">0 1 2 3 4 5</div>\r\n"
+										+ "<div class=\"range-slider__progress\"></div></div>";
 						}
+												
 						affichage += "</table>";
 						if ((activeUser.getRole().equals("admin") || activeUser.getRole().equals("modif"))) {				
 						affichage += "	<input type=submit name='modifAd' value=\"Modification de l'adhérent\"></input></form>";
+						
 						
 						
 						}
