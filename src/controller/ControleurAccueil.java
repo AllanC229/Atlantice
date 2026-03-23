@@ -43,7 +43,7 @@ public class ControleurAccueil extends HttpServlet {
 		
 		HttpSession h = request.getSession();	//Charge la variable de session
 		Utilisateur activeUser = (Utilisateur) h.getAttribute("activeUser");	//Récupère le profil de l'utilisateur de la session en cours
-		String direction =  (String)request.getParameter("test");		//J'ai oublié ce que ça fait : à investiguer
+		String direction =  (String)request.getParameter("direction");		//Sert à savoir sur quel bouton on a cliqué sur la page accueil (catégories, accéder à mon profil, créer un adhérent)
 		HashMap<String, String> categoriesAdh = new HashMap<>();		//Créé la HashMap qui stocke les catégorie sportives associées  l'utilisateur en cours
 		
 		
@@ -251,6 +251,93 @@ public class ControleurAccueil extends HttpServlet {
 		else if("Créer un adhérent".equals(direction)) {
 			
 			getServletContext().getRequestDispatcher("/CreationAdherent").forward(request, response);
+		}
+		
+		else if ("Profil".equals(direction)) {	//Sert à charger les infos de profil de l'utilisateur en cours
+			System.out.println("Entrée vers le profil");
+			Adherent activeAdherent = null;
+			if (h.getAttribute("activeAdherent") == null) {
+				
+				System.out.println("entrée dans le if");
+				Connection conn = null;
+				PreparedStatement psProfilAdh = null;			
+				DAOAcces dao = new DAOAcces("com.mysql.cj.jdbc.Driver", "webadherents", "root", "");
+								
+				try {
+					
+					conn = dao.getConn();
+					conn.setAutoCommit(false);
+	
+					String sql = "SELECT a.numerolicence, a.nom, a.prenom, a.dernierelicenceactive, a.annee, " +
+								 "a.tel1, a.tel2, a.adresse1, a.adresse2, a.mail1, a.mail2, a.commentaire, " +
+								 "a.contact1, a.contact2, a.sexe, a.droitimage, " +
+								 "c.idcategorie, c.nomcategorie " +
+								 "FROM adherents a " +
+								 "LEFT JOIN categorieadherent ca ON a.numerolicence = ca.numLic " +
+								 "LEFT JOIN categoriesportive c ON ca.idcategorie = c.idcategorie " +
+								 "WHERE a.numerolicence = ?";
+					
+					psProfilAdh = conn.prepareStatement(sql);
+					psProfilAdh.setString(1, activeUser.getId());
+				
+					ResultSet rsProfilAdh = psProfilAdh.executeQuery();
+					conn.commit();
+					String currentLicence = null;
+					
+					while (rsProfilAdh.next()) {
+	
+					    String licence = rsProfilAdh.getString("numerolicence");
+	
+					    // Nouvel adhérent
+					    if (!licence.equals(currentLicence)) {
+	
+					        categoriesAdh = new HashMap<>();
+	
+					        activeAdherent = new Adherent (
+					            licence,
+					            rsProfilAdh.getString("nom"),
+					            rsProfilAdh.getString("prenom"),
+					            rsProfilAdh.getString("annee"),
+					            rsProfilAdh.getString("tel1"),
+					            rsProfilAdh.getString("tel2"),
+					            rsProfilAdh.getString("adresse1"),
+					            rsProfilAdh.getString("adresse2"),
+					            rsProfilAdh.getString("mail1"),
+					            rsProfilAdh.getString("mail2"),
+					            rsProfilAdh.getString("commentaire"),
+					            rsProfilAdh.getString("dernierelicenceactive"),
+					            rsProfilAdh.getString("contact1"),
+					            rsProfilAdh.getString("contact2"),
+					            rsProfilAdh.getString("sexe"),
+					            rsProfilAdh.getString("droitimage"),
+					            categoriesAdh
+					           //dao
+					        );
+					        
+					        currentLicence = licence;
+					    }
+	
+					    // Ajout d’une catégorie si elle existe
+					    if (rsProfilAdh.getString("idcategorie") != null) {
+					        categoriesAdh.put(
+					        	rsProfilAdh.getString("idcategorie"),
+					        	rsProfilAdh.getString("nomcategorie")
+					        );
+					    }
+					}
+						
+				} 
+				
+				catch (SQLException e) {
+					e.printStackTrace();
+				} 
+				
+				
+				dao.closeConnection();
+			}
+				System.out.println("redirection vers le profil");
+				h.setAttribute("activeAdherent", activeAdherent);
+				getServletContext().getRequestDispatcher("/Profil").forward(request, response);
 		}
 		
 		else if ("Valider".equals(request.getParameter("categorie"))) {  //si on a choisi une/plusieurs/toutes les catégories sur l'écran d'accueil
