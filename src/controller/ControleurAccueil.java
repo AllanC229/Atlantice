@@ -255,9 +255,9 @@ public class ControleurAccueil extends HttpServlet {
 		
 		else if ("Profil".equals(direction)) {	//Sert à charger les infos de profil de l'utilisateur en cours
 			System.out.println("Entrée vers le profil");
-			Adherent activeAdherent = null;
+			
 			if (h.getAttribute("activeAdherent") == null) {
-				
+				Adherent activeAdherent = null;
 				System.out.println("entrée dans le if");
 				Connection conn = null;
 				PreparedStatement psProfilAdh = null;			
@@ -332,11 +332,11 @@ public class ControleurAccueil extends HttpServlet {
 					e.printStackTrace();
 				} 
 				
-				
+				h.setAttribute("activeAdherent", activeAdherent);
 				dao.closeConnection();
 			}
 				System.out.println("redirection vers le profil");
-				h.setAttribute("activeAdherent", activeAdherent);
+				
 				getServletContext().getRequestDispatcher("/Profil").forward(request, response);
 		}
 		
