@@ -37,7 +37,7 @@ public class Categorie {
 			        this.ajouterAdherent(new Adherent(/*rs2.getString("categAd"), */rs2.getString("numerolicence"), rs2.getString("nom"), 
 			        		rs2.getString("prenom"), rs2.getString("annee"), rs2.getString("tel1"), rs2.getString("tel2"), rs2.getString("adresse1"), rs2.getString("adresse2"), 
 			        		rs2.getString("mail1"), rs2.getString("mail2"), rs2.getString("commentaire"), rs2.getString("dernierelicenceactive"), rs2.getString("contact1"),
-			        		rs2.getString("contact2"), rs2.getString("sexe"), rs2.getString("droitimage"), categoriesUser, dao));
+			        		rs2.getString("contact2"), rs2.getString("sexe"), rs2.getString("droitimage"), categoriesUser/*, dao*/));
 			       
 			      }
 		    }

@@ -33,7 +33,7 @@ public class CreationCategorie extends HttpServlet {
 		PrintWriter out=response.getWriter();
 		
 		
-		//Formulaire d'ajout de classe
+		//Formulaire d'ajout de categorie
 			out.println("<html><head><meta charset=\"utf-8\"/>"
 					+"<link href=\"licence.css\" rel=\"stylesheet\">"
 					+ "</head><body>"+

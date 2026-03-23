@@ -59,7 +59,7 @@ public class FicheSportive extends HttpServlet {
 						+ "		<tr><td>Prénom : </td><td><input align=center type='text' name='prenom' value='"+a.getPrenom()+"'readonly></br></td></tr>"
 						+ "		<tr><td>Numéro de licence : </td><td><input type='text' name='numeroLicence' value='"+a.getNumLicence()+"'readonly></br></td></tr>" ;
 						for (HashMap.Entry<String, Integer> entry : criteres.entrySet()) {
-							affichage +=  "<tr><td>"+entry.getKey()+"</td><td>"
+							affichage +=  "<tr><td> "+entry.getKey()+"</td><td>" // ajouter espaces, majuscules
 										+ "<div class=\"range-slider\" style=\"--value-a: 0; width: 350px;\">"
 										+ "<input id='"+entry.getKey()+"' name='"+entry.getKey()+"' type='range' min='0' max='5' value='" + entry.getValue() +"'oninput=\"this.parentNode.style.setProperty('--value-a', this.value)\"/>\r\n"
 										+ "<div class=\"range-slider__values\">0 1 2 3 4 5</div>\r\n"

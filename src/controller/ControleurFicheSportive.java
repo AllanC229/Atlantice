@@ -33,8 +33,8 @@ import model.Adherent;
 		 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 		 */
 		protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-			// TODO Auto-generated method stub
-		    HttpSession h = request.getSession();
+
+			HttpSession h = request.getSession();
 			String numLic = (String) h.getAttribute("numLic");
 					
 			HashMap<String, Integer> criteres = (HashMap<String, Integer>) h.getAttribute("criteres"); 
@@ -71,10 +71,7 @@ import model.Adherent;
 				e.printStackTrace();
 			}
 			h.setAttribute("numLic", numLic);
-			response.sendRedirect("ControleurTableau?sportif=true");
-			//response.sendRedirect("Accueil"); // au lieu de renvoyer direct vers Accueil, est ce que ça serait pas + pertinent de d'actualiser la page?
-		
-			
+			response.sendRedirect("ControleurTableau?sportif=true");	
 			
 		}
 

@@ -37,7 +37,7 @@ public class Adherent {
 	
 	public Adherent(/*String categorie, */String numeroLicence, String nom, String prenom, String annee, 
 			String tel1, String tel2, String adresse1, String adresse2, String mail1, String mail2, 
-			String commentaire, String derniereLicenceActive, String contact1, String contact2, String sexe, String droitImage, HashMap<String, String> categoriesUser, DAOAcces dao){ 
+			String commentaire, String derniereLicenceActive, String contact1, String contact2, String sexe, String droitImage, HashMap<String, String> categoriesUser /*, DAOAcces dao, String role = "adherent"*/){ 
 		//this.categorie = categorie;
 		this.numeroLicence = numeroLicence;
 		this.nom = nom;

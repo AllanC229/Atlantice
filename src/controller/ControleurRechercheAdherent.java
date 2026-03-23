@@ -79,7 +79,7 @@ public class ControleurRechercheAdherent extends HttpServlet {
 				adherents.add(new Adherent(/*rsAdherent.getString("categAd"),*/rsAdherent.getString("numerolicence"), rsAdherent.getString("nom"), rsAdherent.getString("prenom"), rsAdherent.getString("annee")
 						, rsAdherent.getString("tel1"), rsAdherent.getString("tel2"), rsAdherent.getString("adresse1"), rsAdherent.getString("adresse2")
 						, rsAdherent.getString("mail1"), rsAdherent.getString("mail2"), rsAdherent.getString("commentaire"), rsAdherent.getString("dernierelicenceactive"),
-						rsAdherent.getString("contact1"), rsAdherent.getString("contact2"), rsAdherent.getString("sexe"), rsAdherent.getString("droitimage"), activeUser.categoriesUser, dao));//, rsAdherent.getInt("critere1"), rsAdherent.getInt("critere2"), rsAdherent.getInt("critere3"), rsAdherent.getInt("critere4"), rsAdherent.getInt("critere5")));	//Rajout des getInt(critère), 08/12 9:25
+						rsAdherent.getString("contact1"), rsAdherent.getString("contact2"), rsAdherent.getString("sexe"), rsAdherent.getString("droitimage"), activeUser.categoriesUser/*, dao*/));//, rsAdherent.getInt("critere1"), rsAdherent.getInt("critere2"), rsAdherent.getInt("critere3"), rsAdherent.getInt("critere4"), rsAdherent.getInt("critere5")));	//Rajout des getInt(critère), 08/12 9:25
 			}		
 		
 		}
