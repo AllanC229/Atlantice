@@ -256,7 +256,7 @@ public class ControleurAccueil extends HttpServlet {
 		else if ("Profil".equals(direction)) {	//Sert à charger les infos de profil de l'utilisateur en cours
 			System.out.println("Entrée vers le profil");
 			
-			if (h.getAttribute("activeAdherent") == null) {
+			if (h.getAttribute("activeAdherent") == null) {	//ne s'effectue que lors du premier accès au profil, puis stocke les données dans la session
 				Adherent activeAdherent = null;
 				System.out.println("entrée dans le if");
 				Connection conn = null;
@@ -335,9 +335,10 @@ public class ControleurAccueil extends HttpServlet {
 				h.setAttribute("activeAdherent", activeAdherent);
 				dao.closeConnection();
 			}
-				System.out.println("redirection vers le profil");
+			
+			System.out.println("redirection vers le profil");
 				
-				getServletContext().getRequestDispatcher("/Profil").forward(request, response);
+			getServletContext().getRequestDispatcher("/Profil").forward(request, response);
 		}
 		
 		else if ("Valider".equals(request.getParameter("categorie"))) {  //si on a choisi une/plusieurs/toutes les catégories sur l'écran d'accueil
