@@ -66,16 +66,12 @@ public class ControleurAjtAdherent extends HttpServlet {
             String mail2 = request.getParameter("mail2");
             String commentaire = request.getParameter("commentaire");
             String[] categories = request.getParameterValues("categories[]");
+            String role = request.getParameter("role");
          //   String categ = request.getParameter("categ");  //categ doit devenir un tableau pour pouvoir faire des insertions multiples si lusierurs catégories ont été selectionnées au moment de la création de l'adhérent
          //   ArrayList<String> allcateg = new ArrayList<>();
             for (String indice : categories) {
             	System.out.println(indice);
             }
-            
-       /*     if (categories.length != 0 ) {
-            	allcateg.addAll(Arrays.asList(categories));
-            	System.out.println("entrée dans categorie");
-            } */
             
             if(numTel2 == "")
             {
@@ -101,7 +97,7 @@ public class ControleurAjtAdherent extends HttpServlet {
             
             
           
-            if(nomAdh == "" || prenomAdh == "" || numeroLic == "" || derAnneeLic == "" || anneeAdh == "" || numTel1 == "" || adresse1 == "" || mail1 == "" )
+            if(nomAdh == "" || prenomAdh == "" || numeroLic == "" || derAnneeLic == "" || anneeAdh == "" || numTel1 == "" || adresse1 == "" || mail1 == "" )	//A voir (verifier si == fonctionne ou si il faut mettre des .equals
             {           	
             	request.setAttribute("cs", "vide");
             	request.getRequestDispatcher("/CreationAdherent").forward(request, response);              
@@ -109,8 +105,8 @@ public class ControleurAjtAdherent extends HttpServlet {
             
             else //Modification pour effectuer une requête préparée, 08/12 10:11
             {
-          String sqlAdh = "INSERT INTO adherents (numerolicence, nom, prenom, dernierelicenceactive, annee, tel1, tel2, adresse1, adresse2, mail1, mail2, commentaire) "
-                        + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+          String sqlAdh = "INSERT INTO adherents (numerolicence, nom, prenom, dernierelicenceactive, annee, tel1, tel2, adresse1, adresse2, mail1, mail2, commentaire, role) "
+                        + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
           
           psAdh = conn.prepareStatement(sqlAdh);
           psAdh.setString(1, numeroLic);
@@ -125,6 +121,7 @@ public class ControleurAjtAdherent extends HttpServlet {
           psAdh.setString(10, mail1);
           psAdh.setString(11, mail2);
           psAdh.setString(12, commentaire);
+          psAdh.setString(13, role);
           psAdh.executeUpdate();
           
           String sqlCritere = "INSERT INTO critereadherent (numerolicence, idcritere, valcritere) "

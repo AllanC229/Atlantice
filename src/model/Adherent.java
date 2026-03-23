@@ -27,8 +27,8 @@ public class Adherent {
 	private String sexe;
 	private String droitImage;
 	public HashMap<String, String> categoriesAdh;
-	
-	
+	//Rajouter le role
+	//public String role;
 	
 	private ArrayList<String> idCategories;
 	
@@ -37,7 +37,7 @@ public class Adherent {
 	
 	public Adherent(/*String categorie, */String numeroLicence, String nom, String prenom, String annee, 
 			String tel1, String tel2, String adresse1, String adresse2, String mail1, String mail2, 
-			String commentaire, String derniereLicenceActive, String contact1, String contact2, String sexe, String droitImage, HashMap<String, String> categoriesUser /*, DAOAcces dao, String role = "adherent"*/){ 
+			String commentaire, String derniereLicenceActive, String contact1, String contact2, String sexe, String droitImage, HashMap<String, String> categoriesUser/*, DAOAcces dao, String role = "adherent"*/){ 
 		//this.categorie = categorie;
 		this.numeroLicence = numeroLicence;
 		this.nom = nom;
@@ -56,7 +56,7 @@ public class Adherent {
 		this.sexe = sexe;
 		this.droitImage = droitImage;
 		this.categoriesAdh = categoriesUser;
-
+		//this.role = role
 		this.idCategories = new ArrayList<String>();
 		
 	/*	

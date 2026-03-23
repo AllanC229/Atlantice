@@ -70,16 +70,30 @@ public class CreationAdherent extends HttpServlet {
 	        out.println("<tr><td>Contact 2: </td><td><input type=\"text\" name=\"contact2\"></td></tr>");
 	        out.println("<tr><td>Sexe : </td><td><input type=\"text\" name=\"sexe\"></td></tr>");
 	        out.println("<tr><td>Droit à l'image : </td><td><input type=\"text\" name=\"droitImage\"></td></tr>");
-	        out.println("<tr><td>Catégorie(s) (*):</td><td><div>");
+	        out.println("<tr><td>Catégorie(s) (*):</td><td><div>");	
+	       //
 	        out.println("<select name='categories[]' id='choix-categorie' multiple>");
 	        
 	        for(Map.Entry<String, String> entry : activeUser.categoriesUser.entrySet()) {
-				out.println();
+				
 				out.print("<option value="+entry.getKey()+">"+entry.getValue()+"</option>");  
 			}
 	        
+	        out.println("</select></div>");
+	        
+	        if (activeUser.getRole().equals("admin")) { //Rajout de la sélection du rôle au moment de la création de l'adhérent (accessible seulement par l'admin)
+	        	
+	        	out.println("<div>"
+	        			+ "<tr><td>Rôle</td>"
+	        			+ "<td><select name='role' id='choixrole'>"
+	        			+ "<option value ='adherent'> Adhérent </option>"
+	        			+ "<option value ='modif'> Responsable de catégorie </option>"
+	        			+ "<option value = 'admin'> Administrateur </option>"
+	        			+ "</select></td></tr></div>");	        	
+	        }
+	        
 
-	        out.println("</select></div></td></tr></table>");
+	        out.println("</table>");
 	        out.println("Commentaire: <br> <textarea rows=4 cols=40 name=\"commentaire\"></textarea><br>");
 
 	        out.print("<br><br><input type=\"submit\" value=\"Valider\"/></form></div>");

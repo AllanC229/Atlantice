@@ -41,29 +41,44 @@ public class ControleurFicheAdministrative extends HttpServlet {
 	    
 	    
 	    Connection conn = null;
+	    PreparedStatement modifNumLicCrit = null;
+	    PreparedStatement modifNumLicCateg = null;
+	    PreparedStatement modifNumLicAdh = null;
 		PreparedStatement updateAdh = null;	
 		PreparedStatement supprcritadh = null;
 		PreparedStatement supprcategadh = null;
 		PreparedStatement suppradh = null;
+		String sql = null;
 		
 	    ArrayList<String> adherentupdate = new ArrayList<>();
 	    adherentupdate.addAll(Arrays.asList(request.getParameter("nom"), request.getParameter("prenom"), request.getParameter("derniereAnneeLicence"), 
 	    		request.getParameter("anneeNaissance"), request.getParameter("telephone1"), request.getParameter("telephone2"), 
 	    		request.getParameter("adresse1"), request.getParameter("adresse2"), request.getParameter("mail1"), request.getParameter("mail2"), 
 	    		request.getParameter("commentaire"), request.getParameter("contact1"), request.getParameter("contact2"), 
-	    		request.getParameter("sexe"), request.getParameter("droitImage"), request.getParameter("numeroLicence")));
+	    		request.getParameter("sexe"), request.getParameter("droitImage"), request.getParameter("role"), request.getParameter("numeroLicence")));
 	    
-	    if (request.getParameter("modifAd") != null) {
+	    if (request.getParameter("modifAd") != null) { //Sert à modifier les valeurs d'un adhérent dans la BDD
 	    	System.out.println("bouton modif cliqué");
 	    	
 	    	try {
-				
-				conn = dao.getConn();
+	    		
+	    		conn = dao.getConn();
 				conn.setAutoCommit(false);
+	    		
+	    		if (request.getParameter("role").equals("nochange")) {	//If/else créé deux chaines sql différentes en fonction du choix du rôle dans la ficheadmin, une sans update le role (if) l'autre en update le role (else)
+	    			
+	    			adherentupdate.remove(15);  
+	    			
+	    			sql = "UPDATE adherents SET nom= ? , prenom= ? , dernierelicenceactive= ? , annee= ? , tel1= ? , tel2= ? , adresse1= ? , adresse2= ? ,"
+							+ " mail1= ? , mail2= ? , commentaire= ? , contact1= ? , contact2= ? , sexe= ? , droitimage= ? WHERE numerolicence= ? ;";
+	    		}
 				
-				String sql = "UPDATE adherents SET nom= ? , prenom= ? , dernierelicenceactive= ? , annee= ? , tel1= ? , tel2= ? , adresse1= ? , adresse2= ? ,"
-						+ " mail1= ? , mail2= ? , commentaire= ? , contact1= ? , contact2= ? , sexe= ? , droitimage= ? WHERE numerolicence= ? ;";
+	    		else {				
 				
+	    			sql = "UPDATE adherents SET nom= ? , prenom= ? , dernierelicenceactive= ? , annee= ? , tel1= ? , tel2= ? , adresse1= ? , adresse2= ? ,"
+						+ " mail1= ? , mail2= ? , commentaire= ? , contact1= ? , contact2= ? , sexe= ? , droitimage= ? , role = ? WHERE numerolicence= ? ;";
+	    		}
+	    		
 				updateAdh = conn.prepareStatement(sql);
 				int i = 1;
 				
@@ -75,18 +90,51 @@ public class ControleurFicheAdministrative extends HttpServlet {
 				
 				System.out.println(updateAdh);
 				updateAdh.executeUpdate();
+				
+				if (!request.getParameter("modifnumeroLicence").equals("")) { //Vérifie si le champ modifier le numéro de licence contient quelque chose et si oui, fait la MàJ dans les différentes tables concernées
+					
+					modifNumLicCrit = conn.prepareStatement("UPDATE critereadherent SET numerolicence = ? WHERE numerolicence = ?;");
+					modifNumLicCrit.setString(1, request.getParameter("modifnumeroLicence"));
+					modifNumLicCrit.setString(2, request.getParameter("numeroLicence"));
+					modifNumLicCrit.executeUpdate();
+					
+					modifNumLicCateg = conn.prepareStatement("UPDATE categorieadherent SET numLic = ? WHERE numLic = ?;");
+					modifNumLicCateg.setString(1, request.getParameter("modifnumeroLicence"));
+					modifNumLicCateg.setString(2, request.getParameter("numeroLicence"));
+					modifNumLicCateg.executeUpdate();
+					
+					modifNumLicAdh = conn.prepareStatement("UPDATE adherents SET numerolicence = ? WHERE numerolicence = ?;");
+					modifNumLicAdh.setString(1, request.getParameter("modifnumeroLicence"));
+					modifNumLicAdh.setString(2, request.getParameter("numeroLicence"));
+					modifNumLicAdh.executeUpdate();
+					
+				}
+				 
 				conn.commit();
 				
 					
 			} 
-			catch (SQLException e) {
-				// TODO Auto-generated catch block
+	    	
+	    	catch (SQLException e) {
+				if (conn != null) {
+					try {
+						conn.rollback();
+					}
+					catch (SQLException ex) {
+						ex.printStackTrace();
+					}
+				}
 				e.printStackTrace();
 			}
+    		
+    		finally {
+    		
 			dao.closeConnection();
+			
+    		}
 	    }
 	    
-	    else if (request.getParameter("supprAd") != null) {
+	    else if (request.getParameter("supprAd") != null) {	//Sert à supprimer les infos d'un adhérent dans la BDD ainsi que ses critères sportifs et ses categories
 	    	System.out.println("bouton supprimer cliqué");
 	    	
 	    		try {
