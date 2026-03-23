@@ -92,7 +92,7 @@ public class ControleurFicheAdministrative extends HttpServlet {
 				updateAdh.executeUpdate();
 				
 				if (!request.getParameter("modifnumeroLicence").equals("")) { //Vérifie si le champ modifier le numéro de licence contient quelque chose et si oui, fait la MàJ dans les différentes tables concernées
-					
+					//Methode un peu barbare selon moi, mais fonctionnelle
 					modifNumLicCrit = conn.prepareStatement("UPDATE critereadherent SET numerolicence = ? WHERE numerolicence = ?;");
 					modifNumLicCrit.setString(1, request.getParameter("modifnumeroLicence"));
 					modifNumLicCrit.setString(2, request.getParameter("numeroLicence"));

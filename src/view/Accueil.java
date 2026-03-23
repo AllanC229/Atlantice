@@ -56,12 +56,13 @@ public class Accueil extends HttpServlet {
 			if(activeUser.getRole().equals("admin") || activeUser.getRole().equals("modif"))
 			{
 				categorie = "";
-				out.print("<form action=\"ControleurAccueil\" name=\"boutonajout\" method=\"get\"> <input type = \"submit\" name=\"test\" value=\"Catégories\"> </form>");
-				out.print("<form action=\"ControleurAccueil?direction=2 name= \"boutonajout\" value = \"ajoutAdherent\" method=\"get\"> <input type = \"submit\" name = \"test\" value=\"Créer un adhérent\"> </form>");	
+				out.print("<form action=\"ControleurAccueil\" name=\"boutonajout\" method=\"get\"> <input type = \"submit\" name='direction' value=\"Catégories\"> </form>");
+				out.print("<form action=\"ControleurAccueil?direction=2 name= \"boutonajout\" value = \"ajoutAdherent\" method=\"get\"> <input type = \"submit\" name = 'direction' value=\"Créer un adhérent\"> </form>");	
 			}
 			
 					out.println("</td><td><div align=\"right\">"+ activeUser.getPrenom() +" "+activeUser.getNom()+" "+activeUser.getRole()+"</div><br>"
-					+ "<div align=\"right\"> <form action=\"ControleurDeconnexion\" name=\"boutondeconnexion\" method=\"get\"> <input type = \"submit\" name=\"deconnexion\" value=\"Se déconnecter\"> </form> </div></td></tr>"
+					+ "<div align=\"right\"> <form action=\"ControleurDeconnexion\" name=\"boutondeconnexion\" method=\"get\"> <input type = \"submit\" name=\"deconnexion\" value=\"Se déconnecter\"> </form><br>"
+					+ "<form action='ControleurAccueil' name='accesprofil' method='get'> <input type ='submit' name='direction' value='Profil'> </form></div></td></tr>"
 					+ "<tr><td><form action = \"ControleurAccueil\" method='get'> <input type='hidden' name='ficheadmin' value='ficheadmin'> <input type=\"submit\"  value=\"Consulter les fiches Administratives "+categorie+"\"> </form><br>"
 					+ "<form action=\"RechercheAdherent\" method='get'> <input type='hidden' name='recherche' value='recherche'> <input type=\"submit\" value=\"Rechercher un adhérent\"> </form> <br>"
 					+ "<form action=\"ControleurAccueil\" method='get'> <input type='hidden' name='fichesport' value='fichesport'> <input type=\"submit\" value=\"Consulter les fiches sportives "+categorie+"\"> </form> </td>");
