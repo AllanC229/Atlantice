@@ -55,6 +55,7 @@ public class FicheAdministrative extends HttpServlet {
 							+ "<tr><td>Nom : </td><td><input type='text' name='nom' value='"+a.getNom()+"'></br></td></tr>"
 							+ "<tr><td>Prénom : </td><td><input align=center type='text' name='prenom' value='"+a.getPrenom()+"'></br></td></tr>"							
 							+ "<tr><td>Numéro de licence : </td><td><input type='text' name='numeroLicence' value='" +a.getNumLicence()+ "' readonly></br></td></tr>"
+							+ "<tr><td>Modifier le numéro de licence </td><td><input type='text' name='modifnumeroLicence' value=''></br></td></tr>"
 							+ "<tr><td>Dernière année de licence active : </td><td><input type='text' name='derniereAnneeLicence' value='"+a.getDerniereLicenceActive()+"'></br></td></tr>"
 							+ "<tr><td>Année de naissance : </td><td><input align=center type='text' name='anneeNaissance' value='"+a.getAnneeNaissance()+"'></br></td></tr>"
 							+ "<tr><td>Téléphone 1 : </td><td><input type='text' name='telephone1' value='"+a.getTel1()+"'></br></td></tr>"
@@ -71,7 +72,7 @@ public class FicheAdministrative extends HttpServlet {
 					if (activeUser.getRole().equals("admin")) { //Rajout de la modification du rôle (accessible seulement par l'admin)
 					        	
 					        	out.println("<div>"
-					        			+ "<tr><td>Rôle</td>"		//Penser à rajouter une option "ne rien modifier" sinon requête modifie par défaut en "Adhérent"!!
+					        			+ "<tr><td>Rôle</td>"		
 					        			+ "<td><select name='role' id='choixrole'>"
 					        			+ "<option value ='nochange'>  </option>"
 					        			+ "<option value ='adherent'> Adhérent </option>"
