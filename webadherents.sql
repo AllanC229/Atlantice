@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : localhost:3306
--- Généré le : mer. 18 mars 2026 à 12:26
+-- Généré le : lun. 23 mars 2026 à 09:55
 -- Version du serveur : 8.0.30
 -- Version de PHP : 8.1.10
 
@@ -42,8 +42,8 @@ CREATE TABLE `adherents` (
   `commentaire` varchar(300) DEFAULT NULL,
   `contact1` varchar(50) DEFAULT NULL,
   `contact2` varchar(50) DEFAULT NULL,
-  `sexe` tinyint(1) DEFAULT NULL,
-  `droitimage` tinyint(1) DEFAULT NULL,
+  `sexe` varchar(10) CHARACTER SET latin1 COLLATE latin1_swedish_ci DEFAULT NULL,
+  `droitimage` varchar(10) CHARACTER SET latin1 COLLATE latin1_swedish_ci DEFAULT NULL,
   `login` varchar(50) CHARACTER SET latin1 COLLATE latin1_swedish_ci DEFAULT NULL,
   `motdepasse` varchar(50) CHARACTER SET latin1 COLLATE latin1_swedish_ci DEFAULT NULL,
   `role` varchar(25) CHARACTER SET latin1 COLLATE latin1_swedish_ci DEFAULT NULL
@@ -55,25 +55,24 @@ CREATE TABLE `adherents` (
 
 INSERT INTO `adherents` (`numerolicence`, `nom`, `prenom`, `dernierelicenceactive`, `annee`, `tel1`, `tel2`, `adresse1`, `adresse2`, `mail1`, `mail2`, `commentaire`, `contact1`, `contact2`, `sexe`, `droitimage`, `login`, `motdepasse`, `role`) VALUES
 ('009090', 'p', 'p', 'p', 'p', 'p', NULL, 'p', NULL, 'p', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-('123', 'Helias', 'Georges', '1234', '12', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'a', 'a', 'admin'),
-('12340000000000', 'Poitevin', 'Christiane', '2012', '1977', '0298731221', NULL, 'Quimper', NULL, 'poitevinchrichri@test.fr', NULL, 'test', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-('20106513152', 'Flamand', 'Jules', '2024/2025', '2010', '6515615', '513153531', 'njjnjn', 'tdrdtrccrf', 'vyutgtu', 'utytty', 'ttyty', 'tfyttyv', 'yttt', 1, 1, '', '', '0'),
-('201165165151', 'Ntamack', 'Dubois', '2024/2025', '2011', '35451', '5135135', 'kbkjn', 'jkkb', 'jkbkj', 'jnjnkj', 'ljnlnln', 'ljnln', 'ljbnljn', 1, 1, '', '', '0'),
-('2012654654654', 'Elissalde', 'Jean-Baptiste', '2024/2025', '2012', '535135135', '353513151', 'kbjkbkjkj', 'kjbkljj', 'jbljlnjnl', 'lnll', 'lnlnlkn', 'lnlnln', 'ljnlnlkn', 1, 1, '', '', '0'),
-('2012654654715', 'Lemarchand', 'Julien', '2024/2025', '2012', '65465451', '35035535', 'kjbkjkbkbj', 'jnhkbhvv', 'cftryctytc', 'trdycytyf', 'uvufuf', 'uhooiopihj', 'oihopop', 1, 1, '', '', '0'),
-('2013254895', 'Becker', 'Byron', '2024/2025', '2013', '068468', '0658435', 'iugkkh', 'jgcgcf', 'kyfjg', 'bkkj', 'hfxgd', 'tdxyfc', 'fchfc', 1, 1, '', '', '0'),
-('201425256', 'Durand', 'Laurine', '2024/2025', '2014', '65468', '6546846', 'jhvjhv', 'jgvjgv', 'jvjhv', 'jhvjhv', 'jhvjhv', 'jhvjhv', 'jhvjhb', 1, 1, '', '', '0'),
-('2014584654685', 'Dupont', 'Antoine', '2024/2025', '2014', '68464', '684654', 'jgvjhgbkhku', 'kjbkkbghvbjh', 'jhvjhvjhvkh', 'jhvkhbk', 'hbkbkjkb', 'hfcdghchfc', 'chytfhtf', 1, 1, '', '', '0'),
-('201525485241', 'Pichon', 'Vincent', '2024/2025', '2015', '6851513', '14131351135', 'jvhhb', 'gfxgfxc', 'jhgkgk', 'jhvkvh', 'jgcvjhv', 'jgckhkjb', 'khjbkjb', 1, 1, '', '', '0'),
+('1', 'Poitevin', 'Jeanine', '2012', '1977', '0298731221', 'null', 'Quimper', 'null', 'poitevinchrichri@test.fr', 'null', 'ceci est un bon commentaire', 'null', 'null', 'Pain', 'Oui', 'a', 'a', 'admin'),
+('12340000000000', 'Poitevin', 'timy', '2012', '1977', '0298731221', 'null', 'Quimper', 'null', 'poitevinchrichri@test.fr', 'null', 'commentaire', 'fromage', 'pain', 'non', 'oui', NULL, NULL, NULL),
+('20106513152', 'Flamand', 'Jules', '2024/2025', '2010', '6515615', '513153531', 'njjnjn', 'tdrdtrccrf', 'vyutgtu', 'utytty', 'ttyty', 'tfyttyv', 'yttt', '1', '1', '', '', '0'),
+('201165165151', 'Ntamack', 'Michel', '2024/2025', '2011', '35451', '5135135', 'kbkjn', 'jkkb', 'jkbkj', 'jnjnkj', 'ljnlnln', 'ljnln', 'ljbnljn', '1', '1', '', '', '0'),
+('2012654654654', 'Elissalde', 'Jean-Baptiste', '2024/2025', '2012', '535135135', '353513151', 'kbjkbkjkj', 'kjbkljj', 'jbljlnjnl', 'lnll', 'lnlnlkn', 'lnlnln', 'ljnlnlkn', '1', '1', '', '', '0'),
+('2012654654715', 'Lemarchand', 'Julien', '2024/2025', '2012', '65465451', '35035535', 'kjbkjkbkbj', 'jnhkbhvv', 'cftryctytc', 'trdycytyf', 'uvufuf', 'uhooiopihj', 'oihopop', '1', '1', '', '', '0'),
+('2013254895', 'Becker', 'Byron', '2024/2025', '2013', '068468', '0658435', 'iugkkh', 'jgcgcf', 'kyfjg', 'bkkj', 'hfxgd', 'tdxyfc', 'fchfc', '1', '1', '', '', '0'),
+('201425256', 'Durand', 'Laurine', '2024/2025', '2014', '65468', '6546846', 'jhvjhv', 'jgvjgv', 'jvjhv', 'jhvjhv', 'jhvjhv', 'jhvjhv', 'jhvjhb', '1', '1', '', '', '0'),
+('2014584654685', 'Dupont', 'Antoine', '2024/2025', '2014', '68464', '684654', 'jgvjhgbkhku', 'kjbkkbghvbjh', 'jhvjhvjhvkh', 'jhvkhbk', 'hbkbkjkb', 'hfcdghchfc', 'chytfhtf', '1', '1', '', '', '0'),
+('201525485241', 'Pichon', 'Vincent', '2024/2025', '2015', '6851513', '14131351135', 'jvhhb', 'gfxgfxc', 'jhgkgk', 'jhvkvh', 'jgcvjhv', 'jgckhkjb', 'khjbkjb', '1', '1', '', '', '0'),
 ('20155446545', 'Aldritt', 'Grégorie', '2024/2025', '2015', '6513515531', 'null', 'bhliblkhbhkb', 'null', 'jguvkjhkjhb', 'null', 'rgregerrgrgg', NULL, NULL, NULL, NULL, '', '', '0'),
 ('20176533', 'Penaud', 'Fabien', '2024/2025', '2017', '365135135', 'null', 'ibkkkkb', 'null', 'kbkjbbkjb', 'null', 'rgrtggg', NULL, NULL, NULL, NULL, '', '', '0'),
-('2017654654655', 'Kelleher', 'Byron', '2024/2025', '2017', '6565151', '351351351', 'bkjkjb', 'kjhbkbk', 'kjbkb', 'kjbkjb', 'kjbkjb', 'kjbkjb', 'jukj', 1, 1, '', '', '0'),
-('21', 'x', 'x', 'x', 'x', 'x', NULL, 'x', NULL, 'x', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+('2017654654655', 'Kelleher', 'Byron', '2024/2025', '2017', '6565151', '351351351', 'bkjkjb', 'kjhbkbk', 'kjbkb', 'kjbkjb', 'kjbkjb', 'kjbkjb', 'jukj', '1', '1', '', '', '0'),
+('22', 'x', 'x', 'x', 'x', 'x', NULL, 'x', NULL, 'x', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 ('2345324', 'Jean', 'Dufoin', 'oui', 'non', '1234', NULL, 'oui', NULL, 'zre', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 ('4312761', 'a', 'a', 'oui', 'oui', 'oui', NULL, 'oui', NULL, 'oui', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 ('43265', 'q', 'q', 'q', 'q', 'q', NULL, 'q', NULL, 'q', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 ('5376', 'i', 'i', 'i', 'i', 'i', NULL, 'i', NULL, 'i', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-('777', 'Consult', 'Consult', '563456236', '1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'c', 'c', 'consult'),
 ('786', 't', 't', 'oui', 'oui', 'oui', NULL, 'oui', NULL, 'oui', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 ('8888', 'Montour', 'Jean-Paul', '333', '11', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'JPMonour', '1234', 'modif'),
 ('957', 'Modif', 'Modif', '4321', '31', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'm', 'm', 'modif'),
@@ -159,19 +158,19 @@ INSERT INTO `categorieadherent` (`numLic`, `idcategorie`) VALUES
 ('2017654654655', '4'),
 ('999', '4'),
 ('999', '5'),
-('123', '4'),
-('123', '5'),
-('123', '15'),
-('123', '16'),
+('1', '4'),
+('1', '5'),
+('1', '15'),
+('1', '16'),
 ('957', '4'),
 ('957', '5'),
-('777', '5'),
 ('8888', '4'),
 ('8888', '5'),
 ('8888', '17'),
 ('12', '4'),
 ('5762543', '5'),
-('12340000000000', '11');
+('12340000000000', '11'),
+('aa', '11');
 
 -- --------------------------------------------------------
 
@@ -237,7 +236,7 @@ INSERT INTO `categorieutilisateur` (`idUser`, `categorieUser`) VALUES
 
 CREATE TABLE `critereadherent` (
   `idcritere` int UNSIGNED NOT NULL,
-  `numerolicence` varchar(20) COLLATE utf8mb4_general_ci NOT NULL,
+  `numerolicence` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `valcritere` int UNSIGNED DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -252,12 +251,12 @@ INSERT INTO `critereadherent` (`idcritere`, `numerolicence`, `valcritere`) VALUE
 (4, '009090', NULL),
 (5, '009090', NULL),
 (6, '009090', NULL),
-(1, '123', 5),
-(2, '123', 5),
-(3, '123', 5),
-(4, '123', 5),
-(5, '123', 5),
-(6, '123', 5),
+(1, '1', 3),
+(2, '1', 3),
+(3, '1', 5),
+(4, '1', 5),
+(5, '1', 5),
+(6, '1', 4),
 (1, '12340000000000', 0),
 (2, '12340000000000', 0),
 (3, '12340000000000', 0),
@@ -330,12 +329,12 @@ INSERT INTO `critereadherent` (`idcritere`, `numerolicence`, `valcritere`) VALUE
 (4, '2017654654655', NULL),
 (5, '2017654654655', NULL),
 (6, '2017654654655', NULL),
-(1, '21', NULL),
-(2, '21', NULL),
-(3, '21', NULL),
-(4, '21', NULL),
-(5, '21', NULL),
-(6, '21', NULL),
+(1, '22', NULL),
+(2, '22', NULL),
+(3, '22', NULL),
+(4, '22', NULL),
+(5, '22', NULL),
+(6, '22', NULL),
 (1, '2345324', NULL),
 (2, '2345324', NULL),
 (3, '2345324', NULL),
@@ -360,12 +359,6 @@ INSERT INTO `critereadherent` (`idcritere`, `numerolicence`, `valcritere`) VALUE
 (4, '5376', NULL),
 (5, '5376', NULL),
 (6, '5376', NULL),
-(1, '777', NULL),
-(2, '777', NULL),
-(3, '777', NULL),
-(4, '777', NULL),
-(5, '777', NULL),
-(6, '777', NULL),
 (1, '786', NULL),
 (2, '786', NULL),
 (3, '786', NULL),
@@ -561,8 +554,7 @@ ALTER TABLE `criteres`
 -- Contraintes pour la table `critereadherent`
 --
 ALTER TABLE `critereadherent`
-  ADD CONSTRAINT `critereadherent_ibfk_1` FOREIGN KEY (`idcritere`) REFERENCES `criteres` (`idcritere`),
-  ADD CONSTRAINT `critereadherent_ibfk_2` FOREIGN KEY (`numerolicence`) REFERENCES `adherents` (`numerolicence`);
+  ADD CONSTRAINT `critereadherent_ibfk_1` FOREIGN KEY (`idcritere`) REFERENCES `criteres` (`idcritere`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
