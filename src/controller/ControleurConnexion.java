@@ -44,8 +44,8 @@ public class ControleurConnexion extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+	
 		
-		HttpSession h = request.getSession();
 		String nameCheck = (String)request.getParameter("nameCo");	
 		String mdpCheck = (String)request.getParameter("mdpCo");
 		
@@ -78,6 +78,9 @@ public class ControleurConnexion extends HttpServlet {
 				ResultSet identification = checkUser.executeQuery();
 				
 				if (identification.next()) {
+					
+					HttpSession h = request.getSession();  //Crée la session seulement si la requête d'identification renvoie un résultat positif
+					h.setMaxInactiveInterval(300);			//Regle un timer qui détruit la session si aucune requête n'est faite au bout de 5 minutes ; chaque requête effectuée rénitialise ce délai 
 					
 					HashMap<String, String> categoriesUser;
 					categoriesUser = new HashMap<String, String>() ;
@@ -163,6 +166,8 @@ public class ControleurConnexion extends HttpServlet {
 				 }
 				 h.setAttribute("categories", categories); */
 				 dao.closeConnection();
+				 
+				 
 				 response.sendRedirect("Accueil");
 
 				}

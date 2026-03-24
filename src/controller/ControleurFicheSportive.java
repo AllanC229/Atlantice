@@ -34,7 +34,13 @@ import model.Adherent;
 		 */
 		protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 			// TODO Auto-generated method stub
-		    HttpSession h = request.getSession();
+		    HttpSession h = request.getSession(false);
+		    
+		    if (h == null || h.getAttribute("activeUser") == null) { //Si la session n'existe pas, renvie vers la page de connexion
+			    response.sendRedirect("/Connexion");
+			    return;
+			}
+		    
 			String numLic = (String) h.getAttribute("numLic");
 					
 			HashMap<String, Integer> criteres = (HashMap<String, Integer>) h.getAttribute("criteres"); 

@@ -42,7 +42,13 @@ public class ControleurAccueil extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		HttpSession h = request.getSession();	//Charge la variable de session
+		HttpSession h = request.getSession(false);	//Charge la variable de session si elle existe (false)
+		
+		if (h == null || h.getAttribute("activeUser") == null) { //Si la session n'existe pas, renvie vers la page de connexion
+		    response.sendRedirect("/Connexion");
+		    return;
+		}
+		
 		Utilisateur activeUser = (Utilisateur) h.getAttribute("activeUser");	//Récupère le profil de l'utilisateur de la session en cours
 		String direction =  (String)request.getParameter("direction");		//Sert à savoir sur quel bouton on a cliqué sur la page accueil (catégories, accéder à mon profil, créer un adhérent)
 		HashMap<String, String> categoriesAdh = new HashMap<>();		//Créé la HashMap qui stocke les catégorie sportives associées  l'utilisateur en cours

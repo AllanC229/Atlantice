@@ -34,7 +34,13 @@ public class FicheAdministrative extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 
-		HttpSession h = request.getSession();
+		HttpSession h = request.getSession(false);
+		
+		if (h == null || h.getAttribute("activeUser") == null) { //Si la session n'existe pas, renvie vers la page de connexion
+		    response.sendRedirect("/Connexion");
+		    return;
+		}
+		
 		Utilisateur activeUser = (Utilisateur) h.getAttribute("activeUser");
 		PrintWriter out=response.getWriter();
 		Adherent a;

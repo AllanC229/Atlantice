@@ -44,7 +44,13 @@ public class Accueil extends HttpServlet {
     //Connexion à la DB et affichage du formulaire
 	@SuppressWarnings("unchecked")
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	    HttpSession h = request.getSession();
+	    HttpSession h = request.getSession(false);
+	    
+	    if (h == null || h.getAttribute("activeUser") == null) { //Si la session n'existe pas, renvie vers la page de connexion
+		    response.sendRedirect("/Connexion");
+		    return;
+		}
+	    
 	    Utilisateur activeUser = (Utilisateur) h.getAttribute("activeUser");
 		String categorie = null;
 		PrintWriter out=response.getWriter();		
