@@ -10,19 +10,21 @@ public class Utilisateur {
 	private String prenom;
 	private String role;
 	private String id;
+	private int idconnexion;	//Ca c'est l'idlog dans la table de la BDD ; ça servira à insérer le timestamp de la déconnexion au moment de celle-ci
 	// private String categUser; 
 	//private ArrayList<String> categoriesUser;
 	public HashMap<String, String> categoriesUser;
 	
 	
 	
-	public Utilisateur(String nom, String prenom, String role, String id, /*String categUser,*/ HashMap<String, String> categoriesUser) {
+	public Utilisateur(String nom, String prenom, String role, String id, int idconnexion,/*String categUser,*/ HashMap<String, String> categoriesUser) {
 		this.nom = nom;
 		this.prenom = prenom;
 		this.role = role;
 		this.id = id;
 	//	this.categUser = categUser;
 		this.categoriesUser = categoriesUser;
+		this.idconnexion = idconnexion;
 		
 	}
 	public String getNom() {			
@@ -36,6 +38,9 @@ public class Utilisateur {
 	}
 	public String getId() {			
 		return id ;			
+	}
+	public int getIdConnexion() {			
+		return idconnexion ;			
 	}
 /*	public String getCategUser() {
 		return categUser ;
