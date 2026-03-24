@@ -33,7 +33,7 @@ public class Connexion extends HttpServlet {
 		
 		PrintWriter out=response.getWriter();
 		
-		HttpSession h = request.getSession();	// si un attribut existe dans session c'est qu'on arrive d'une connexion, sinon c'est qu'on arrive d'une déco
+		
 	
 		
 		

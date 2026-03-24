@@ -53,21 +53,25 @@ public class ControleurAjtCategorie extends HttpServlet {
 			ajtCateg.setString(1, nomCategorie);
 			ajtCateg.setString(2,  annee);
 			
-            if(nomCategorie != "")
-            {
+            if(nomCategorie != "") {
+            	
             ajtCateg.executeUpdate();
             request.getRequestDispatcher("/Accueil").forward(request, response);
+           
             }
-            else 
-            {
+            
+            else { 
+            	
             	request.getRequestDispatcher("/CreationCategorie").forward(request, response);
             }
 
 		 }
+		
 	    catch(SQLException e) {
 			System.out.println("Probleme SQL !!");
 			e.printStackTrace();
 		}
+		
 		dao.closeConnection();
 	}
 

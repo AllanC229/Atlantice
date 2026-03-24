@@ -29,7 +29,13 @@ public class Profil extends HttpServlet {
 		// TODO Auto-generated method stub
     	
    //Le code va ici
-		HttpSession h = request.getSession();
+		HttpSession h = request.getSession(false);
+		
+		if (h == null || h.getAttribute("activeUser") == null) { //Si la session n'existe pas, renvie vers la page de connexion
+		    response.sendRedirect("/Connexion");
+		    return;
+		}
+		
 		Utilisateur activeUser = (Utilisateur) h.getAttribute("activeUser");
 		Adherent activeAdherent = (Adherent) h.getAttribute("activeAdherent");
 		HashMap<String, Integer> activeAdherentCriteres = (HashMap<String, Integer>) h.getAttribute("activeAdherentCriteres");

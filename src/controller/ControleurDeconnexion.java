@@ -33,9 +33,15 @@ public class ControleurDeconnexion extends HttpServlet {
     String deconnexion = (String)request.getParameter("deconnexion");
 	
 	//Deconnexion de la session, Allan
-	if("Se déconnecter".equals(deconnexion))
-	{
-		HttpSession h = request.getSession();				
+	if("Se déconnecter".equals(deconnexion)) {
+		
+		HttpSession h = request.getSession(false);	
+		
+		if (h == null || h.getAttribute("activeUser") == null) { //Si la session n'existe pas, renvie vers la page de connexion
+		    response.sendRedirect("/Connexion");
+		    return;
+		}
+		
 		h.invalidate();
 		// Besoin de fermer la connexion ou pas?
 		
