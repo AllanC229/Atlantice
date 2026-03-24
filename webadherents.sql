@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : localhost:3306
--- Généré le : lun. 23 mars 2026 à 09:55
+-- Généré le : mar. 24 mars 2026 à 14:17
 -- Version du serveur : 8.0.30
 -- Version de PHP : 8.1.10
 
@@ -76,7 +76,7 @@ INSERT INTO `adherents` (`numerolicence`, `nom`, `prenom`, `dernierelicenceactiv
 ('786', 't', 't', 'oui', 'oui', 'oui', NULL, 'oui', NULL, 'oui', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 ('8888', 'Montour', 'Jean-Paul', '333', '11', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'JPMonour', '1234', 'modif'),
 ('957', 'Modif', 'Modif', '4321', '31', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'm', 'm', 'modif'),
-('999', 'Picot', 'Simon', '3213', '1111', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'ysimon', '1234', 'modif'),
+('999', 'Picot', 'Simon', '3213', '1111', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'ysimon', '1234', 'consult'),
 ('df', 'zed', 'ef', 'hfch', 'hgch', 'fxgfc', 'gfx', 'fc', NULL, 'fchf', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 ('eez', 'aqz', 'eare', 'zsd', 'resd', 'esd', NULL, 'resd', NULL, 'esd', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 ('fc', 'rdf', 'yd', 'hfc', 'hfc', 'hfc', NULL, 'hfc', NULL, 'hfc', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
@@ -464,6 +464,28 @@ INSERT INTO `criteres` (`idcritere`, `nomcritere`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Structure de la table `log`
+--
+
+CREATE TABLE `log` (
+  `idlog` int NOT NULL,
+  `idconnexion` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
+  `logintime` datetime DEFAULT NULL,
+  `logouttime` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Déchargement des données de la table `log`
+--
+
+INSERT INTO `log` (`idlog`, `idconnexion`, `logintime`, `logouttime`) VALUES
+(2, 'Poitevin Jeanine 1', '2026-03-24 12:51:32', NULL),
+(3, 'Poitevin Jeanine 1', '2026-03-24 13:58:04', NULL),
+(4, 'Poitevin Jeanine 1', '2026-03-24 14:03:10', NULL);
+
+-- --------------------------------------------------------
+
+--
 -- Structure de la table `rechercheperso`
 --
 
@@ -525,6 +547,12 @@ ALTER TABLE `criteres`
   ADD PRIMARY KEY (`idcritere`);
 
 --
+-- Index pour la table `log`
+--
+ALTER TABLE `log`
+  ADD PRIMARY KEY (`idlog`);
+
+--
 -- Index pour la table `rechercheperso`
 --
 ALTER TABLE `rechercheperso`
@@ -545,6 +573,12 @@ ALTER TABLE `categoriesportive`
 --
 ALTER TABLE `criteres`
   MODIFY `idcritere` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT pour la table `log`
+--
+ALTER TABLE `log`
+  MODIFY `idlog` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Contraintes pour les tables déchargées
