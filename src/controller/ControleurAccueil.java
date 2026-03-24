@@ -18,6 +18,7 @@ import model.Adherent;
 import model.Categorie;
 import model.Utilisateur;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
@@ -257,8 +258,12 @@ public class ControleurAccueil extends HttpServlet {
 			System.out.println("Entrée vers le profil");
 			
 			if (h.getAttribute("activeAdherent") == null) {	//ne s'effectue que lors du premier accès au profil, puis stocke les données dans la session
-				Adherent activeAdherent = null;
+				
+				Adherent activeAdherent = null; //Initialise l'objet Adherent
+				HashMap<String, Integer> activeAdherentCriteres = new LinkedHashMap<>() ; //linkedHashMap pour garder l'ordre d'insertion à l'affichage
+				
 				System.out.println("entrée dans le if");
+				
 				Connection conn = null;
 				PreparedStatement psProfilAdh = null;			
 				DAOAcces dao = new DAOAcces("com.mysql.cj.jdbc.Driver", "webadherents", "root", "");
@@ -325,7 +330,28 @@ public class ControleurAccueil extends HttpServlet {
 					        );
 					    }
 					}
+
+					String critereSQL = "SELECT valcritere, nomcritere "
+									+ "FROM critereadherent JOIN criteres "
+									+ "ON critereadherent.idCritere = criteres.idcritere "
+									+ "WHERE numerolicence=? "
+									+ "ORDER BY critereadherent.idcritere;"; //ordre ascendant des idcriteres
+					
+					// Création d'une requête préparée
+					PreparedStatement pstactiveAdherentCriteres = dao.getConn().prepareStatement(critereSQL);
+					
+					pstactiveAdherentCriteres.setString(1, activeUser.getId());
+													
+					ResultSet rsactiveAdherentCritere = pstactiveAdherentCriteres.executeQuery();
+					System.out.println(critereSQL);
+
+					
+					//remplir une HashMap avec le résultat de la requête
+					while(rsactiveAdherentCritere.next()) {
 						
+						activeAdherentCriteres.put(rsactiveAdherentCritere.getString("nomcritere"), rsactiveAdherentCritere.getInt("valcritere"));
+					
+					}	
 				} 
 				
 				catch (SQLException e) {
@@ -333,6 +359,7 @@ public class ControleurAccueil extends HttpServlet {
 				} 
 				
 				h.setAttribute("activeAdherent", activeAdherent);
+				h.setAttribute("activeAdherentCriteres", activeAdherentCriteres); //stocker la hashmap dans la session
 				dao.closeConnection();
 			}
 			

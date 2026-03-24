@@ -2,6 +2,7 @@ package view;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.HashMap;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -31,11 +32,13 @@ public class Profil extends HttpServlet {
 		HttpSession h = request.getSession();
 		Utilisateur activeUser = (Utilisateur) h.getAttribute("activeUser");
 		Adherent activeAdherent = (Adherent) h.getAttribute("activeAdherent");
+		HashMap<String, Integer> activeAdherentCriteres = (HashMap<String, Integer>) h.getAttribute("activeAdherentCriteres");
 		PrintWriter out=response.getWriter();
 		
 		
 		out.print("<!Doctype html><html><head><meta charset=\"utf-8\"/> \r\n"
 				+ "<link href=\"licence.css\" rel=\"stylesheet\">"
+				+ "<link href=\"range-slider-fiche-sportive.css\" rel=\"stylesheet\">"
 				+ "</head><body><h1 align=center>Informations adhérent : </h1></br>"
 				+ "<div align=center>"
 				+ "<table border>"
@@ -54,14 +57,20 @@ public class Profil extends HttpServlet {
 				+ "<tr><td>Contact 1 : </td><td>"+activeAdherent.getContact1()+"</br></td></tr>"
 				+ "<tr><td>Contact 2 : </td><td>"+activeAdherent.getContact2()+"</br></td></tr>"
 				+ "<tr><td>Sexe : </td><td>"+activeAdherent.getSexe()+"</br></td></tr>"
-				+ "<tr><td>Droit à l'image : </td><td>"+activeAdherent.getDroitImage()+"</br></td></tr>"
-				+ "</table></div>");
+				+ "<tr><td>Droit à l'image : </td><td>"+activeAdherent.getDroitImage()+"</br></td></tr>");
+		
+		for (HashMap.Entry<String, Integer> entry : activeAdherentCriteres.entrySet()) {
+			
+			out.print( "<tr><td>"+entry.getKey()+"</td><td>"
+						+ "<div class=\"range-slider\" style=\"--value-a: 0; width: 350px;\">"
+						+ "<input id='"+entry.getKey()+"' name='"+entry.getKey()+"' type='range' min='0' max='5' value='" + entry.getValue() +"'oninput='this.parentNode.style.setProperty('--value-a', this.value)' disabled>"
+						+ "<div class='range-slider__values'>0 1 2 3 4 5</div>"
+						+ "<div class='range-slider__progress'></div></div>");
+			}
+			out.print( "</table></div>");
     
     }	
-   
-    
-
-    
+      
     	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     		// TODO Auto-generated method stub
     		doGet(request, response);
