@@ -1,5 +1,6 @@
 # Fichiers compilés
 *.class
+/bin/
 
 # Logs
 *.log
@@ -18,3 +19,7 @@
 .project
 .classpath
 .settings/
+
+# Fichiers système
+.DS_Store
+Thumbs.db

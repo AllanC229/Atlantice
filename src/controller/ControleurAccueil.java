@@ -44,7 +44,7 @@ public class ControleurAccueil extends HttpServlet {
 		
 		HttpSession h = request.getSession(false);	//Charge la variable de session si elle existe (false)
 		String page;
-		if (h == null || h.getAttribute("activeUser") == null) { //Si la session n'existe pas, renvie vers la page de connexion
+		if (h == null) { //Si la session n'existe pas, renvie vers la page de connexion
 		    response.sendRedirect("/Connexion");
 		    return;
 		}
@@ -238,7 +238,35 @@ public class ControleurAccueil extends HttpServlet {
 			getServletContext().getRequestDispatcher("/Tableau").forward(request, response);
 		}
 		
-		
+		//Bouton "Consulter les critères" cliqué 
+		if("critere".equals(request.getParameter("critere"))) { 
+			
+			ArrayList<String> criteres= new ArrayList<>();
+			
+			try {
+				DAOAcces dao = new DAOAcces("com.mysql.cj.jdbc.Driver", "webadherents", "root", "");
+				
+				String critereSQL = "SELECT nomcritere FROM criteres";
+				
+				PreparedStatement pstCritere = dao.getConn().prepareStatement(critereSQL);
+				
+				ResultSet rsCritere = pstCritere.executeQuery();
+				
+				while(rsCritere.next()) {
+					criteres.add(rsCritere.getString("nomcritere"));
+				}
+				System.out.println("criteres : " + criteres);
+				request.setAttribute("critères", criteres);				
+				dao.closeConnection();
+			
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				System.out.println("Problème SQL Critere");
+			}
+			
+			getServletContext().getRequestDispatcher("/Critere").forward(request, response);
+		}
 		
 		if("Catégories".equals(direction)) {  //Ca c'est si on clique sur le bouton Categories en haut à gauche de l'accueil : pour le moment, renvoie une erreur
 			

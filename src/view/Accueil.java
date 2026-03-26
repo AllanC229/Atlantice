@@ -46,7 +46,7 @@ public class Accueil extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	    HttpSession h = request.getSession(false);
 	    
-	    if (h == null || h.getAttribute("activeUser") == null) { //Si la session n'existe pas, renvie vers la page de connexion
+	    if (h == null) { //Si la session n'existe pas, renvie vers la page de connexion
 		    response.sendRedirect("/Connexion");
 		    return;
 		}
@@ -71,7 +71,8 @@ public class Accueil extends HttpServlet {
 					+ "<form action='ControleurAccueil' name='accesprofil' method='get'> <input type ='submit' name='direction' value='Profil'> </form></div></td></tr>"
 					+ "<tr><td><form action = \"ControleurAccueil\" method='get'> <input type='hidden' name='ficheadmin' value='ficheadmin'> <input type=\"submit\"  value='Consulter les fiches Administratives'> </form><br>"
 					+ "<form action=\"RechercheAdherent\" method='get'> <input type='hidden' name='recherche' value='recherche'> <input type=\"submit\" value=\"Rechercher un adhérent\"> </form> <br>"
-					+ "<form action=\"ControleurAccueil\" method='get'> <input type='hidden' name='fichesport' value='fichesport'> <input type=\"submit\" value=\"Consulter les fiches sportives "+categorie+"\"> </form> </td>");
+					+ "<form action=\"ControleurAccueil\" method='get'> <input type='hidden' name='fichesport' value='fichesport'> <input type=\"submit\" value=\"Consulter les fiches sportives "+categorie+"\"> </form><br>"
+					+ "<form action =\"ControleurAccueil\" method='GET'> <input type='hidden' name='critere' value='critere'><input type='submit' name='critere' value='Consulter les critères'></form></td>");
 
 	        
 	        out.println("<td><div align=center><form align=center action=\"ControleurAccueil\" method=get >"

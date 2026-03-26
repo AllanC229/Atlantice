@@ -34,9 +34,12 @@ public class ControleurCategories extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	    HttpSession h = request.getSession();
-	    
-
+		HttpSession h = request.getSession(false);	//Charge la variable de session si elle existe (false)
+		
+		if (h == null) { //Si la session n'existe pas, renvoie vers la page de connexion
+		    response.sendRedirect("/Connexion");
+		    return;
+		}
 		//if(equals(request.getParameter("modifCategories"))) { //methode POST??
 		    System.out.println("controleurCategories instancié depuis le formulaire");
 			
@@ -52,7 +55,8 @@ public class ControleurCategories extends HttpServlet {
 					System.out.println(entry);
 				
 				String modifCategSQL = "UPDATE anneecategorie "
-									+ "SET `categories`=?, annee`=?;";
+									+ "SET categories=?, annee=?"
+									+ "WHERE;";
 
 				/* "UPDATE anneecategorie, categoriesportive, categorieutilisateur "
 									+ "SET `anneecategorie.categories`=?, anneecategorie.annee`=?, `categoriesportive.nomcategorie`=?, `categorieutilisateur.categorieUser`=?;";
