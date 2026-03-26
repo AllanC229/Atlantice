@@ -53,7 +53,7 @@ public class Tableau extends HttpServlet {
 		PrintWriter out = response.getWriter();
 		HttpSession h = request.getSession(false);
 		
-		if (h == null || h.getAttribute("activeUser") == null) { //Si la session n'existe pas, renvie vers la page de connexion
+		if (h == null) { //Si la session n'existe pas, renvie vers la page de connexion
 		    response.sendRedirect("/Connexion");
 		    return;
 		}

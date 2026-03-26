@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import connection.DAOAcces;
 import jakarta.servlet.ServletException;
@@ -38,7 +39,7 @@ public class ControleurRechercheAdherent extends HttpServlet {
 		
 		HttpSession h = request.getSession(false);
 		
-		if (h == null || h.getAttribute("activeUser") == null) { //Si la session n'existe pas, renvie vers la page de connexion
+		if (h == null) { //Si la session n'existe pas, renvie vers la page de connexion
 		    response.sendRedirect("/Connexion");
 		    return;
 		}
@@ -59,6 +60,7 @@ public class ControleurRechercheAdherent extends HttpServlet {
 		
 		String sql;
 		ArrayList<Adherent> adherents = new ArrayList<Adherent>();
+		HashMap<String, String> categoriesAdh = new HashMap<>();
 		
 		
 		try {
@@ -66,13 +68,13 @@ public class ControleurRechercheAdherent extends HttpServlet {
 			conn.setAutoCommit(false);
 			
 			if (!numLic.equals("")) {
-				sql = "SELECT * FROM adherents JOIN categorieadherent ON categorieadherent.numLic = adherents.numerolicence WHERE adherents.numerolicence = ?" ;
+				sql = "SELECT * FROM adherents JOIN categorieadherent ON categorieadherent.numLic = adherents.numerolicence JOIN categoriesportive ON categorieadherent.idcategorie = categoriesportive.idcategorie WHERE adherents.numerolicence = ? ;" ;
 				rechAdh = conn.prepareStatement(sql);
 				rechAdh.setString(1,  numLic);				
 				}
 			
 			else {
-				sql = "SELECT * FROM adherents JOIN categorieadherent ON categorieadherent.numLic = adherents.numerolicence WHERE adherents.nom = ?" ;
+				sql = "SELECT * FROM adherents JOIN categorieadherent ON categorieadherent.numLic = adherents.numerolicence JOIN categoriesportive ON categorieadherent.idcategorie = categoriesportive.idcategorie WHERE adherents.nom = ? ;" ;
 				rechAdh = conn.prepareStatement(sql);
 				rechAdh.setString(1,  nom);			
 				}
@@ -81,13 +83,32 @@ public class ControleurRechercheAdherent extends HttpServlet {
 			
 			ResultSet rsAdherent = rechAdh.executeQuery();
 			
+			String currentLicence = null;
+			
 			while (rsAdherent.next()) { //remplis la liste vide d'adhérents
-				adherents.add(new Adherent(/*rsAdherent.getString("categAd"),*/rsAdherent.getString("numerolicence"), rsAdherent.getString("nom"), rsAdherent.getString("prenom"), rsAdherent.getString("annee")
+				
+				 String licence = rsAdherent.getString("numerolicence");
+
+				    // Nouvel adhérent
+				    if (!licence.equals(currentLicence)) {
+
+				        categoriesAdh = new HashMap<>();
+				        
+				adherents.add(new Adherent(rsAdherent.getString("numerolicence"), rsAdherent.getString("nom"), rsAdherent.getString("prenom"), rsAdherent.getString("annee")
 						, rsAdherent.getString("tel1"), rsAdherent.getString("tel2"), rsAdherent.getString("adresse1"), rsAdherent.getString("adresse2")
 						, rsAdherent.getString("mail1"), rsAdherent.getString("mail2"), rsAdherent.getString("commentaire"), rsAdherent.getString("dernierelicenceactive"),
-						rsAdherent.getString("contact1"), rsAdherent.getString("contact2"), rsAdherent.getString("sexe"), rsAdherent.getString("droitimage"), activeUser.categoriesUser/*, dao*/));//, rsAdherent.getInt("critere1"), rsAdherent.getInt("critere2"), rsAdherent.getInt("critere3"), rsAdherent.getInt("critere4"), rsAdherent.getInt("critere5")));	//Rajout des getInt(critère), 08/12 9:25
-			}		
-		
+						rsAdherent.getString("contact1"), rsAdherent.getString("contact2"), rsAdherent.getString("sexe"), rsAdherent.getString("droitimage"), categoriesAdh));
+			}	
+				    
+				    currentLicence = licence;
+			// Ajout d’une catégorie si elle existe
+		    if (rsAdherent.getString("idcategorie") != null) {
+		        categoriesAdh.put(
+		            rsAdherent.getString("idcategorie"),
+		            rsAdherent.getString("nomcategorie")
+		        );
+		    }
+			}
 		}
 		catch (SQLException e) {
 	// TODO Auto-generated catch block
