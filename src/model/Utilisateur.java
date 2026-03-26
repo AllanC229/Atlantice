@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import connection.DAOAcces;
+
+
 
 public class Utilisateur {
 	private String nom;
@@ -22,7 +25,6 @@ public class Utilisateur {
 		this.prenom = prenom;
 		this.role = role;
 		this.id = id;
-	//	this.categUser = categUser;
 		this.categoriesUser = categoriesUser;
 		this.idconnexion = idconnexion;
 		
@@ -42,12 +44,36 @@ public class Utilisateur {
 	public int getIdConnexion() {			
 		return idconnexion ;			
 	}
-/*	public String getCategUser() {
-		return categUser ;
-	} */
 	public Map<String, String> getCategoriesUser() {
 		return categoriesUser;
 	}
 	
-	//rajouter une liste de catégories pour les utilisateurs  Arraylist<categorie>
+	public void lastseen (int id) throws SQLException {
+		
+		DAOAcces dao = new DAOAcces("com.mysql.cj.jdbc.Driver", "webadherents", "root", "");
+		System.out.println("entrée dans lastseen");
+		try {
+			System.out.println("entrée dans le try");
+			Connection conn = dao.getConn();
+			
+			Timestamp tslastseen = new Timestamp(System.currentTimeMillis());
+			tslastseen.setNanos(0);
+			
+			String sql = "UPDATE log SET logouttime = ? WHERE idlog = ? ;";
+			PreparedStatement lastseen = conn.prepareStatement(sql);
+			
+			lastseen.setTimestamp(1, tslastseen);
+			lastseen.setInt(2, id);
+			System.out.println(lastseen);
+			lastseen.executeUpdate();
+		}
+		
+		catch (SQLException e) {
+			
+			e.printStackTrace();
+		}
+		
+		dao.closeConnection();
+		
+	}
 	}

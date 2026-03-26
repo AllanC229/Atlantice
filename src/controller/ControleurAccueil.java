@@ -62,8 +62,12 @@ public class ControleurAccueil extends HttpServlet {
 			ArrayList<Adherent> adherents = new ArrayList<Adherent>(); //Instancie une liste vide d'adhérents
 			DAOAcces dao = new DAOAcces("com.mysql.cj.jdbc.Driver", "webadherents", "root", "");
 			
+			
+			
 			try { //Prépare la requête qui récupère les infos des adhérents dont les catégories sportives correspondent à l'utilisateur en cours
-					
+				
+				activeUser.lastseen(activeUser.getIdConnexion());
+				
 				conn = dao.getConn();
 				conn.setAutoCommit(false);
 
