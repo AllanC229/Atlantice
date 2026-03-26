@@ -31,7 +31,13 @@ public class Categories extends HttpServlet {
 	 */
 	@SuppressWarnings("unchecked")
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		HttpSession h = request.getSession();
+		HttpSession h = request.getSession(false);	//Charge la variable de session si elle existe (false)
+		
+		if (h == null) { //Si la session n'existe pas, renvoie vers la page de connexion
+		    response.sendRedirect("/Connexion");
+		    return;
+		}
+		
 		Utilisateur activeUser = (Utilisateur) h.getAttribute("activeUser");
 		String role = activeUser.getRole();
 		System.out.println("role:" + role);
