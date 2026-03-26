@@ -82,25 +82,25 @@ public class ControleurConnexion extends HttpServlet {
 					HttpSession h = request.getSession();  //Crée la session seulement si la requête d'identification renvoie un résultat positif
 					h.setMaxInactiveInterval(300);			//Regle un timer qui détruit la session si aucune requête n'est faite au bout de 5 minutes ; chaque requête effectuée rénitialise ce délai 
 					
-					Timestamp ts = new Timestamp(System.currentTimeMillis());
-					ts.setNanos(0);
+					Timestamp tslogin = new Timestamp(System.currentTimeMillis());
+					tslogin.setNanos(0);
 					
 					String sqLloginTime = "INSERT INTO log VALUES(DEFAULT, ?, ?, NULL);";	//Ce bloc sert à insérer en BDD un timeStamp dans la table log avec les infos de connexion de l'utilisateur
 					PreparedStatement insertLoginTime = conn.prepareStatement(sqLloginTime);
 					String idconnexion = ""+ identification.getString("nom") +" "+identification.getString("prenom")+" "+identification.getString("numerolicence")+"";
 					insertLoginTime.setString(1, idconnexion);
-					insertLoginTime.setTimestamp(2, ts);
+					insertLoginTime.setTimestamp(2, tslogin);
 					insertLoginTime.executeUpdate();
 					conn.commit();
 					
 					PreparedStatement getIdConnexion = conn.prepareStatement("SELECT idlog FROM log WHERE idconnexion = ? AND logintime = ? ;");
-					getIdConnexion.setString(1,  idconnexion);
-					getIdConnexion.setTimestamp(2, ts);
+					getIdConnexion.setString(1,  idconnexion);	//On récupère l'idlog correspondant  l'insertion qu'on vient de faire, qui servira plus tard pour insérer logouttime
+					getIdConnexion.setTimestamp(2, tslogin);
 					ResultSet rsIdConnexion = getIdConnexion.executeQuery();
 					
 					if (rsIdConnexion.next()); {
 					
-						System.out.println(ts);
+						System.out.println(tslogin);
 						HashMap<String, String> categoriesUser;
 						categoriesUser = new HashMap<String, String>() ;
 							

@@ -73,7 +73,7 @@ public class Profil extends HttpServlet {
 						+ "<div class='range-slider__values'>0 1 2 3 4 5</div>"
 						+ "<div class='range-slider__progress'></div></div>");
 			}
-			out.print( "</table></div>");
+			out.print( "</table></div></body></html>");
     
     }	
       
