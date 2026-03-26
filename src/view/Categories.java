@@ -44,7 +44,9 @@ public class Categories extends HttpServlet {
 		
 		String r = "<!Doctype html><html><head><meta charset=\"utf-8\"/>"
 				+ " <link href=\"licence.css\" rel=\"stylesheet\">"
-				+ " </head><body><h1 align=center>Catégories : </h1></br>"
+				+ " </head><body>"
+				+ "<div align='right'> <form action='ControleurDeconnexion' name='boutondeconnexion' method='get'> <input type ='submit' name='deconnexion' value='Se déconnecter'> </form><br>"
+				+ "<h1 align=center>Catégories : </h1></br>"
 				+ "	<div align=center><form action=\"ControleurCategories\" method=GET>" //méthode POST => UPDATE en BDD
 				+ " <table border>"
 				+ " <tr><th>Années</th><th>Nom</th></tr>";

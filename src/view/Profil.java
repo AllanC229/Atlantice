@@ -46,6 +46,7 @@ public class Profil extends HttpServlet {
 				+ "<link href=\"licence.css\" rel=\"stylesheet\">"
 				+ "<link href=\"range-slider-fiche-sportive.css\" rel=\"stylesheet\">"
 				+ "</head><body><h1 align=center>Informations adhérent : </h1></br>"
+				+ "<div align='right'> <form action='ControleurDeconnexion' name='boutondeconnexion' method='get'> <input type ='submit' name='deconnexion' value='Se déconnecter'> </form><br>"
 				+ "<div align=center>"
 				+ "<table border>"
 				+ "<tr><td>Nom : </td><td>"+activeAdherent.getNom()+"</br></td></tr>"
@@ -73,7 +74,9 @@ public class Profil extends HttpServlet {
 						+ "<div class='range-slider__values'>0 1 2 3 4 5</div>"
 						+ "<div class='range-slider__progress'></div></div>");
 			}
-			out.print( "</table></div></body></html>");
+			out.print( "</table></div>"
+					+ "<div align ='center'> <form action='ModifInfosProfil'> <input type='submit' name='modifinfos' value='Modifier mes informations'></div>"
+					+ "</body></html>");
     
     }	
       

@@ -33,7 +33,7 @@ public class FicheSportive extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession h = request.getSession(false);
 		
-		if (h == null || h.getAttribute("activeUser") == null) { //Si la session n'existe pas, renvie vers la page de connexion
+		if (h == null) { //Si la session n'existe pas, renvie vers la page de connexion
 		    response.sendRedirect("/Connexion");
 		    return;
 		}
@@ -58,7 +58,9 @@ public class FicheSportive extends HttpServlet {
 				affichage = "<!Doctype html><html><head><meta charset=\"utf-8\"/> \r\n"
 						+"<link href=\"licence.css\" rel=\"stylesheet\">"
 						+ "<link href=\"range-slider-fiche-sportive.css\" rel=\"stylesheet\">" //fichier CSS pour l'input range-slider
-						+ "</head><body><h1 align=center>Suivi sportif : </h1></br>"
+						+ "</head><body>"
+						+ "<div align='right'> <form action='ControleurDeconnexion' name='boutondeconnexion' method='get'> <input type ='submit' name='deconnexion' value='Se déconnecter'> </form><br>"
+						+ "<h1 align=center>Suivi sportif : </h1></br>"
 						+ "<div align=center><form action=\"ControleurFicheSportive\" method=GET>"
 						+ "<table border>"
 						+ "		<tr><td>Nom : </td><td><input type='text' name='nom' value='"+a.getNom()+"'readonly></br></td></tr>"

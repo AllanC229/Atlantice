@@ -48,7 +48,7 @@ public class Utilisateur {
 		return categoriesUser;
 	}
 	
-	public void lastseen (int id) throws SQLException {
+	public void lastseen (int id, String page) throws SQLException {
 		
 		DAOAcces dao = new DAOAcces("com.mysql.cj.jdbc.Driver", "webadherents", "root", "");
 		System.out.println("entrée dans lastseen");
@@ -59,11 +59,12 @@ public class Utilisateur {
 			Timestamp tslastseen = new Timestamp(System.currentTimeMillis());
 			tslastseen.setNanos(0);
 			
-			String sql = "UPDATE log SET logouttime = ? WHERE idlog = ? ;";
+			String sql = "UPDATE log SET lastactivity = ? , navhistory = CONCAT(navhistory, ?) WHERE idlog = ? ;";
 			PreparedStatement lastseen = conn.prepareStatement(sql);
 			
 			lastseen.setTimestamp(1, tslastseen);
-			lastseen.setInt(2, id);
+			lastseen.setString(2, page);
+			lastseen.setInt(3, id);
 			System.out.println(lastseen);
 			lastseen.executeUpdate();
 		}
@@ -76,4 +77,5 @@ public class Utilisateur {
 		dao.closeConnection();
 		
 	}
-	}
+	
+}
