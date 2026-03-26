@@ -43,7 +43,7 @@ public class ControleurAccueil extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		HttpSession h = request.getSession(false);	//Charge la variable de session si elle existe (false)
-		
+		String page;
 		if (h == null || h.getAttribute("activeUser") == null) { //Si la session n'existe pas, renvie vers la page de connexion
 		    response.sendRedirect("/Connexion");
 		    return;
@@ -58,6 +58,7 @@ public class ControleurAccueil extends HttpServlet {
 		
 			Connection conn = null;
 			PreparedStatement psAdhCateg = null;
+			page = " 1;";
 			
 			ArrayList<Adherent> adherents = new ArrayList<Adherent>(); //Instancie une liste vide d'adhérents
 			DAOAcces dao = new DAOAcces("com.mysql.cj.jdbc.Driver", "webadherents", "root", "");
@@ -66,7 +67,7 @@ public class ControleurAccueil extends HttpServlet {
 			
 			try { //Prépare la requête qui récupère les infos des adhérents dont les catégories sportives correspondent à l'utilisateur en cours
 				
-				activeUser.lastseen(activeUser.getIdConnexion());
+				activeUser.lastseen(activeUser.getIdConnexion(), page);
 				
 				conn = dao.getConn();
 				conn.setAutoCommit(false);
@@ -158,7 +159,9 @@ public class ControleurAccueil extends HttpServlet {
 		if ("ficheadmin".equals(request.getParameter("ficheadmin")) && activeUser.getRole().equals("admin")) {  //ce bloc sert à afficher tous les adhérents independamment de la catégorie de l'utilisateur actif si celui ci est l'admin 
 			
 			Connection conn = null;
-			PreparedStatement psAdh = null;			
+			PreparedStatement psAdh = null;	
+			page = " 2;";
+			
 			ArrayList<Adherent> adherents = new ArrayList<Adherent>();
 			DAOAcces dao = new DAOAcces("com.mysql.cj.jdbc.Driver", "webadherents", "root", "");
 			
@@ -166,6 +169,8 @@ public class ControleurAccueil extends HttpServlet {
 				
 				conn = dao.getConn();
 				conn.setAutoCommit(false);
+				
+				activeUser.lastseen(activeUser.getIdConnexion(), page);
 
 				String sql = "SELECT a.numerolicence, a.nom, a.prenom, a.dernierelicenceactive, a.annee, " +
 							 "a.tel1, a.tel2, a.adresse1, a.adresse2, a.mail1, a.mail2, a.commentaire, " +
@@ -239,8 +244,12 @@ public class ControleurAccueil extends HttpServlet {
 			
 			DAOAcces dao = new DAOAcces("com.mysql.cj.jdbc.Driver", "webadherents", "root", "");
 			ArrayList<Categorie> categories= new ArrayList<Categorie>();
+			page = " 3;";
 			
 			try {
+				
+				activeUser.lastseen(activeUser.getIdConnexion(), page);
+				
 				String req = "SELECT * FROM anneecategorie";
 				ResultSet rscat = dao.getStatement().executeQuery(req);
 				
@@ -269,6 +278,8 @@ public class ControleurAccueil extends HttpServlet {
 			
 			if (h.getAttribute("activeAdherent") == null) {	//ne s'effectue que lors du premier accès au profil, puis stocke les données dans la session
 				
+				page = " 4;";
+				
 				Adherent activeAdherent = null; //Initialise l'objet Adherent
 				HashMap<String, Integer> activeAdherentCriteres = new LinkedHashMap<>() ; //linkedHashMap pour garder l'ordre d'insertion à l'affichage
 				
@@ -279,6 +290,8 @@ public class ControleurAccueil extends HttpServlet {
 				DAOAcces dao = new DAOAcces("com.mysql.cj.jdbc.Driver", "webadherents", "root", "");
 								
 				try {
+					
+					activeUser.lastseen(activeUser.getIdConnexion(), page);
 					
 					conn = dao.getConn();
 					conn.setAutoCommit(false);
@@ -388,12 +401,8 @@ public class ControleurAccueil extends HttpServlet {
 			ArrayList<Adherent> adherents = new ArrayList<Adherent>(); //en arrivant d'accueil, instancie une liste vide d'adhérents
 			DAOAcces dao = new DAOAcces("com.mysql.cj.jdbc.Driver", "webadherents", "root", "");
 		
-			try {
-				
-				conn = dao.getConn(); 
-				conn.setAutoCommit(false);
+
 				String[] categorie = request.getParameterValues("categorie[]"); 
-				boolean flag = false;
 				
 				 //début : ajout du 17/03/2026 - pauline
 				if (categorie == null || categorie.length == 0) { /* traite l'erreur où l'utilisateur coche rien et où il accède au site via l'url */
@@ -402,6 +411,13 @@ public class ControleurAccueil extends HttpServlet {
 				    return; // Arrête l'exécution de doGet() ICI, retour à l'accueil, le code reprend au début
 				} //fin 
 				
+				try {
+					
+					page = " 5;";
+					conn = dao.getConn(); 
+					conn.setAutoCommit(false);
+					boolean flag = false;
+					
 				for (String categ : categorie) {
 				
 					if (categ.equals("Toutes")) {
@@ -413,7 +429,9 @@ public class ControleurAccueil extends HttpServlet {
 			
 			
 				if (flag == false) {  //Si on a choisi une ou plusieurs catégories sur le menu déroulant
-				
+					
+					activeUser.lastseen(activeUser.getIdConnexion(), page);
+					
 					sql = "SELECT a.numerolicence, a.nom, a.prenom, a.dernierelicenceactive, a.annee, " +
 					"a.tel1, a.tel2, a.adresse1, a.adresse2, a.mail1, a.mail2, a.commentaire, " +
 					"a.contact1, a.contact2, a.sexe, a.droitimage, GROUP_CONCAT(c.nomcategorie) AS categories " +

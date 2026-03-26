@@ -44,7 +44,7 @@ public class ControleurDeconnexion extends HttpServlet {
 		HttpSession h = request.getSession(false);	
 		
 		
-		if (h == null || h.getAttribute("activeUser") == null) { //Si la session n'existe pas, renvie vers la page de connexion
+		if (h == null) { //Si la session n'existe pas, renvie vers la page de connexion
 			getServletContext().getRequestDispatcher("/Connexion").forward(request, response);
 		    return;
 		}
@@ -60,7 +60,7 @@ public class ControleurDeconnexion extends HttpServlet {
 			Timestamp tslogout = new Timestamp(System.currentTimeMillis());
 			tslogout.setNanos(0);
 			
-			PreparedStatement insertLogoutTime = conn.prepareStatement("UPDATE log SET logouttime = ? WHERE idlog = ? ;");
+			PreparedStatement insertLogoutTime = conn.prepareStatement("UPDATE log SET logouttime = ? , navhistory = CONCAT(navhistory, ' logout;') WHERE idlog = ? ;");
 			insertLogoutTime.setTimestamp(1, tslogout);
 			insertLogoutTime.setInt(2,  activeUser.getIdConnexion());
 			insertLogoutTime.executeUpdate();

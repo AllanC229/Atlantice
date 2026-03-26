@@ -85,7 +85,7 @@ public class ControleurConnexion extends HttpServlet {
 					Timestamp tslogin = new Timestamp(System.currentTimeMillis());
 					tslogin.setNanos(0);
 					
-					String sqLloginTime = "INSERT INTO log VALUES(DEFAULT, ?, ?, NULL);";	//Ce bloc sert à insérer en BDD un timeStamp dans la table log avec les infos de connexion de l'utilisateur
+					String sqLloginTime = "INSERT INTO log VALUES(DEFAULT, ?, ?, NULL, NULL, '0;');";	//Ce bloc sert à insérer en BDD un timeStamp dans la table log avec les infos de connexion de l'utilisateur
 					PreparedStatement insertLoginTime = conn.prepareStatement(sqLloginTime);
 					String idconnexion = ""+ identification.getString("nom") +" "+identification.getString("prenom")+" "+identification.getString("numerolicence")+"";
 					insertLoginTime.setString(1, idconnexion);

@@ -31,8 +31,8 @@ public class ModifInfosProfil extends HttpServlet {
 		PrintWriter out=response.getWriter();
 		
 		
-		if (h == null || h.getAttribute("activeUser") == null) { //Si la session n'existe pas, renvie vers la page de connexion
-		    response.sendRedirect("/Connexion");
+		if (h == null) { //Si la session n'existe pas, renvie vers la page de connexion
+			getServletContext().getRequestDispatcher("/Connexion").forward(request, response);
 		    return;
 		}
 		
@@ -41,7 +41,8 @@ public class ModifInfosProfil extends HttpServlet {
 		
 		out.print("<!Doctype html><html><head><meta charset=\"utf-8\"/> \r\n"
 				+ "<link href=\"licence.css\" rel=\"stylesheet\">"
-				+ "</head><body><h1 align=center>Formulaire adhérent : </h1></br>"
+				+ "</head><body><h1 align=center>Mes informations personnelles</h1></br>"
+				+ "<div align='right'> <form action='ControleurDeconnexion' name='boutondeconnexion' method='get'> <input type ='submit' name='deconnexion' value='Se déconnecter'> </form><br>"
 				+ "<div align=center><form action='ControleurModifInfosProfil' method='get'>"
 				+ "<table border>"
 				+ "<tr><td>Nom : </td><td><input type='text' name='nom' value='"+activeAdherent.getNom()+"'></br></td></tr>"

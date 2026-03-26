@@ -70,7 +70,7 @@ public class Tableau extends HttpServlet {
 				+ "<body>"
 				+ "<div align=center>"
 				+ "<h1>Licenciés </h1><br><br><br>"
-				+ "<div align=right>"
+				+ "<div align='right'> <form action='ControleurDeconnexion' name='boutondeconnexion' method='get'> <input type ='submit' name='deconnexion' value='Se déconnecter'> </form><br>"
 				+ "<form action=\"Accueil\" name=\"retouraccueil\" > <input type = \"submit\" name=\"retouraccueil\" value=\"Retour à l'accueil\"> </form>"
 				+ "<div class=\"card-body\">"
 				+ "<table style=\"width: 100%;\" id=\"example2\" class=\"table table-hover table-striped table-bordered\">"
