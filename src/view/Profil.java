@@ -46,6 +46,7 @@ public class Profil extends HttpServlet {
 				+ "<link href=\"licence.css\" rel=\"stylesheet\">"
 				+ "<link href=\"range-slider-fiche-sportive.css\" rel=\"stylesheet\">"
 				+ "</head><body><h1 align=center>Informations adhérent : </h1></br>"
+				+ "<div align='right'> <form action='ControleurDeconnexion' name='boutondeconnexion' method='get'> <input type ='submit' name='deconnexion' value='Se déconnecter'> </form><br>"
 				+ "<div align=center>"
 				+ "<table border>"
 				+ "<tr><td>Nom : </td><td>"+activeAdherent.getNom()+"</br></td></tr>"

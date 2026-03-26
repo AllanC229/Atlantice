@@ -56,6 +56,7 @@ public class CreationAdherent extends HttpServlet {
 			//Formulaire d'ajout d'adhérent
 	        out.println("<html><head><meta charset=\"utf-8\"/>"
 	        		+ "<link href=\"licence.css\" rel=\"stylesheet\"></head><body>"  //revoir l'alignement des boutons en haut de la page
+	        		+ "<div align='right'> <form action='ControleurDeconnexion' name='boutondeconnexion' method='get'> <input type ='submit' name='deconnexion' value='Se déconnecter'> </form><br>"
 	        		+ "<div> <form action=\"Accueil\" name=\"boutonAccueil\" value=\"accueil\" method=\"get\">"
 					+ "<input text-align='left' type=\"submit\" name=\"accueil\" value=\"Accueil\"></form>"
 	        		+ "<form action=\"ControleurDeconnexion\" name=\"boutondeconnexion\" method=\"get\"> <input text-align='right' type = \"submit\" name=\"deconnexion\" value=\"Se déconnecter\"></form>");

@@ -35,7 +35,7 @@ public class RechercheAdherent extends HttpServlet {
 		PrintWriter out=response.getWriter();
 		
 		out.println("<html><head><meta charset='utf-8'></head><body><h1 align='center'> Rechercher un adhérent </h1><br><br>"
-				+ "<div align=right>"
+				+ "<div align='right'> <form action='ControleurDeconnexion' name='boutondeconnexion' method='get'> <input type ='submit' name='deconnexion' value='Se déconnecter'> </form><br>"
 				+ "<form action=\"Accueil\" name=\"retouraccueil\" > <input type = \"submit\" name=\"retouraccueil\" value=\"Retour à l'accueil\"> </form></div><br>"
 				+ "<form action='ControleurRechercheAdherent' name='RechercheAdherent' method='get'>"
 				+ "<table style='width: 50%' border='5px'>"

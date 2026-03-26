@@ -36,10 +36,11 @@ public class CreationCategorie extends HttpServlet {
 		//Formulaire d'ajout de classe
 			out.println("<html><head><meta charset=\"utf-8\"/>"
 					+"<link href=\"licence.css\" rel=\"stylesheet\">"
-					+ "</head><body>"+
-						"<div align=center><form name=\"ajouterCategorie\" action=\"ControleurAjtCategorie\" method=GET>"
-						+ "<h1>Ajouter une catégorie</h1><br>"
-						+ "<br>");
+					+ "</head><body>"
+					+ "<div align='right'> <form action='ControleurDeconnexion' name='boutondeconnexion' method='get'> <input type ='submit' name='deconnexion' value='Se déconnecter'> </form><br>"
+					+ "<div align=center><form name=\"ajouterCategorie\" action=\"ControleurAjtCategorie\" method=GET>"
+					+ "<h1>Ajouter une catégorie</h1><br>"
+					+ "<br>");
 			
 			out.println("Nom de la catégorie: <input type=\"text\" name=\"nmC\"> </input> <br><br>");
 			out.println("Année de la catégorie: <input type=\"text\" name=\"annee\"> </input> <br><br>");

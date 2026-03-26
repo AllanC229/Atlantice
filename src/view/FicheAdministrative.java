@@ -105,6 +105,7 @@ public class FicheAdministrative extends HttpServlet {
 					out.print("<!Doctype html><html><head><meta charset=\"utf-8\"/> \r\n"
 							+ "<link href=\"licence.css\" rel=\"stylesheet\">"
 							+ "</head><body><h1 align=center>Formulaire adhérent : </h1></br>"
+							+ "<div align='right'> <form action='ControleurDeconnexion' name='boutondeconnexion' method='get'> <input type ='submit' name='deconnexion' value='Se déconnecter'> </form><br>"
 							+ "<div align=center>"
 							+ "<table border>"
 							+ "<tr><td>Nom : </td><td>"+a.getNom()+"</br></td></tr>"
