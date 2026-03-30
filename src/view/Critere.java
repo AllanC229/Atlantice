@@ -36,7 +36,7 @@ public class Critere extends HttpServlet {
 		
 		HttpSession h = request.getSession(false);	//Charge la variable de session si elle existe (false)
 		
-		if (h == null) { //Si la session n'existe pas, renvie vers la page de connexion
+		if (h == null) { //Si la session n'existe pas, renvoie vers la page de connexion
 		    response.sendRedirect("/Connexion");
 		    return;
 		}
@@ -58,20 +58,35 @@ public class Critere extends HttpServlet {
 				Iterator<String> iteratorCritere = criteres.iterator();
 				while(iteratorCritere.hasNext()) {
 					// ajouter methode pour avoir la première des critères en MAJ
-					r += "<tr><td><input type=\"text\" name=\"nomcritere\" value="+ iteratorCritere.next() +"></td></tr>";
+					r += "<tr><td><input type=\"text\" name=\"nomcritere\" value="+ iteratorCritere.next() +"></td>"
+							+ "<td><input type=\"checkbox\" class='critere' value='' disabled ></td></tr>";
 				}
 				
 				if ((activeUser.getRole().equals("admin") || activeUser.getRole().equals("modif"))) {
 					r += "</table><br>"
 						+ "<input type=\"submit\" name=\"direction\" value=\"Valider les modifications\"></form><br>";
 					
-					//Suppression d'un ou plusieurs critères
-					r += "<form action=\"ControleurCritere\" method=GET>" // méthode POST => DELETE en BDD
-						+ "<input type=\"submit\" name=\"supprCritere\" onclick=\" -------\" value=\"Supprimer des critères\">"
-						+ "</form><br>"
-						// checkbox disabled et quand btn suppr cliqué onclick=enabled les checkbox??
-	
-						
+					//Suppression d'un ou plusieurs critères : active les checkbox 
+					r += "<input type=\"submit\" name=\"supprCritere\" onclick=\"activerCheckbox()\" value=\"Supprimer des critères\">"
+						+ "<tr><td> <div id='divSupprimer' style='display:none;'>"
+						+ "		<form action='ControleurCritere' method=GET>"  //méthode POST => DELETE en BDD
+						+ "			<input type='submit' name='supprimerCritere' onclick='confirmSuppr()' value='Supprimer les critères sélectionnés ?'>"
+						+ "</form></div></td></tr><br>"
+						+ "<script>"
+						+ "		function activerCheckbox() {" //fonction qui active une checkbox pour chaque critere (class critere) et display la div contenant le bouton pour supprimer
+						+ "  		document.querySelectorAll('.critere').forEach(function(checkbox) {"
+						+ "        	checkbox.disabled = false;});"
+						+ "			document.getElementById('divSupprimer').style.display ='block';"
+						+ "		}"
+						+ " 	function confirmSuppr() {" //si le bouton 'supprimerCritere' est cliqué affiche une fenêtre de confirmation, si OK -> soumission du formulaire vers ControleurCritere
+						+ "			if (window.confirm('Confirmer la suppression ?')){"
+						+ "				document.getElementById('supprimerCritere').submit();"
+						+ "			}"
+						+ "		}"  
+						+ "</script>"
+						+ "<br>"	
+					
+					//Création de critères
 						+ "<tr><td><form action=\"CreationCritere\" method=GET>"
 						+ "<input type=\"submit\" name=\"creationCritere\" value=\"Créer un critère\"></td></tr></form><br>";
 				
@@ -83,7 +98,8 @@ public class Critere extends HttpServlet {
 				
 				
 			response.getWriter().append(r);
-			request.setAttribute("critères", iteratorCritere);				
+			ArrayList<String> criteresRequest = (ArrayList<String>) iteratorCritere;	
+			System.out.println("Vue critere request : " + criteresRequest);
 
 		
 	}

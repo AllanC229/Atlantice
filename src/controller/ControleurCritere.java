@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Iterator;
 
 import connection.DAOAcces;
 import jakarta.servlet.ServletException;
@@ -47,10 +48,12 @@ public class ControleurCritere extends HttpServlet {
 	    
 		if("Valider les modifications".equals(direction)) { //methode POST??
 		    System.out.println("bouton modifié critère cliqué");
-				
-			ArrayList<String> modifNomCritere = new ArrayList<>();
-			modifNomCritere.add(request.getParameter("nomcritere"));
-			System.out.println("modifNomCritere : " + modifNomCritere);
+			
+			ArrayList<String> modifNomCritere = (ArrayList<String>) request.getAttribute("critères");	
+		   	System.out.println("modifNomCritere : " + modifNomCritere);
+			
+		//	int index = modifNomCritere.indexOf("Endurance");
+		//	System.out.println("index de Endurance :" + index);
 			
 			//pour chaque nomcritere modifié, mettre à jour la table critere
 			modifNomCritere.forEach( (nomCritere) -> {
@@ -59,18 +62,18 @@ public class ControleurCritere extends HttpServlet {
 					
 					String modifCritereSQL = "UPDATE criteres "
 											+ "SET nomcritere=? "
-											+ "WHERE idcritere = 1;";
+											+ "WHERE idcritere = ?;";
 				
 					// Création d'un PreparedStatement
 					PreparedStatement pstModifCritere = dao.getConn().prepareStatement(modifCritereSQL);
 					System.out.println("connexion BDD ok");
 					
 					String nomcritere = request.getParameter("nomcritere");
-				//	String idCritere = ???????;
-	
+					int idCritere = modifNomCritere.indexOf(nomcritere) + 1;
+					System.out.println("idCritere:" + idCritere);
 					
 					pstModifCritere.setString (1, nomcritere); 
-				//	pstModifCritere.setString (2, idCritere);
+					pstModifCritere.setInt (2, idCritere);
 	 
 	
 					pstModifCritere.executeUpdate();
