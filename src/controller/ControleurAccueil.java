@@ -445,6 +445,7 @@ public class ControleurAccueil extends HttpServlet {
 					conn = dao.getConn(); 
 					conn.setAutoCommit(false);
 					boolean flag = false;
+					activeUser.lastseen(activeUser.getIdConnexion(), page);
 					
 				for (String categ : categorie) {
 				
@@ -457,8 +458,6 @@ public class ControleurAccueil extends HttpServlet {
 			
 			
 				if (flag == false) {  //Si on a choisi une ou plusieurs catégories sur le menu déroulant
-					
-					activeUser.lastseen(activeUser.getIdConnexion(), page);
 					
 					sql = "SELECT a.numerolicence, a.nom, a.prenom, a.dernierelicenceactive, a.annee, " +
 					"a.tel1, a.tel2, a.adresse1, a.adresse2, a.mail1, a.mail2, a.commentaire, " +
