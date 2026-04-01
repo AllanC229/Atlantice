@@ -241,22 +241,23 @@ public class ControleurAccueil extends HttpServlet {
 		//Bouton "Consulter les critères" cliqué 
 		if("critere".equals(request.getParameter("critere"))) { 
 			
-			ArrayList<String> criteres= new ArrayList<>();
-			
+			//HashMap : clé = idcritere valeur=nomcritere
+			HashMap<Integer, String> nomCritere = new LinkedHashMap<>() ; //linkedHashMap pour garder l'ordre d'insertion à l'affichage
+						
 			try {
 				DAOAcces dao = new DAOAcces("com.mysql.cj.jdbc.Driver", "webadherents", "root", "");
 				
-				String critereSQL = "SELECT nomcritere FROM criteres";
+				String critereSQL = "SELECT idcritere, nomcritere FROM criteres";
 				
 				PreparedStatement pstCritere = dao.getConn().prepareStatement(critereSQL);
 				
 				ResultSet rsCritere = pstCritere.executeQuery();
 				
 				while(rsCritere.next()) {
-					criteres.add(rsCritere.getString("nomcritere"));
+					nomCritere.put(rsCritere.getInt("idcritere"), rsCritere.getString("nomcritere"));
 				}
-				System.out.println("criteres : " + criteres);
-				request.setAttribute("critères", criteres);				
+				System.out.println("criteres : " + nomCritere);
+				h.setAttribute("nomCritere", nomCritere);		//avant request.set
 				dao.closeConnection();
 			
 			} catch (SQLException e) {

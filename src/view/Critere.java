@@ -3,6 +3,7 @@ package view;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 
 import jakarta.servlet.ServletException;
@@ -43,8 +44,9 @@ public class Critere extends HttpServlet {
 		
 		Utilisateur activeUser = (Utilisateur) h.getAttribute("activeUser");
 		PrintWriter out=response.getWriter();
-		ArrayList<String> criteres = (ArrayList<String>) request.getAttribute("critères");	
-		System.out.println("Vue critere arraylist : " + criteres);
+		//HashMap : clé = idcritere valeur=nomcritere
+		HashMap<Integer, String> nomCritere = (HashMap<Integer, String>) h.getAttribute("nomCritere");
+		System.out.println("Vue critere HashMap : " + nomCritere);
 
 		
 		String r = "<!Doctype html><html><head><meta charset=\"utf-8\"/>"
@@ -55,10 +57,9 @@ public class Critere extends HttpServlet {
 				+ " <tr><th>Nom</th></tr>";
 		
 				// boucle pour afficher chaque nom de critere 
-				Iterator<String> iteratorCritere = criteres.iterator();
-				while(iteratorCritere.hasNext()) {
+				for (HashMap.Entry<Integer, String> entry : nomCritere.entrySet()) {
 					// ajouter methode pour avoir la première des critères en MAJ
-					r += "<tr><td><input type=\"text\" name=\"nomcritere\" value="+ iteratorCritere.next() +"></td>"
+					r += "<tr><td><input type=\"text\" name=\""+ entry.getValue() + "\" value=\"" + entry.getValue() + "\"><input type=\"hidden\" name=\"idcritere\" value=" + entry.getKey() + "></td>"
 							+ "<td><input type=\"checkbox\" class='critere' value='' disabled ></td></tr>";
 				}
 				
@@ -67,11 +68,14 @@ public class Critere extends HttpServlet {
 						+ "<input type=\"submit\" name=\"direction\" value=\"Valider les modifications\"></form><br>";
 					
 					//Suppression d'un ou plusieurs critères : active les checkbox 
-					r += "<input type=\"submit\" name=\"supprCritere\" onclick=\"activerCheckbox()\" value=\"Supprimer des critères\">"
-						+ "<tr><td> <div id='divSupprimer' style='display:none;'>"
-						+ "		<form action='ControleurCritere' method=GET>"  //méthode POST => DELETE en BDD
-						+ "			<input type='submit' name='supprimerCritere' onclick='confirmSuppr()' value='Supprimer les critères sélectionnés ?'>"
-						+ "</form></div></td></tr><br>"
+					r += "<form>"
+						+ "		<input type=\"submit\" name=\"supprCritere\" onclick=\"activerCheckbox()\" value=\"Supprimer des critères\">"
+						+ "		<div id='divSupprimer' style='display:none;'><br>" //<tr><td>
+						+ "			<form action='ControleurCritere' method=GET>"  //méthode POST => DELETE en BDD
+						+ "				<input type='submit' id='supprimerCritere' name='direction' onclick='confirmSuppr()' value='Supprimer les critères sélectionnés ?'>"
+						+ "			</form>"
+						+ "		</div>"
+						+ "</form><br>"   //</td></tr><br>"
 						+ "<script>"
 						+ "		function activerCheckbox() {" //fonction qui active une checkbox pour chaque critere (class critere) et display la div contenant le bouton pour supprimer
 						+ "  		document.querySelectorAll('.critere').forEach(function(checkbox) {"
@@ -79,7 +83,7 @@ public class Critere extends HttpServlet {
 						+ "			document.getElementById('divSupprimer').style.display ='block';"
 						+ "		}"
 						+ " 	function confirmSuppr() {" //si le bouton 'supprimerCritere' est cliqué affiche une fenêtre de confirmation, si OK -> soumission du formulaire vers ControleurCritere
-						+ "			if (window.confirm('Confirmer la suppression ?')){"
+						+ "			if (window.confirm('Êtes-vous sûr-e de vouloir supprimer ce(s) critère(s) ?')){"
 						+ "				document.getElementById('supprimerCritere').submit();"
 						+ "			}"
 						+ "		}"  
@@ -96,11 +100,7 @@ public class Critere extends HttpServlet {
 							
 				}
 				
-				
 			response.getWriter().append(r);
-			ArrayList<String> criteresRequest = (ArrayList<String>) iteratorCritere;	
-			System.out.println("Vue critere request : " + criteresRequest);
-
 		
 	}
 	
