@@ -64,6 +64,9 @@ public class ControleurAjtCritere extends HttpServlet {
 				
 				pstInsertCritere.executeUpdate();
 				System.out.println(pstInsertCritere);
+				
+				// faire une seconde requête d'insertion du nouveau critere à 0 dans table critereadherent (transaction?)
+				
 				response.sendRedirect("ControleurAccueil?critere=critere");
 				
 	    		dao.closeConnection();

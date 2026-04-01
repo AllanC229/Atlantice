@@ -42,71 +42,58 @@ public class ControleurCritere extends HttpServlet {
 		    return;
 		}
 
-		String direction =  (String)request.getParameter("direction");		//Sert à savoir sur quel bouton on a cliqué sur la page accueil (catégories, accéder à mon profil, créer un adhérent)
+		String direction =  (String)request.getParameter("direction");	//Sert à savoir sur quel bouton on a cliqué sur la page accueil (catégories, accéder à mon profil, créer un adhérent)
+		HashMap<Integer, String> nomCritere = (HashMap<Integer, String>) h.getAttribute("nomCritere");
 
-
-	    
+		
 		if("Valider les modifications".equals(direction)) { //methode POST??
 		    System.out.println("bouton modifié critère cliqué");
 			
-			ArrayList<String> modifNomCritere = (ArrayList<String>) request.getAttribute("critères");	
-		   	System.out.println("modifNomCritere : " + modifNomCritere);
-			
-		//	int index = modifNomCritere.indexOf("Endurance");
-		//	System.out.println("index de Endurance :" + index);
-			
 			//pour chaque nomcritere modifié, mettre à jour la table critere
-			modifNomCritere.forEach( (nomCritere) -> {
-				try {
-					DAOAcces dao = new DAOAcces("com.mysql.cj.jdbc.Driver", "webadherents", "root", "");
+			for (HashMap.Entry<Integer, String> entry : nomCritere.entrySet() ) {
+				if (!entry.getValue().equals(request.getParameter(entry.getValue()))){
+					try {
+						DAOAcces dao = new DAOAcces("com.mysql.cj.jdbc.Driver", "webadherents", "root", "");
+						
+						String modifCritereSQL = "UPDATE criteres "
+												+ "SET nomcritere=? "
+												+ "WHERE idcritere = ?;"; 
 					
-					String modifCritereSQL = "UPDATE criteres "
-											+ "SET nomcritere=? "
-											+ "WHERE idcritere = ?;";
-				
-					// Création d'un PreparedStatement
-					PreparedStatement pstModifCritere = dao.getConn().prepareStatement(modifCritereSQL);
-					System.out.println("connexion BDD ok");
-					
-					String nomcritere = request.getParameter("nomcritere");
-					int idCritere = modifNomCritere.indexOf(nomcritere) + 1;
-					System.out.println("idCritere:" + idCritere);
-					
-					pstModifCritere.setString (1, nomcritere); 
-					pstModifCritere.setInt (2, idCritere);
-	 
-	
-					pstModifCritere.executeUpdate();
-					System.out.println("requête exécutée : " + pstModifCritere);
-								
-				dao.closeConnection();
-	
-				} catch (SQLException e) {
-				System.out.println("Problème SQL modif critere");
-				e.printStackTrace();
+						// Création d'un PreparedStatement
+						PreparedStatement pstModifCritere = dao.getConn().prepareStatement(modifCritereSQL);
+						System.out.println("connexion BDD ok");
+						
+						String nouveauNomCritere = request.getParameter(entry.getValue()); 	
+						System.out.println("nom critere recup:" + request.getParameter(entry.getValue()));
+						int idCritere = entry.getKey();
+						System.out.println("idCritere:" + idCritere);
+						
+						pstModifCritere.setString (1, nouveauNomCritere); 
+						pstModifCritere.setInt (2, idCritere);
+		 
+		
+						pstModifCritere.executeUpdate();
+						System.out.println("requête exécutée : " + pstModifCritere);
+									
+					dao.closeConnection();
+		
+					} catch (SQLException e) {
+					System.out.println("Problème SQL modif critere");
+					e.printStackTrace();
+					}
 				}
-			});
+			}
 			response.sendRedirect("ControleurAccueil?critere=critere"); // rafraichir vue Critère à jour 
 		}
 		
-		if (equals(request.getParameter("supprCritere"))) {
+		if ("Supprimer les critères sélectionnés ?".equals(direction)) {
 		    System.out.println("bouton confirmer suppression critère cliqué");
-
-			
-			
-			
-			
-			
-			
+		    
+		    //récupérer les valeurs des ckbox cochée(s) supprimer le critère et toutes les occurences le concernant dans critereadh : transaction
+		    
+	
 		}
-			
-			
-			
-			
-			
-			
-		}
-	//}
+	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
