@@ -34,9 +34,8 @@ public class ControleurCritere extends HttpServlet {
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException { //codé pendant le mois de mars 2026 par pauline
 		HttpSession h = request.getSession(false);	//Charge la variable de session si elle existe (false)
-		
 		if (h == null) { //Si la session n'existe pas, renvoie vers la page de connexion
 		    response.sendRedirect("/Connexion");
 		    return;
@@ -90,6 +89,40 @@ public class ControleurCritere extends HttpServlet {
 		    System.out.println("bouton confirmer suppression critère cliqué");
 		    
 		    //récupérer les valeurs des ckbox cochée(s) supprimer le critère et toutes les occurences le concernant dans critereadh : transaction
+			String[] idsSupprimes = request.getParameterValues("supprCritere");
+			System.out.println("ckbox cochées:" + Arrays.toString(idsSupprimes));
+		    
+			if (idsSupprimes != null) { //vérif pertinente ou pas? car si on clique sur ces boutons supprimés apriori ça peut pas être null
+				try {
+					DAOAcces dao = new DAOAcces("com.mysql.cj.jdbc.Driver", "webadherents", "root", "");
+					//pour chaque idcritere faire une requete !!!!!
+					String deleteCritereSQL = "DELETE FROM critereadherent " //OU FROM criteres (ON CASCADE)
+											+ "WHERE idcritere = ?";
+					
+					// Création d'un PreparedStatement
+					PreparedStatement pstSupprCritere = dao.getConn().prepareStatement(deleteCritereSQL);
+					System.out.println("connexion BDD ok");
+					
+		//			int idCritere = entry.getKey();
+			//		System.out.println("idCritere:" + idCritere);
+					
+			//		pstSupprCritere.setInt (1, idCritere);
+	 
+	
+					pstSupprCritere.executeUpdate();
+					System.out.println("requête exécutée : " + pstSupprCritere);
+								
+				dao.closeConnection();
+					
+					
+				} catch (SQLException e) {
+					System.out.println("Problème SQL supprimer critere");
+					e.printStackTrace();
+				}
+				
+				
+			}
+			
 		    
 	
 		}

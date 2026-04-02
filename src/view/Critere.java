@@ -33,7 +33,7 @@ public class Critere extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	@SuppressWarnings("unchecked")
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException { //codé pendant le mois de mars 2026 par pauline
 		
 		HttpSession h = request.getSession(false);	//Charge la variable de session si elle existe (false)
 		
@@ -52,30 +52,29 @@ public class Critere extends HttpServlet {
 		String r = "<!Doctype html><html><head><meta charset=\"utf-8\"/>"
 				+ " <link href=\"licence.css\" rel=\"stylesheet\">"
 				+ " </head><body><h1 align=center>Critères : </h1></br>"
-				+ "	<div align=center><form action=\"ControleurCritere\" method=GET>" //méthode POST => UPDATE en BDD
-				+ " <table border>"
-				+ " <tr><th>Nom</th></tr>";
+				+ "	<div align=center>"
+				+ "		<form action=\"ControleurCritere\" method=GET>" //méthode POST => UPDATE et DELETE en BDD
+				+ " 	<table border>"
+				+ " 	<tr><th>Nom</th></tr>";
 		
 				// boucle pour afficher chaque nom de critere 
 				for (HashMap.Entry<Integer, String> entry : nomCritere.entrySet()) {
 					// ajouter methode pour avoir la première des critères en MAJ
-					r += "<tr><td><input type=\"text\" name=\""+ entry.getValue() + "\" value=\"" + entry.getValue() + "\"><input type=\"hidden\" name=\"idcritere\" value=" + entry.getKey() + "></td>"
-							+ "<td><input type=\"checkbox\" class='critere' value='' disabled ></td></tr>";
+					r += "<tr><td><input type=\"text\" name=\""+ entry.getValue() + "\" value=\"" + entry.getValue() + "\"></td>" // <input type=\"hidden\" name=\"idcritere\" value=" + entry.getKey() + "></td>"
+					   + "<td><input type=\"checkbox\" name='supprCritere' value=" + entry.getKey() + " class='critere' disabled ></td></tr>";
 				}
+				r += "</table><br>";
 				
 				if ((activeUser.getRole().equals("admin") || activeUser.getRole().equals("modif"))) {
-					r += "</table><br>"
-						+ "<input type=\"submit\" name=\"direction\" value=\"Valider les modifications\"></form><br>";
+					r+= "<input type=\"submit\" name=\"direction\" value=\"Valider les modifications\"><br><br>";
 					
-					//Suppression d'un ou plusieurs critères : active les checkbox 
-					r += "<form>"
-						+ "		<input type=\"submit\" name=\"supprCritere\" onclick=\"activerCheckbox()\" value=\"Supprimer des critères\">"
-						+ "		<div id='divSupprimer' style='display:none;'><br>" //<tr><td>
-						+ "			<form action='ControleurCritere' method=GET>"  //méthode POST => DELETE en BDD
-						+ "				<input type='submit' id='supprimerCritere' name='direction' onclick='confirmSuppr()' value='Supprimer les critères sélectionnés ?'>"
-						+ "			</form>"
-						+ "		</div>"
-						+ "</form><br>"   //</td></tr><br>"
+					//Suppression d'un ou plusieurs critères : active les checkbox et la div qui contient le bouton d'envoi
+					r += "<input type=\"button\" name=\"supprCritere\" onclick=\"activerCheckbox()\" value=\"Supprimer des critères\">"
+						+ "	<div id='divSupprimer' style='display:none;'><br>" 
+					    + "		<input type='submit' id='supprimerCritere' name='direction' onclick='confirmSuppr()' value='Supprimer les critères sélectionnés ?'>"
+						+ "	</div>"
+						+ "</form>"
+						+ "<br>"   
 						+ "<script>"
 						+ "		function activerCheckbox() {" //fonction qui active une checkbox pour chaque critere (class critere) et display la div contenant le bouton pour supprimer
 						+ "  		document.querySelectorAll('.critere').forEach(function(checkbox) {"
@@ -89,8 +88,8 @@ public class Critere extends HttpServlet {
 						+ "		}"  
 						+ "</script>"
 						+ "<br>"	
-					
-					//Création de critères
+
+						//Création de critères
 						+ "<tr><td><form action=\"CreationCritere\" method=GET>"
 						+ "<input type=\"submit\" name=\"creationCritere\" value=\"Créer un critère\"></td></tr></form><br>";
 				
