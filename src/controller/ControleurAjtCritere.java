@@ -88,11 +88,12 @@ public class ControleurAjtCritere extends HttpServlet {
 	           
 			} catch(SQLException e) {
 				System.out.println("Probleme SQL creationCritere !!");
-				if (conn != null) { //Si la connection n'est pas nulle, retour en arrière = arrêt de la transaction
+				if (conn != null) { //Si la connection n'est pas nulle, retour en arrière = annule la transaction
 					try {
 						conn.rollback();
+						System.out.println("Transaction annulée : rollback effectué");
 					} catch (SQLException ex) {
-						System.out.println("Connexion ok mais probleme SQL creationCritere !! => rollback effectué");
+						System.out.println("Connexion ok mais probleme SQL creationCritere !!");
 						ex.printStackTrace();
 					}
 				}

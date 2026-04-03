@@ -1,6 +1,7 @@
 package view;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -41,6 +42,8 @@ public class FicheSportive extends HttpServlet {
 		Utilisateur activeUser = (Utilisateur) h.getAttribute("activeUser");
 		String role = activeUser.getRole();
 		System.out.println("role:" + role);
+		PrintWriter out=response.getWriter();
+
 		
 		Adherent a;
 		
@@ -57,10 +60,14 @@ public class FicheSportive extends HttpServlet {
 				a = adh;
 				affichage = "<!Doctype html><html><head><meta charset=\"utf-8\"/> \r\n"
 						+"<link href=\"licence.css\" rel=\"stylesheet\">"
+						+ "<link href=\"header.css\" rel=\"stylesheet\">"
 						+ "<link href=\"range-slider-fiche-sportive.css\" rel=\"stylesheet\">" //fichier CSS pour l'input range-slider
-						+ "</head><body>"
-						+ "<div align='right'> <form action='ControleurDeconnexion' name='boutondeconnexion' method='get'> <input type ='submit' name='deconnexion' value='Se déconnecter'> </form><br>"
-						+ "<h1 align=center>Suivi sportif : </h1></br>"
+						+ "</head>";
+						
+				out.println(Header.afficherEntete(activeUser));
+
+						
+				affichage += "<h1 align=center>Suivi sportif : </h1></br>"
 						+ "<div align=center><form action=\"ControleurFicheSportive\" method=GET>"
 						+ "<table border>"
 						+ "		<tr><td>Nom : </td><td><input type='text' name='nom' value='"+a.getNom()+"'readonly></br></td></tr>"

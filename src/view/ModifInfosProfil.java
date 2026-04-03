@@ -10,6 +10,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import model.Adherent;
+import model.Utilisateur;
 
 @WebServlet("/ModifInfosProfil")
 public class ModifInfosProfil extends HttpServlet {
@@ -36,13 +37,18 @@ public class ModifInfosProfil extends HttpServlet {
 		    return;
 		}
 		
+		Utilisateur activeUser = (Utilisateur) h.getAttribute("activeUser");
 		Adherent activeAdherent = (Adherent) h.getAttribute("activeAdherent");
 
 		
 		out.print("<!Doctype html><html><head><meta charset=\"utf-8\"/> \r\n"
 				+ "<link href=\"licence.css\" rel=\"stylesheet\">"
-				+ "</head><body><h1 align=center>Mes informations personnelles</h1></br>"
-				+ "<div align='right'> <form action='ControleurDeconnexion' name='boutondeconnexion' method='get'> <input type ='submit' name='deconnexion' value='Se déconnecter'> </form><br>"
+				+ "<link href=\"header.css\" rel=\"stylesheet\">"
+				+ "</head>");
+				
+		out.println(Header.afficherEntete(activeUser));
+				
+		out.println("<h1 align=center>Mes informations personnelles</h1></br>"
 				+ "<div align=center><form action='ControleurModifInfosProfil' method='get'>"
 				+ "<table border>"
 				+ "<tr><td>Nom : </td><td><input type='text' name='nom' value='"+activeAdherent.getNom()+"'></br></td></tr>"

@@ -51,7 +51,12 @@ public class Critere extends HttpServlet {
 		
 		String r = "<!Doctype html><html><head><meta charset=\"utf-8\"/>"
 				+ " <link href=\"licence.css\" rel=\"stylesheet\">"
-				+ " </head><body><h1 align=center>Critères : </h1></br>"
+				+ " <link href=\"header.css\" rel=\"stylesheet\">"
+				+ " </head>";
+				
+		out.println(Header.afficherEntete(activeUser));
+			
+			r += "<body><h1 align=center>Critères : </h1></br>"
 				+ "	<div align=center>"
 				+ "		<form action=\"ControleurCritere\" method=GET>" //méthode POST => UPDATE et DELETE en BDD
 				+ " 	<table border>"

@@ -44,9 +44,13 @@ public class Profil extends HttpServlet {
 		
 		out.print("<!Doctype html><html><head><meta charset=\"utf-8\"/> \r\n"
 				+ "<link href=\"licence.css\" rel=\"stylesheet\">"
+				+ "<link href=\"header.css\" rel=\"stylesheet\">"
 				+ "<link href=\"range-slider-fiche-sportive.css\" rel=\"stylesheet\">"
-				+ "</head><body><h1 align=center>Informations adhérent : </h1></br>"
-				+ "<div align='right'> <form action='ControleurDeconnexion' name='boutondeconnexion' method='get'> <input type ='submit' name='deconnexion' value='Se déconnecter'> </form><br>"
+				+ "</head>");
+				
+		out.println(Header.afficherEntete(activeUser));
+						
+		out.println("<h1 align=center>Informations adhérent : </h1></br>"
 				+ "<div align=center>"
 				+ "<table border>"
 				+ "<tr><td>Nom : </td><td>"+activeAdherent.getNom()+"</br></td></tr>"
