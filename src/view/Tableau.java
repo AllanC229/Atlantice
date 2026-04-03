@@ -66,11 +66,13 @@ public class Tableau extends HttpServlet {
 				+ "<head>"
 				+ "<meta charset=\"utf-8\"/> "
 				+ "<link href=\"licence.css\" rel=\"stylesheet\">"
-				+ "</head>"
-				+ "<body>"
-				+ "<div align=center>"
+				+ "<link href=\"header.css\" rel=\"stylesheet\">"
+				+ "</head>");
+
+		out.println(Header.afficherEntete(activeUser));
+				
+		out.println("<div align=center>"
 				+ "<h1>Licenciés </h1><br><br><br>"
-				+ "<div align='right'> <form action='ControleurDeconnexion' name='boutondeconnexion' method='get'> <input type ='submit' name='deconnexion' value='Se déconnecter'> </form><br>"
 				+ "<form action=\"Accueil\" name=\"retouraccueil\" > <input type = \"submit\" name=\"retouraccueil\" value=\"Retour à l'accueil\"> </form>"
 				+ "<div class=\"card-body\">"
 				+ "<table style=\"width: 100%;\" id=\"example2\" class=\"table table-hover table-striped table-bordered\">"

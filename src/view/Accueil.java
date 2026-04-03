@@ -57,7 +57,12 @@ public class Accueil extends HttpServlet {
 			
 			out.println("<html><head><meta charset=\"utf-8\"/> "
 					+"<link href=\"licence.css\" rel=\"stylesheet\">"
-					+"</head><body><table width=100%><tr><td>");
+					+ "<link href=\"header.css\" rel=\"stylesheet\">"
+					+"</head>");
+					
+			out.println(Header.afficherEntete(activeUser));
+					
+			out.println("<table width=100%><tr><td>");
 			
 			if(activeUser.getRole().equals("admin") || activeUser.getRole().equals("modif"))
 			{
@@ -66,10 +71,7 @@ public class Accueil extends HttpServlet {
 				out.print("<form action=\"ControleurAccueil?direction=2 name= \"boutonajout\" value = \"ajoutAdherent\" method=\"get\"> <input type = \"submit\" name = 'direction' value=\"Créer un adhérent\"> </form>");	
 			}
 			
-					out.println("</td><td><div align=\"right\">"+ activeUser.getPrenom() +" "+activeUser.getNom()+" "+activeUser.getRole()+"</div><br>"
-					+ "<div align='right'> <form action='ControleurDeconnexion' name='boutondeconnexion' method='get'> <input type ='submit' name='deconnexion' value='Se déconnecter'> </form><br>"
-					+ "<form action='ControleurAccueil' name='accesprofil' method='get'> <input type ='submit' name='direction' value='Profil'> </form></div></td></tr>"
-					+ "<tr><td><form action = \"ControleurAccueil\" method='get'> <input type='hidden' name='ficheadmin' value='ficheadmin'> <input type=\"submit\"  value='Consulter les fiches Administratives'> </form><br>"
+					out.println("<tr><td><form action = \"ControleurAccueil\" method='get'> <input type='hidden' name='ficheadmin' value='ficheadmin'> <input type=\"submit\"  value='Consulter les fiches Administratives'> </form><br>"
 					+ "<form action=\"RechercheAdherent\" method='get'> <input type='hidden' name='recherche' value='recherche'> <input type=\"submit\" value=\"Rechercher un adhérent\"> </form> <br>"
 					+ "<form action=\"ControleurAccueil\" method='get'> <input type='hidden' name='fichesport' value='fichesport'> <input type=\"submit\" value=\"Consulter les fiches sportives "+categorie+"\"> </form><br>"
 					+ "<form action =\"ControleurAccueil\" method='GET'> <input type='hidden' name='critere' value='critere'><input type='submit' name='critere' value='Consulter les critères'></form></td>");

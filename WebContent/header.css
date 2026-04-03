@@ -1,0 +1,10 @@
+@charset "UTF-8";
+
+nav {
+	background-color: rgb(114, 171, 224);
+	padding: 20px 50px;
+	display:flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-between;
+}
