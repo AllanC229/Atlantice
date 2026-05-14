@@ -35,10 +35,7 @@ public class Header {
 					+ "</nav>"
 					+ "</header>";
 			
-			return htmlEntete;
-
-		
-		
+			return htmlEntete;		
 	}
 	
 }

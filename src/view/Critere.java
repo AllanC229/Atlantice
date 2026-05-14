@@ -58,7 +58,7 @@ public class Critere extends HttpServlet {
 			
 			r += "<body><h1 align=center>Critères : </h1></br>"
 				+ "	<div align=center>"
-				+ "		<form action=\"ControleurCritere\" method=GET>" //méthode POST => UPDATE et DELETE en BDD
+				+ "		<form action=\"ControleurCritere\" method=POST>" // method changée en POST le 14/05/2026 - pauline
 				+ " 	<table border>"
 				+ " 	<tr><th>Nom</th></tr>";
 		
@@ -71,10 +71,12 @@ public class Critere extends HttpServlet {
 				r += "</table><br>";
 				
 				if ((activeUser.getRole().equals("admin") || activeUser.getRole().equals("modif"))) {
-					r+= "<input type=\"submit\" name=\"direction\" value=\"Valider les modifications\"><br><br>";
+					r+= "<input type=\"submit\" name=\"direction\" value=\"Valider les modifications\"><br><br>"
+							+ "</form>";
 					
 					//Suppression d'un ou plusieurs critères : active les checkbox et la div qui contient le bouton d'envoi
-					r += "<input type=\"button\" name=\"supprCritere\" onclick=\"activerCheckbox()\" value=\"Supprimer des critères\">"
+					r += "<form action=\"ControleurCritere\" method=POST>"
+						+ "<input type=\"button\" name=\"supprCritere\" onclick=\"activerCheckbox()\" value=\"Supprimer des critères\">"
 						+ "	<div id='divSupprimer' style='display:none;'><br>" 
 					    + "		<input type='submit' id='supprimerCritere' name='direction' onclick='confirmSuppr()' value='Supprimer les critères sélectionnés ?'>"
 						+ "	</div>"
@@ -95,7 +97,7 @@ public class Critere extends HttpServlet {
 						+ "<br>"	
 
 						//Création de critères
-						+ "<tr><td><form action=\"CreationCritere\" method=GET>"
+						+ "<tr><td><form action=\"CreationCritere\" method=GET>" 
 						+ "<input type=\"submit\" name=\"creationCritere\" value=\"Créer un critère\"></td></tr></form><br>";
 				
 					r += "<div><form action=\"Accueil\" name=\"retouraccueil\" value=\"accueil\" method=\"GET\">"

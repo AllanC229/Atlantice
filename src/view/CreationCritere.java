@@ -51,7 +51,7 @@ public class CreationCritere extends HttpServlet {
 			
 			out.println(Header.afficherEntete(activeUser));
 					
-			out.println("<div align=center><form name=\"ajouterCritere\" action=\"ControleurAjtCritere\" method=GET>" //POST ->INSERT
+			out.println("<div align=center><form name=\"ajouterCritere\" action=\"ControleurAjtCritere\" method=POST>" // method changée en POST le 14/05/2026 - pauline
 						+ "<h1>Ajouter un nouveau critère :</h1><br>"
 						+ "<br>"
 						+ "Nom du critère : <input type=\"text\" name=\"nomCritere\"> </input>"
