@@ -44,8 +44,7 @@ public class ControleurCritere extends HttpServlet {
 		String direction =  (String)request.getParameter("direction");	//Sert à savoir sur quel bouton on a cliqué sur la page accueil (catégories, accéder à mon profil, créer un adhérent)
 		HashMap<Integer, String> nomCritere = (HashMap<Integer, String>) h.getAttribute("nomCritere");
 
-		
-		if("Valider les modifications".equals(direction)) { //methode POST??
+		if("Valider les modifications".equals(direction)) { 
 		    System.out.println("bouton modifié critère cliqué");
 			
 			//pour chaque nomcritere modifié, mettre à jour la table critere
@@ -70,7 +69,6 @@ public class ControleurCritere extends HttpServlet {
 						pstModifCritere.setString (1, nouveauNomCritere); 
 						pstModifCritere.setInt (2, idCritere);
 		 
-		
 						pstModifCritere.executeUpdate();
 						System.out.println("requête exécutée : " + pstModifCritere);
 									

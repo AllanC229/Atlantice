@@ -46,8 +46,7 @@ import model.Adherent;
 			HashMap<String, Integer> criteres = (HashMap<String, Integer>) h.getAttribute("criteres"); 
 			
 			try {
-				DAOAcces dao = new DAOAcces("com.mysql.cj.jdbc.Driver", "webadherents", "root", "");
-								
+				DAOAcces dao = new DAOAcces("com.mysql.cj.jdbc.Driver", "webadherents", "root", "");			
 					
 				//pour chaque critere modifié dans fiche sportive, mettre à jour 
 				for (HashMap.Entry<String, Integer> entry : criteres.entrySet()) {
