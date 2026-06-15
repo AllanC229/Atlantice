@@ -16,7 +16,8 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-
+import jakarta.servlet.http.HttpSession;
+import model.Utilisateur;
 import connection.DAOAcces;
 
 /**
@@ -39,6 +40,9 @@ public class ControleurAjtAdherent extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		PrintWriter out=response.getWriter();
+
+		HttpSession h = request.getSession(false);
+		Utilisateur activeUser = (Utilisateur) h.getAttribute("activeUser");
 		
 		DAOAcces dao = new DAOAcces("com.mysql.cj.jdbc.Driver", "webadherents", "root", ""); 
 		Connection conn = null;
@@ -48,6 +52,8 @@ public class ControleurAjtAdherent extends HttpServlet {
 		
 		
 		try {
+
+			activeUser.lastseen(activeUser.getIdConnexion(), " ajout de l'adhérent "+ request.getParameter("numLic") +" dans la BDD;");
 			
 			conn = dao.getConn(); 
 		    //conn.setAutoCommit(false);
