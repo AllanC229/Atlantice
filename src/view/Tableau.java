@@ -73,7 +73,7 @@ public class Tableau extends HttpServlet {
 				
 		out.println("<div align=center>"
 				+ "<h1>Licenciés </h1><br><br><br>"
-				+ "<form action=\"Accueil\" name=\"retouraccueil\" > <input type = \"submit\" name=\"retouraccueil\" value=\"Retour à l'accueil\"> </form>"
+				+ "<form action=\"Accueil\" name=\"retouraccueil\" method='GET' > <input type = \"submit\" name=\"retouraccueil\" value=\"Retour à l'accueil\"> </form>"
 				+ "<div class=\"card-body\">"
 				+ "<table style=\"width: 100%;\" id=\"example2\" class=\"table table-hover table-striped table-bordered\">"
 				+ "<thead><tr>"
@@ -174,21 +174,21 @@ public class Tableau extends HttpServlet {
 				}
 					
 				if (activeUser.getRole().equals("admin") || activeUser.getRole().equals("modif")) {
-				out.println("<td align='center'><form action='ControleurTableau'>"
+				out.println("<td align='center'><form action='ControleurTableau' method='POST'>"
 						  + "<input type='hidden' name='numLic' value='"+adh.getNumLicence()+"' >"
 						  + "<input type='submit' id='"+adh.getNumLicence()+"' name='fiche' value='Consulter/Modifier' width='100%'>"
 						  + "</form></td>"
-						  + "<td align='center'><form action='ControleurTableau'>" //Identifier sur quel bouton cliquer (Sportif ou consulter/modifier)
+						  + "<td align='center'><form action='ControleurTableau' method='POST'>" //Identifier sur quel bouton cliquer (Sportif ou consulter/modifier)
 						  + "<input type='hidden' name='numLic' value='"+adh.getNumLicence()+"' >"
 						  + "<input type='submit' id='"+adh.getNumLicence()+"' name='sportif' value='Suivi sportif' width='100%'>"
 						  + "</form></td></tr>");
 				}
 				
 				else {
-					out.println("</td</tr>");
+					out.println("</td></tr>");
 				}
 		}
-		out.println("</table></div>");
+		out.println("</table></div></body></html>");
 		h.setAttribute("adherents", (ArrayList<Adherent>)request.getAttribute("adherents"));
 	
 		if(activeUser.getRole().equals("admin") || activeUser.getRole().equals("modif"))
