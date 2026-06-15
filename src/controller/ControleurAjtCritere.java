@@ -14,6 +14,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import model.Utilisateur;
 import connection.DAOAcces;
 
 /**
@@ -37,6 +38,7 @@ public class ControleurAjtCritere extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException { //codé pendant le mois de mars 2026 par pauline
 		
 	    HttpSession h = request.getSession(false);
+		Utilisateur activeUser = (Utilisateur) h.getAttribute("activeUser");
 	    
 	    if (h == null || h.getAttribute("activeUser") == null) { //Si la session n'existe pas, renvoie vers la page de connexion
 		    response.sendRedirect("/Connexion");
@@ -61,6 +63,8 @@ public class ControleurAjtCritere extends HttpServlet {
 				DAOAcces dao = new DAOAcces("com.mysql.cj.jdbc.Driver", "webadherents", "root", "");
 			
 			    conn = dao.getConn();
+
+				activeUser.lastseen(activeUser.getIdConnexion(), " ajout du critère "+ request.getParameter("nomCritere") +" dans la BDD;");
 				
 			    // désactivation du mode de validation automatique (auto-commit) => gestion de la transaction manuelle
 			    conn.setAutoCommit(false);
