@@ -70,13 +70,15 @@ public class ControleurRechercheAdherent extends HttpServlet {
 			if (!numLic.equals("")) {
 				sql = "SELECT * FROM adherents JOIN categorieadherent ON categorieadherent.numLic = adherents.numerolicence JOIN categoriesportive ON categorieadherent.idcategorie = categoriesportive.idcategorie WHERE adherents.numerolicence = ? ;" ;
 				rechAdh = conn.prepareStatement(sql);
-				rechAdh.setString(1,  numLic);				
+				rechAdh.setString(1,  numLic);	
+				activeUser.lastseen(activeUser.getIdConnexion(), " recherche de l'adhérent "+ numLic +"");
 				}
 			
 			else {
 				sql = "SELECT * FROM adherents JOIN categorieadherent ON categorieadherent.numLic = adherents.numerolicence JOIN categoriesportive ON categorieadherent.idcategorie = categoriesportive.idcategorie WHERE adherents.nom = ? ;" ;
 				rechAdh = conn.prepareStatement(sql);
-				rechAdh.setString(1,  nom);			
+				rechAdh.setString(1,  nom);	
+				activeUser.lastseen(activeUser.getIdConnexion(), " recherche de l'adhérent "+ nom +"");
 				}
 			
 			
