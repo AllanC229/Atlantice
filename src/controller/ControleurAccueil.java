@@ -58,7 +58,7 @@ public class ControleurAccueil extends HttpServlet {
 		
 			Connection conn = null;
 			PreparedStatement psAdhCateg = null;
-			page = " 1;";
+			page = " vers consulter les fiches administratives;";
 			
 			ArrayList<Adherent> adherents = new ArrayList<Adherent>(); //Instancie une liste vide d'adhérents
 			DAOAcces dao = new DAOAcces("com.mysql.cj.jdbc.Driver", "webadherents", "root", "");
@@ -242,11 +242,13 @@ public class ControleurAccueil extends HttpServlet {
 		if("critere".equals(request.getParameter("critere"))) { 
 			
 			//HashMap : clé = idcritere valeur=nomcritere
+			page = " vers consulter les critères;";
 			HashMap<Integer, String> nomCritere = new LinkedHashMap<>() ; //linkedHashMap pour garder l'ordre d'insertion à l'affichage
 						
 			try {
 				DAOAcces dao = new DAOAcces("com.mysql.cj.jdbc.Driver", "webadherents", "root", "");
-				
+
+				activeUser.lastseen(activeUser.getIdConnexion(), page);
 				String critereSQL = "SELECT idcritere, nomcritere FROM criteres";
 				
 				PreparedStatement pstCritere = dao.getConn().prepareStatement(critereSQL);
@@ -273,7 +275,7 @@ public class ControleurAccueil extends HttpServlet {
 			
 			DAOAcces dao = new DAOAcces("com.mysql.cj.jdbc.Driver", "webadherents", "root", "");
 			ArrayList<Categorie> categories= new ArrayList<Categorie>();
-			page = " 3;";
+			page = " vers consulter les catégories;";
 			
 			try {
 				
@@ -298,6 +300,16 @@ public class ControleurAccueil extends HttpServlet {
 		}
 		
 		else if("Créer un adhérent".equals(direction)) {
+
+			page = " vers création d'adhérent;";
+
+			try {
+				activeUser.lastseen(activeUser.getIdConnexion(), page);
+			}
+			catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			
 			getServletContext().getRequestDispatcher("/CreationAdherent").forward(request, response);
 		}
@@ -307,12 +319,10 @@ public class ControleurAccueil extends HttpServlet {
 			
 			if (h.getAttribute("activeAdherent") == null) {	//ne s'effectue que lors du premier accès au profil, puis stocke les données dans la session
 				
-				page = " 4;";
+				page = " vers consulter son profil;";
 				
 				Adherent activeAdherent = null; //Initialise l'objet Adherent
 				HashMap<String, Integer> activeAdherentCriteres = new LinkedHashMap<>() ; //linkedHashMap pour garder l'ordre d'insertion à l'affichage
-				
-				System.out.println("entrée dans le if");
 				
 				Connection conn = null;
 				PreparedStatement psProfilAdh = null;			
@@ -442,7 +452,7 @@ public class ControleurAccueil extends HttpServlet {
 				
 				try {
 					
-					page = " 5;";
+					page = " vers liste d'adhérents par catégories;";
 					conn = dao.getConn(); 
 					conn.setAutoCommit(false);
 					boolean flag = false;
