@@ -12,7 +12,8 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-
+import jakarta.servlet.http.HttpSession;
+import model.Utilisateur;
 import connection.DAOAcces;
 
 /**
@@ -35,6 +36,9 @@ public class ControleurAjtCategorie extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		PrintWriter out=response.getWriter();
+
+		HttpSession h = request.getSession(false);
+		Utilisateur activeUser = (Utilisateur) h.getAttribute("activeUser");
 		
 		DAOAcces dao = new DAOAcces("com.mysql.jdbc.Driver", "webadherents", "root", "");
 		Connection conn = null;
@@ -42,6 +46,8 @@ public class ControleurAjtCategorie extends HttpServlet {
 		
 		
 		try {  //Ajout d'une requête préparée pour ajouter une catégorie dans la BDD, 08/12 11:03
+
+			activeUser.lastseen(activeUser.getIdConnexion(), " création de la catégorie "+ request.getParameter("nmC") +" dans la BDD;");
 			
 			conn = dao.getConn(); 
 		    conn.setAutoCommit(false);		
