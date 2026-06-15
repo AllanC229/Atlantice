@@ -49,7 +49,7 @@ public class ModifInfosProfil extends HttpServlet {
 		out.println(Header.afficherEntete(activeUser));
 				
 		out.println("<h1 align=center>Mes informations personnelles</h1></br>"
-				+ "<div align=center><form action='ControleurModifInfosProfil' method='get'>"
+				+ "<div align=center><form action='ControleurModifInfosProfil' method='POST'>"
 				+ "<table border>"
 				+ "<tr><td>Nom : </td><td><input type='text' name='nom' value='"+activeAdherent.getNom()+"'></br></td></tr>"
 				+ "<tr><td>Prénom : </td><td><input align=center type='text' name='prenom' value='"+activeAdherent.getPrenom()+"'></br></td></tr>"							

@@ -61,7 +61,7 @@ public class FicheAdministrative extends HttpServlet {
 					out.println(Header.afficherEntete(activeUser));
 							
 					out.println("<h1 align=center>Formulaire adhérent : </h1></br>"
-							+ "<div align=center><form action=\"ControleurFicheAdministrative\" method=GET>"
+							+ "<div align=center><form action=\"ControleurFicheAdministrative\" method=POST>"
 							+ "<table border>"
 							+ "<tr><td>Nom : </td><td><input type='text' name='nom' value='"+a.getNom()+"'></br></td></tr>"
 							+ "<tr><td>Prénom : </td><td><input align=center type='text' name='prenom' value='"+a.getPrenom()+"'></br></td></tr>"							

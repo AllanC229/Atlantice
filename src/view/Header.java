@@ -29,7 +29,7 @@ public class Header {
 					+ "		<img src='images/logo.png' alt='Logo du club sportif' style='max-width:50%; height:auto;'>" //logo format svg?
 					+ "</div>"
 					+ "<div id='profil'>" + activeUser.getPrenom() +" "+activeUser.getNom()+" "+activeUser.getRole()+""
-					+ "			<form action='ControleurDeconnexion' name='boutondeconnexion' method='get'> <input type ='submit' name='deconnexion' value='Se déconnecter'> </form><br>"
+					+ "			<form action='ControleurDeconnexion' name='boutondeconnexion' method='POST'> <input type ='submit' name='deconnexion' value='Se déconnecter'> </form><br>"
 					+ "			<form action='ControleurAccueil' name='accesprofil' method='get'> <input type ='submit' name='direction' value='Profil'> </form>"
 					+ "</div>"
 					+ "</nav>"

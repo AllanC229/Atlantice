@@ -53,7 +53,7 @@ public class Profil extends HttpServlet {
 		if ("modifmdp".equals(request.getParameter("modifmdp"))) {
 			
 			out.print("<body><h1 align=center>Modifier mon mot de passe</h1></br>"
-					+ "<div align='center'><form action='ControleurModifInfosProfil' method='GET'>"
+					+ "<div align='center'><form action='ControleurModifInfosProfil' method='POST'>"
 					+ "<table><tr><td> Mot de passe actuel </td><td><input type='password' name='mdpactuel'></td></tr>"
 					+ "<tr><td>Nouveau mot de passe</td><td><input type='password' name='nouvmdp'></td></tr>"
 					+ "<tr><td>Confirmer le mot de passe</td><td><input type='password' name='confnouvmdp'></td></tr>"
@@ -73,7 +73,7 @@ public class Profil extends HttpServlet {
 					+ "<div align='right'> <form action='ControleurDeconnexion' name='boutondeconnexion' method='get'> <input type ='submit' name='deconnexion' value='Se déconnecter'> </form><br>"
 					+ "<div align=center>"
 					+ "<table border>"
-					+ "<form action='ControleurModifInfosProfil'>"
+					+ "<form action='ControleurModifInfosProfil' method='POST'>"
 					+ "<tr><td>Nom : </td><td><input type='text' name='nom' placeholder='"+activeAdherent.getNom()+"'></br></td></tr>"
 					+ "<tr><td>Prénom : </td><td><input type='text' name='prenom' placeholder='"+activeAdherent.getPrenom()+"'></br></td></tr>"							
 					+ "<tr><td>Numéro de licence : </td><td><input type='text' name='numLic' value='" +activeAdherent.getNumLicence()+ "' readonly></br></td></tr>"
@@ -91,7 +91,7 @@ public class Profil extends HttpServlet {
 					+ "<tr><td>Sexe : </td><td><input type='text' name='sexe' placeholder='"+activeAdherent.getSexe()+"'></br></td></tr>"
 					+ "<tr><td>Droit à l'image : </td><td><input type='text' name='droitimage' placeholder='"+activeAdherent.getDroitImage()+"'></br></td></tr>"
 					+ "</table></div>"
-					+ "<div align ='center'><input type='hidden' name='valider' value='validerinfos'> <input type='submit' value='Valider les modifications' method='GET'> </form></div>"
+					+ "<div align ='center'><input type='hidden' name='valider' value='validerinfos'> <input type='submit' value='Valider les modifications'> </form></div>"
 					+ "</body>");
 		}
 		
@@ -126,8 +126,8 @@ public class Profil extends HttpServlet {
 						+ "<div class='range-slider__progress'></div></div>");
 			}
 			out.print( "</table></div>"
-						+ "<div align ='center'> <form action='Profil'> <input type='hidden' name='modifinfos' value='modifinfos'> <input type='submit' name='modifinfos' value='Modifier mes informations' method='GET'> </form></div>"
-						+ "<div align ='center'> <form action='Profil'> <input type='hidden' name='modifmdp' value='modifmdp'> <input type='submit' name='modifmdp' value='Modifier mon mot de passe' method='GET'> </form></div>"
+						+ "<div align ='center'> <form action='Profil' method='POST'> <input type='hidden' name='modifinfos' value='modifinfos'> <input type='submit' name='modifinfos' value='Modifier mes informations'> </form></div>"
+						+ "<div align ='center'> <form action='Profil' method='POST'> <input type='hidden' name='modifmdp' value='modifmdp'> <input type='submit' name='modifmdp' value='Modifier mon mot de passe'> </form></div>"
 						+ "</body>");
 		}
 		

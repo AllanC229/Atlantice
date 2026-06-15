@@ -58,7 +58,7 @@ public class Critere extends HttpServlet {
 			
 			r += "<body><h1 align=center>Critères : </h1></br>"
 				+ "	<div align=center>"
-				+ "		<form action=\"ControleurCritere\" method=POST>" // method changée en POST le 14/05/2026 - pauline
+				+ "		<form action=\"ControleurCritere\" method=POST>"
 				+ " 	<table border>"
 				+ " 	<tr><th>Nom</th></tr>";
 		
