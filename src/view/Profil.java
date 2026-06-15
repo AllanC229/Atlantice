@@ -49,6 +49,53 @@ public class Profil extends HttpServlet {
 				+ "</head>");
 				
 		out.println(Header.afficherEntete(activeUser));
+				
+		if ("modifmdp".equals(request.getParameter("modifmdp"))) {
+			
+			out.print("<body><h1 align=center>Modifier mon mot de passe</h1></br>"
+					+ "<div align='center'><form action='ControleurModifInfosProfil' method='GET'>"
+					+ "<table><tr><td> Mot de passe actuel </td><td><input type='password' name='mdpactuel'></td></tr>"
+					+ "<tr><td>Nouveau mot de passe</td><td><input type='password' name='nouvmdp'></td></tr>"
+					+ "<tr><td>Confirmer le mot de passe</td><td><input type='password' name='confnouvmdp'></td></tr>"
+					+ "</table>"
+					+ "<input type='hidden' name='valider' value='validermdp'><input type='submit' value='Valider'>"
+					+ "</form></div>"
+					+ "</body>"
+					
+					);
+			
+		}
+
+		else if ("modifinfos".equals(request.getParameter("modifinfos"))) {
+			
+			
+			out.print("<body><h1 align=center>Informations adhérent : </h1></br>"
+					+ "<div align='right'> <form action='ControleurDeconnexion' name='boutondeconnexion' method='get'> <input type ='submit' name='deconnexion' value='Se déconnecter'> </form><br>"
+					+ "<div align=center>"
+					+ "<table border>"
+					+ "<form action='ControleurModifInfosProfil'>"
+					+ "<tr><td>Nom : </td><td><input type='text' name='nom' placeholder='"+activeAdherent.getNom()+"'></br></td></tr>"
+					+ "<tr><td>Prénom : </td><td><input type='text' name='prenom' placeholder='"+activeAdherent.getPrenom()+"'></br></td></tr>"							
+					+ "<tr><td>Numéro de licence : </td><td><input type='text' name='numLic' value='" +activeAdherent.getNumLicence()+ "' readonly></br></td></tr>"
+					+ "<tr><td>Dernière année de licence active : </td><td><input type='text' name='dernierelicenceactive' value='"+activeAdherent.getDerniereLicenceActive()+"' readonly></br></td></tr>"
+					+ "<tr><td>Année de naissance : </td><td><input type='text' name='annee' value='"+activeAdherent.getAnneeNaissance()+"' readonly></br></td></tr>"
+					+ "<tr><td>Téléphone 1 : </td><td><input type='text' name='tel1' placeholder='"+activeAdherent.getTel1()+"'></br></td></tr>"
+					+ "<tr><td>Téléphone 2 : </td><td><input type='text' name='tel2' placeholder='"+activeAdherent.getTel2()+"'></br></td></tr>"
+					+ "<tr><td>Adresse 1 : </td><td><input type='text' name='adresse1' placeholder='"+activeAdherent.getAdresse1()+"'></br></td></tr>"
+					+ "<tr><td>Adresse 2 : </td><td><input type='text' name='adresse2' placeholder='"+activeAdherent.getAdresse2()+"'></br></td></tr>"
+					+ "<tr><td>Mail 1 : </td><td><input type='text' name='mail1' placeholder='"+activeAdherent.getMail1()+"'></br></td></tr>"
+					+ "<tr><td>Mail 2 : </td><td><input type='text' name='mail2' placeholder='"+activeAdherent.getMail2()+"'></br></td></tr>"
+					+ "<tr><td>Commentaire : </td><td><input type='text' name='commentaire' value='"+activeAdherent.getCommentaire()+"' readonly></br></td></tr>"
+					+ "<tr><td>Contact 1 : </td><td><input type='text' name='contact1' placeholder='"+activeAdherent.getContact1()+"'></br></td></tr>"
+					+ "<tr><td>Contact 2 : </td><td><input type='text' name='contact2' placeholder='"+activeAdherent.getContact2()+"'></br></td></tr>"
+					+ "<tr><td>Sexe : </td><td><input type='text' name='sexe' placeholder='"+activeAdherent.getSexe()+"'></br></td></tr>"
+					+ "<tr><td>Droit à l'image : </td><td><input type='text' name='droitimage' placeholder='"+activeAdherent.getDroitImage()+"'></br></td></tr>"
+					+ "</table></div>"
+					+ "<div align ='center'><input type='hidden' name='valider' value='validerinfos'> <input type='submit' value='Valider les modifications' method='GET'> </form></div>"
+					+ "</body>");
+		}
+		
+		else {
 						
 		out.println("<h1 align=center>Informations adhérent : </h1></br>"
 				+ "<div align=center>"
@@ -79,14 +126,15 @@ public class Profil extends HttpServlet {
 						+ "<div class='range-slider__progress'></div></div>");
 			}
 			out.print( "</table></div>"
-					+ "<div align ='center'> <form action='ModifInfosProfil'> <input type='submit' name='modifinfos' value='Modifier mes informations'></div>"
-					+ "</body></html>");
-    
-    }	
-      
+						+ "<div align ='center'> <form action='Profil'> <input type='hidden' name='modifinfos' value='modifinfos'> <input type='submit' name='modifinfos' value='Modifier mes informations' method='GET'> </form></div>"
+						+ "<div align ='center'> <form action='Profil'> <input type='hidden' name='modifmdp' value='modifmdp'> <input type='submit' name='modifmdp' value='Modifier mon mot de passe' method='GET'> </form></div>"
+						+ "</body>");
+		}
+		
+		out.print("</html>");
+	}
     	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     		// TODO Auto-generated method stub
     		doGet(request, response);
     	}
-
-    }
+}
