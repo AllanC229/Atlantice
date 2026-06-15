@@ -15,6 +15,8 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+import model.Utilisateur;
 
 
 /**
@@ -38,8 +40,10 @@ public class ControleurFicheAdministrative extends HttpServlet {
 		// TODO Auto-generated method stub
 		DAOAcces dao = new DAOAcces("com.mysql.cj.jdbc.Driver", "webadherents", "root", "");
 	    
-	    
-	    
+	    HttpSession h = request.getSession(false);
+		Utilisateur activeUser = (Utilisateur) h.getAttribute("activeUser");
+
+		
 	    Connection conn = null;
 	    PreparedStatement modifNumLicCrit = null;
 	    PreparedStatement modifNumLicCateg = null;
@@ -107,9 +111,15 @@ public class ControleurFicheAdministrative extends HttpServlet {
 					modifNumLicAdh.setString(1, request.getParameter("modifnumeroLicence"));
 					modifNumLicAdh.setString(2, request.getParameter("numeroLicence"));
 					modifNumLicAdh.executeUpdate();
+
+					activeUser.lastseen(activeUser.getIdConnexion(), " modification de l'adhérent "+ request.getParameter("modifnumeroLicence") +" dans la BDD;");
 					
 				}
-				 
+
+				else {
+					activeUser.lastseen(activeUser.getIdConnexion(), " modification de l'adhérent "+ request.getParameter("numeroLicence") +" dans la BDD;");
+				}
+				
 				conn.commit();
 				
 					
@@ -156,6 +166,7 @@ public class ControleurFicheAdministrative extends HttpServlet {
 				
 				System.out.println("adherent "+ request.getParameter("numeroLicence") +" correctement supprimé");
 				conn.commit();
+				activeUser.lastseen(activeUser.getIdConnexion(), " suppression de l'adhérent "+ request.getParameter("numeroLicence") +" dans la BDD;");	
 	    		}
 	    		
 	    		catch (SQLException e) {
