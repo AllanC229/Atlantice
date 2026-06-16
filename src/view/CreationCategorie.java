@@ -8,7 +8,8 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-
+import jakarta.servlet.http.HttpSession;
+import model.Utilisateur;
 import connection.DAOAcces;
 
 /**
@@ -30,25 +31,30 @@ public class CreationCategorie extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		PrintWriter out=response.getWriter();
 		
+		PrintWriter out=response.getWriter();
+		HttpSession h = request.getSession(false);
+		Utilisateur activeUser = (Utilisateur) h.getAttribute("activeUser");
+
 		
 		//Formulaire d'ajout de classe
-			out.println("<html><head><meta charset=\"utf-8\"/>"
-					+"<link href=\"licence.css\" rel=\"stylesheet\">"
-					+ "</head><body>"
-					+ "<div align='right'> <form action='ControleurDeconnexion' name='boutondeconnexion' method='get'> <input type ='submit' name='deconnexion' value='Se déconnecter'> </form><br>"
-					+ "<div align=center><form name=\"ajouterCategorie\" action=\"ControleurAjtCategorie\" method=GET>"
-					+ "<h1>Ajouter une catégorie</h1><br>"
-					+ "<br>");
-			
-			out.println("Nom de la catégorie: <input type=\"text\" name=\"nmC\"> </input> <br><br>");
-			out.println("Année de la catégorie: <input type=\"text\" name=\"annee\"> </input> <br><br>");
+		out.print("<!Doctype html><html><head><meta charset=\"utf-8\"/> \r\n"
+				+ "<link href=\"licence.css\" rel=\"stylesheet\">"
+				+ "<link href=\"header.css\" rel=\"stylesheet\">"
+				+ "</head>");
+					
+		out.println(Header.afficherEntete(activeUser));
+		
+		out.println("<div align=center><form name=\"ajouterCategorie\" action=\"ControleurAjtCategorie\" method=POST>"
+		+ "<h1>Ajouter une catégorie</h1><br>"
+		+ "<br>");
+		
+		out.println("Nom de la catégorie: <input type=\"text\" name=\"nmC\"> </input> <br><br>");
+		out.println("Année de la catégorie: <input type=\"text\" name=\"annee\"> </input> <br><br>");
 
-			out.print("<input type=\"submit\" value = \"Valider\" /></input></div>");   
-			out.print("</form></body></html>");
-			
-	        
+		out.print("<input type=\"submit\" value = \"Valider\" /></input></div>");   
+		out.print("</form></body></html>");
+			    
 	}
 
 	/**

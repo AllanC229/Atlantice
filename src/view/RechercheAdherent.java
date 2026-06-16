@@ -54,7 +54,7 @@ public class RechercheAdherent extends HttpServlet {
 		out.println(Header.afficherEntete(activeUser));
 				
 		out.println("<h1 align='center'> Rechercher un adhérent </h1><br><br>"
-				+ "<form action=\"Accueil\" name=\"retouraccueil\" method='GET' > <input type = \"submit\" name=\"retouraccueil\" value=\"Retour à l'accueil\"> </form></div><br>"
+				+ "<form action=\"Accueil\" name=\"retouraccueil\" method='POST' > <input type = \"submit\" name=\"retouraccueil\" value=\"Retour à l'accueil\"> </form></div><br>"
 				+ "<form action='ControleurRechercheAdherent' name='RechercheAdherent' method='POST'>"
 				+ "<table style='width: 50%' border='5px'>"
 				+ "<tr><td> Recherche par numéro de licence </td> <td><input type='text' name='numLic'></td></tr>"

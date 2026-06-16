@@ -1,6 +1,7 @@
 package view;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 
 import jakarta.servlet.ServletException;
@@ -38,34 +39,42 @@ public class Categories extends HttpServlet {
 		    return;
 		}
 		
+		PrintWriter out=response.getWriter();
 		Utilisateur activeUser = (Utilisateur) h.getAttribute("activeUser");
 		String role = activeUser.getRole();
 		System.out.println("role:" + role);
 		
-		String r = "<!Doctype html><html><head><meta charset=\"utf-8\"/>"
+		
+		out.print("<!Doctype html><html><head><meta charset=\"utf-8\"/>"
 				+ " <link href=\"licence.css\" rel=\"stylesheet\">"
-				+ " </head><body>"
-				+ "<div align='right'> <form action='ControleurDeconnexion' name='boutondeconnexion' method='get'> <input type ='submit' name='deconnexion' value='Se déconnecter'> </form><br>"
-				+ "<h1 align=center>Catégories : </h1></br>"
-				+ "	<div align=center><form action=\"ControleurCategories\" method=GET>" //méthode POST => UPDATE en BDD
-				+ " <table border>"
-				+ " <tr><th>Années</th><th>Nom</th></tr>";
+				+ "<link href='header.css' rel='stylesheet'>"
+				+ " </head><body>");
+				
+		out.print(Header.afficherEntete(activeUser));
+
+		out.print("<h1 align=center>Catégories : </h1></br>"
+				+ "<div align=center><table border>"
+				+ "<tr><th>Années</th><th>Nom</th></tr>");
 		
 				for(Categorie c : (ArrayList<Categorie>)request.getAttribute("categories")) {
-					r += "<tr><td><input type=\"text\" name=\"annee\" value='"+c.getNomCateg()+"'></td><td><input type=\"text\" name=\"nom\" value='"+c.getIdCateg()+"'></td></tr>";
+					out.print("<tr><td><input type=\"text\" name=\"annee\" value='"+c.getNomCateg()+"'></td><td><input type=\"text\" name=\"nom\" value='"+c.getIdCateg()+"'></td></tr>");
 				}
 				
+				out.print("</table></div>");
+				
 				if ((activeUser.getRole().equals("admin") || activeUser.getRole().equals("modif"))) {
-				r += "</table>"
-					+ "<input type=\"submit\" name=\"modifCategories\" value=\"Valider les modifications\"></td></tr> </form>"
-					+ "<tr><td><form action=\"CreationCategorie\" method=POST> <input type=\"submit\" name=\"creationCategorie\" value=\"Créer une catégorie\"></td></tr></form>"
-					+ "</body></html>";						// POST => INSERT en BDD
+				
+					out.print("<div align=center><form action='ControleurCategories' method=POST>"
+					+ "<input type=\"submit\" name=\"modifCategories\" value='Valider les modifications'> </form><br>"
+					
+					+ "<form action=\"CreationCategorie\" method=POST> <input type=\"submit\" name=\"creationCategorie\" value=\"Créer une catégorie\"></form>"
+					+ "</div></body></html>");					
 				
 				/*	out.print("<form action=\"ControleurCategories\" name=\"boutonCreerCateg\" method=\"get\"> <input type = \"submit\" name=\"creationCategorie\" value=\"Créer une catégorie\"> </form>");	*/
 			
 				
 				}
-		response.getWriter().append(r);
+		
 	}
 
 	/**
