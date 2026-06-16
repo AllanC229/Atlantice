@@ -30,7 +30,7 @@ public class Header {
 					+ "</div>"
 					+ "<div id='profil'>" + activeUser.getPrenom() +" "+activeUser.getNom()+" "+activeUser.getRole()+""
 					+ "			<form action='ControleurDeconnexion' name='boutondeconnexion' method='POST'> <input type ='submit' name='deconnexion' value='Se déconnecter'> </form><br>"
-					+ "			<form action='ControleurAccueil' name='accesprofil' method='get'> <input type ='submit' name='direction' value='Profil'> </form>"
+					+ "			<form action='ControleurAccueil' name='accesprofil' method='POST'> <input type ='submit' name='direction' value='Profil'> </form>"
 					+ "</div>"
 					+ "</nav>"
 					+ "</header>";

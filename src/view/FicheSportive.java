@@ -67,9 +67,8 @@ public class FicheSportive extends HttpServlet {
 				out.println(Header.afficherEntete(activeUser));
 
 						
-				affichage += "<h1 align=center>Suivi sportif : </h1></br>"
-						+ "<div align=center><form action=\"ControleurFicheSportive\" method=POST>" // method changée en POST le 14/05/2026 - pauline
-						+ "<table border>"
+				affichage += "<h1 align=center>Suivi sportif : </h1></br>" 
+						+ "<div align=center><table border>"
 						+ "		<tr><td>Nom : </td><td><input type='text' name='nom' value='"+a.getNom()+"'readonly></br></td></tr>"
 						+ "		<tr><td>Prénom : </td><td><input align=center type='text' name='prenom' value='"+a.getPrenom()+"'readonly></br></td></tr>"
 						+ "		<tr><td>Numéro de licence : </td><td><input type='text' name='numeroLicence' value='"+a.getNumLicence()+"'readonly></br></td></tr>" ;
@@ -82,15 +81,14 @@ public class FicheSportive extends HttpServlet {
 										+ "<div class='range-slider__progress'></div></div>";
 						}
 												
-						affichage += "</table>";
+						affichage += "</table></div>";
 						if ((activeUser.getRole().equals("admin") || activeUser.getRole().equals("modif"))) {				
-						affichage += "	<input type=submit name='modifAd' value=\"Modification de l'adhérent\"></input></form>";
-						
-						
-						
+						affichage +="<div align=center><form action=\"ControleurFicheSportive\" method=POST>"
+								+ "<input type=submit name='modifAd' value=\"Modification de l'adhérent\"></input>"
+								+ "</form></div>";
 						}
 						
-						affichage += "<div><form action=\"Accueil\" name=\"retouraccueil\" value=\"accueil\" method=\"GET\">"
+						affichage += "<div align=center><form action=\"Accueil\" name=\"retouraccueil\" value=\"accueil\" method=\"POST\">"
 						+ "<input type=\"submit\" name=\"retouraccueil\" value=\"Retour à l'accueil\"> </form>"
 						+ "</div></body></html>";
 						

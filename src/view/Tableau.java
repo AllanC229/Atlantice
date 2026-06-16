@@ -73,7 +73,7 @@ public class Tableau extends HttpServlet {
 				
 		out.println("<div align=center>"
 				+ "<h1>Licenciés </h1><br><br><br>"
-				+ "<form action=\"Accueil\" name=\"retouraccueil\" method='GET' > <input type = \"submit\" name=\"retouraccueil\" value=\"Retour à l'accueil\"> </form>"
+				+ "<form action=\"Accueil\" name=\"retouraccueil\" method='POST' > <input type = \"submit\" name=\"retouraccueil\" value=\"Retour à l'accueil\"> </form>"
 				+ "<div class=\"card-body\">"
 				+ "<table style=\"width: 100%;\" id=\"example2\" class=\"table table-hover table-striped table-bordered\">"
 				+ "<thead><tr>"
@@ -193,7 +193,7 @@ public class Tableau extends HttpServlet {
 	
 		if(activeUser.getRole().equals("admin") || activeUser.getRole().equals("modif"))
 		{		
-			out.println("<div><form action=\"CreationAdherent\" name=\"boutonAjoutAdherent\" value=\"ajoutAdherent\" method=\"get\">"
+			out.println("<div><form action=\"CreationAdherent\" name=\"boutonAjoutAdherent\" value=\"ajoutAdherent\" method=\"POST\">"
 				+ "<input type=\"submit\" name=\"test\" value=\"Créer un adhérent\"> </form>"
 				+ "</div></body></html>");
 		}

@@ -54,13 +54,17 @@ public class CreationAdherent extends HttpServlet {
         }
  
 			//Formulaire d'ajout d'adhérent
-	        out.println("<html><head><meta charset=\"utf-8\"/>"
-	        		+ "<link href=\"licence.css\" rel=\"stylesheet\"></head><body>"  //revoir l'alignement des boutons en haut de la page
-	        		+ "<div align='right'> <form action='ControleurDeconnexion' name='boutondeconnexion' method='get'> <input type ='submit' name='deconnexion' value='Se déconnecter'> </form><br>"
-	        		+ "<div> <form action=\"Accueil\" name=\"boutonAccueil\" value=\"accueil\" method=\"get\">"
-					+ "<input text-align='left' type=\"submit\" name=\"accueil\" value=\"Accueil\"></form>"
-	        		+ "<form action=\"ControleurDeconnexion\" name=\"boutondeconnexion\" method=\"get\"> <input text-align='right' type = \"submit\" name=\"deconnexion\" value=\"Se déconnecter\"></form>");
-	        out.println("<div align=center><form action=\"ControleurAjtAdherent\" method=\"get\"><h1>Création d'un adhérent</h1><br><br><br>");
+		out.print("<!Doctype html><html><head><meta charset=\"utf-8\"/> \r\n"
+				+ "<link href=\"licence.css\" rel=\"stylesheet\">"
+				+ "<link href=\"header.css\" rel=\"stylesheet\">"
+				+ "</head>");  //revoir l'alignement des boutons en haut de la page
+	        		
+	        out.println(Header.afficherEntete(activeUser));   		
+	        		
+    		out.println("<div align='right'><form action=\"Accueil\" name=\"boutonAccueil\" value=\"accueil\" method=\"POST\">"
+				+ "<input text-align='left' type=\"submit\" name=\"accueil\" value=\"Accueil\"></form>");
+	    	
+	        out.println("<div align=center><form action=\"ControleurAjtAdherent\" method=\"POST\"><h1>Création d'un adhérent</h1><br><br><br>");
 	        out.println("<table border=1>");
 	        out.println("<tr><td>Nom de l'adhérent (*): </td><td><input type=\"text\" name=\"nmAdh\"></td></tr>");
 	        out.println("<tr><td>Prénom de l'adhérent (*): </td><td><input type=\"text\" name=\"pnmAdh\"></td></tr>");
@@ -104,11 +108,8 @@ public class CreationAdherent extends HttpServlet {
 	        out.println("Commentaire: <br> <textarea rows=4 cols=40 name=\"commentaire\"></textarea><br>");
 
 	        out.print("<br><br><input type=\"submit\" value=\"Valider\"/></form></div>");
-	        out.print("Renseignements obligatoires: (*)");
-
-
-			out.println("<form action=\"ControleurDeconnexion\" name=\"boutondeconnexion\" method=\"get\"> <input type = \"submit\" name=\"deconnexion\" value=\"Se déconnecter\"> </form>"
-						+ "</div></body></html>");      
+	        out.print("Renseignements obligatoires: (*)"
+	        		+ "</div></body></html>");      
     }
 
     /**

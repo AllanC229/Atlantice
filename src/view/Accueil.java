@@ -67,17 +67,17 @@ public class Accueil extends HttpServlet {
 			if(activeUser.getRole().equals("admin") || activeUser.getRole().equals("modif"))
 			{
 				categorie = "";
-				out.print("<form action=\"ControleurAccueil\" name=\"boutonajout\" method=\"get\"> <input type = \"submit\" name='direction' value=\"Catégories\"> </form>");
-				out.print("<form action=\"ControleurAccueil?direction=2 name= \"boutonajout\" value = \"ajoutAdherent\" method=\"get\"> <input type = \"submit\" name = 'direction' value=\"Créer un adhérent\"> </form>");	
-			}
+				out.print("<form action=\"ControleurAccueil\" name=\"boutonajout\" method=\"POST\"> <input type = \"submit\" name='direction' value=\"Catégories\"> </form>");
+				out.print("<form action='ControleurAccueil' name= \"boutonajout\" value = \"ajoutAdherent\" method=\"POST\"> <input type = \"submit\" name = 'direction' value=\"Créer un adhérent\"> </form>");	
+			} // a été enlevé : action='ControleurAccueil?direction=2' 
 			
-					out.println("<tr><td><form action = \"ControleurAccueil\" method='get'> <input type='hidden' name='ficheadmin' value='ficheadmin'> <input type=\"submit\"  value='Consulter les fiches Administratives'> </form><br>"
-					+ "<form action=\"RechercheAdherent\" method='get'> <input type='hidden' name='recherche' value='recherche'> <input type=\"submit\" value=\"Rechercher un adhérent\"> </form> <br>"
-					+ "<form action=\"ControleurAccueil\" method='get'> <input type='hidden' name='fichesport' value='fichesport'> <input type=\"submit\" value=\"Consulter les fiches sportives "+categorie+"\"> </form><br>"
-					+ "<form action =\"ControleurAccueil\" method='GET'> <input type='hidden' name='critere' value='critere'><input type='submit' name='critere' value='Consulter les critères'></form></td>");
+					out.println("<tr><td><form action = \"ControleurAccueil\" method='POST'> <input type='hidden' name='ficheadmin' value='ficheadmin'> <input type=\"submit\"  value='Consulter les fiches Administratives'> </form><br>"
+					+ "<form action=\"RechercheAdherent\" method='POST'> <input type='hidden' name='recherche' value='recherche'> <input type=\"submit\" value=\"Rechercher un adhérent\"> </form> <br>"
+					+ "<form action=\"ControleurAccueil\" method='POST'> <input type='hidden' name='fichesport' value='fichesport'> <input type=\"submit\" value=\"Consulter les fiches sportives "+categorie+"\"> </form><br>"
+					+ "<form action =\"ControleurAccueil\" method='POST'> <input type='hidden' name='critere' value='critere'><input type='submit' name='critere' value='Consulter les critères'></form></td>");
 
 	        
-	        out.println("<td><div align=center><form align=center action=\"ControleurAccueil\" method=get >"
+	        out.println("<td><div align=center><form align=center action=\"ControleurAccueil\" method=POST>"
 					+ "<h1>Licenciés par catégorie(s)</h1><br><br><h2>Choisissez une catégorie parmi les suivantes:</h2><br>"+
 					"<select multiple=\"multiple\" name=\"categorie[]\" size=\"5\">");
 

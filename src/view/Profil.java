@@ -70,7 +70,6 @@ public class Profil extends HttpServlet {
 			
 			
 			out.print("<body><h1 align=center>Informations adhérent : </h1></br>"
-					+ "<div align='right'> <form action='ControleurDeconnexion' name='boutondeconnexion' method='get'> <input type ='submit' name='deconnexion' value='Se déconnecter'> </form><br>"
 					+ "<div align=center>"
 					+ "<table border>"
 					+ "<form action='ControleurModifInfosProfil' method='POST'>"
