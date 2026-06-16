@@ -1,0 +1,25 @@
+# Fichiers compilés
+*.class
+/bin/
+
+# Logs
+*.log
+
+# Fichiers temporaires
+*.tmp
+*.swp
+*~
+
+# Dossiers de build
+/target/
+/build/
+/out/
+
+# Eclipse
+.project
+.classpath
+.settings/
+
+# Fichiers système
+.DS_Store
+Thumbs.db
