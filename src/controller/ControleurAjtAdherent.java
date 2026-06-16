@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 
+import org.mindrot.jbcrypt.BCrypt;
+
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -39,7 +41,6 @@ public class ControleurAjtAdherent extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		PrintWriter out=response.getWriter();
 
 		HttpSession h = request.getSession(false);
 		Utilisateur activeUser = (Utilisateur) h.getAttribute("activeUser");
@@ -55,9 +56,7 @@ public class ControleurAjtAdherent extends HttpServlet {
 
 			activeUser.lastseen(activeUser.getIdConnexion(), " ajout de l'adhérent "+ request.getParameter("numLic") +" dans la BDD;");
 			
-			conn = dao.getConn(); 
-		    //conn.setAutoCommit(false);
-		    
+			conn = dao.getConn(); 		    
 		    
             String nomAdh = request.getParameter("nmAdh");
             String prenomAdh = request.getParameter("pnmAdh");
@@ -73,11 +72,7 @@ public class ControleurAjtAdherent extends HttpServlet {
             String commentaire = request.getParameter("commentaire");
             String[] categories = request.getParameterValues("categories[]");
             String role = request.getParameter("role");
-         //   String categ = request.getParameter("categ");  //categ doit devenir un tableau pour pouvoir faire des insertions multiples si lusierurs catégories ont été selectionnées au moment de la création de l'adhérent
-         //   ArrayList<String> allcateg = new ArrayList<>();
-            for (String indice : categories) {
-            	System.out.println(indice);
-            }
+            
             
             if(numTel2 == "")
             {
@@ -103,7 +98,7 @@ public class ControleurAjtAdherent extends HttpServlet {
             
             
           
-            if(nomAdh == "" || prenomAdh == "" || numeroLic == "" || derAnneeLic == "" || anneeAdh == "" || numTel1 == "" || adresse1 == "" || mail1 == "" )	//A voir (verifier si == fonctionne ou si il faut mettre des .equals
+            if(nomAdh == "" || prenomAdh == "" || numeroLic == "" || derAnneeLic == "" || anneeAdh == "" || numTel1 == "" || adresse1 == "" || mail1 == "" || ("").equals(request.getParameter("mdpprov")))	//A voir (verifier si == fonctionne ou si il faut mettre des .equals
             {           	
             	request.setAttribute("cs", "vide");
             	request.getRequestDispatcher("/CreationAdherent").forward(request, response);              
@@ -111,8 +106,9 @@ public class ControleurAjtAdherent extends HttpServlet {
             
             else //Modification pour effectuer une requête préparée, 08/12 10:11
             {
-          String sqlAdh = "INSERT INTO adherents (numerolicence, nom, prenom, dernierelicenceactive, annee, tel1, tel2, adresse1, adresse2, mail1, mail2, commentaire, role) "
-                        + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+          String mdpprov = BCrypt.hashpw(request.getParameter("mdpprov"), BCrypt.gensalt());
+          String sqlAdh = "INSERT INTO adherents (numerolicence, nom, prenom, dernierelicenceactive, annee, tel1, tel2, adresse1, adresse2, mail1, mail2, commentaire, role, motdepasse) "
+                        + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
           
           psAdh = conn.prepareStatement(sqlAdh);
           psAdh.setString(1, numeroLic);
@@ -128,6 +124,7 @@ public class ControleurAjtAdherent extends HttpServlet {
           psAdh.setString(11, mail2);
           psAdh.setString(12, commentaire);
           psAdh.setString(13, role);
+          psAdh.setString(14, mdpprov);
           psAdh.executeUpdate();
           
           String sqlCritere = "INSERT INTO critereadherent (numerolicence, idcritere, valcritere) "
@@ -147,13 +144,12 @@ public class ControleurAjtAdherent extends HttpServlet {
 		          psAdh = conn.prepareStatement(sqlCat);
 		          psAdh.setString(1, numeroLic);
 		          psAdh.setString(2,  indice); 
-		         // Statement  psCategorie = conn.createStatement();
 		          psAdh.executeUpdate(); 
 		          System.out.println(sqlCat);
         	  }
         	  System.out.println(sqlCat);
           }
-        //  conn.commit();
+
             	
             	
             }

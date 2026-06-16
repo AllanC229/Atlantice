@@ -10,6 +10,8 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import org.mindrot.jbcrypt.BCrypt;
+
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -47,12 +49,12 @@ public class ControleurConnexion extends HttpServlet {
 		// TODO Auto-generated method stub
 	
 		
-		String nameCheck = (String)request.getParameter("nameCo");	
-		String mdpCheck = (String)request.getParameter("mdpCo");
+		String loginsaisi = (String)request.getParameter("nameCo");	
+		String mdpsaisi = (String)request.getParameter("mdpCo");
 		
 
 		
-		if(nameCheck.equals("") || mdpCheck.equals("")) {
+		if(loginsaisi.equals("") || mdpsaisi.equals("")) {
 			getServletContext().getRequestDispatcher("/Connexion").forward(request, response);
 			System.out.println("Veuillez compléter tous les champs svp !");
 
@@ -63,6 +65,7 @@ public class ControleurConnexion extends HttpServlet {
 			DAOAcces dao = new DAOAcces("com.mysql.cj.jdbc.Driver", "webadherents", "root", "");
 			Connection conn = null;
 			PreparedStatement checkUser = null;
+			PreparedStatement checkMdp = null;
 			PreparedStatement userCateg = null;
 			PreparedStatement allCateg = null ;
 			String idUser = null;
@@ -70,11 +73,28 @@ public class ControleurConnexion extends HttpServlet {
 			try {
 				conn = dao.getConn();
 				conn.setAutoCommit(false);
+								
+				String sqlcheck = "SELECT motdepasse FROM adherents WHERE login = ? ;";
+				checkMdp = dao.getConn().prepareStatement(sqlcheck);
+				checkMdp.setString(1, loginsaisi);
 				
-				String sql = "SELECT nom, prenom, role, numerolicence FROM adherents WHERE login = ? and motdepasse = ?";
+				ResultSet verifMdp = checkMdp.executeQuery();
+				conn.commit();
+				boolean checkmdp = false;
+				
+				// Extrait le sel du hash BDD, rehashe le mdp saisi, compare → retourne true ou false
+				if (verifMdp.next()) {
+					
+					checkmdp =  BCrypt.checkpw(mdpsaisi, verifMdp.getString("motdepasse"));
+					
+				}
+				
+				if (checkmdp == true) {
+				
+				String sql = "SELECT nom, prenom, role, numerolicence FROM adherents WHERE login = ? ;";
 				checkUser = conn.prepareStatement(sql);
-				checkUser.setString(1, nameCheck);
-				checkUser.setString(2,  mdpCheck);
+				checkUser.setString(1, loginsaisi);
+				
 				ResultSet identification = checkUser.executeQuery();
 				
 				if (identification.next()) {
@@ -98,7 +118,7 @@ public class ControleurConnexion extends HttpServlet {
 					getIdConnexion.setTimestamp(2, tslogin);
 					ResultSet rsIdConnexion = getIdConnexion.executeQuery();
 					
-					if (rsIdConnexion.next()); {
+					if (rsIdConnexion.next()) {
 					
 						System.out.println(tslogin);
 						HashMap<String, String> categoriesUser;
@@ -159,14 +179,24 @@ public class ControleurConnexion extends HttpServlet {
 				 dao.closeConnection();				 
 				 response.sendRedirect("Accueil");
 
-			}				
+			}	
+			
+			
+			else {
+				 System.out.println("Connexion échouée ; pas de correspondance login / mdp");
+				 dao.closeConnection();
+				 getServletContext().getRequestDispatcher("/Connexion").forward(request, response);
+			 } 
+			
+			}
 			
 			catch (SQLException e) {
 			
 				e.printStackTrace();
 			}
-			
 		}
+			
+		
 	}
 
 	/**
