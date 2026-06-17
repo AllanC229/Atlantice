@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : localhost:3306
--- Généré le : mer. 17 juin 2026 à 11:48
+-- Généré le : mer. 17 juin 2026 à 13:01
 -- Version du serveur : 8.0.30
 -- Version de PHP : 8.1.10
 
@@ -44,48 +44,48 @@ CREATE TABLE `adherents` (
   `contact2` varchar(50) DEFAULT NULL,
   `sexe` varchar(10) CHARACTER SET latin1 COLLATE latin1_swedish_ci DEFAULT NULL,
   `droitimage` varchar(10) CHARACTER SET latin1 COLLATE latin1_swedish_ci DEFAULT NULL,
-  `login` varchar(50) CHARACTER SET latin1 COLLATE latin1_swedish_ci DEFAULT NULL,
   `motdepasse` varchar(72) CHARACTER SET latin1 COLLATE latin1_swedish_ci DEFAULT NULL,
   `role` varchar(25) CHARACTER SET latin1 COLLATE latin1_swedish_ci DEFAULT NULL,
-  `tentativeconnexion` int NOT NULL DEFAULT '5'
+  `tentativeconnexion` int NOT NULL DEFAULT '5',
+  `changementmdp` tinyint(1) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Déchargement des données de la table `adherents`
 --
 
-INSERT INTO `adherents` (`numerolicence`, `nom`, `prenom`, `dernierelicenceactive`, `annee`, `tel1`, `tel2`, `adresse1`, `adresse2`, `mail1`, `mail2`, `commentaire`, `contact1`, `contact2`, `sexe`, `droitimage`, `login`, `motdepasse`, `role`, `tentativeconnexion`) VALUES
-('1', 'Pigeon', 'Jeanine', '2012', '1977', '0298731221', '0000', 'Quimper', 'null', 'poitevinchrichri@test.fr', 'oui', 'ceci est un bon commentaire', 'null', 'null', 'Pain', 'non', 'a', '$2a$10$.1TM/.Lp8y7VaXI0ElGMOeLR2w1gHyZbI.1gy4TWTJTWVCDV8Y2z2', 'admin', 5),
-('20106513152', 'Flamand', 'Jules', '2024/2025', '2010', '6515615', '513153531', 'njjnjn', 'tdrdtrccrf', 'vyutgtu', 'utytty', 'ttyty', 'tfyttyv', 'yttt', '1', '1', '', '', '0', 5),
-('201165165151', 'Ntamack', 'Michel', '2024/2025', '2011', '35451', '5135135', 'kbkjn', 'jkkb', 'jkbkj', 'jnjnkj', 'ljnlnln', 'ljnln', 'ljbnljn', '1', '1', '', '', '0', 5),
-('2012654654654', 'Elissalde', 'Jean-Baptiste', '2024/2025', '2012', '535135135', '353513151', 'kbjkbkjkj', 'kjbkljj', 'jbljlnjnl', 'lnll', 'lnlnlkn', 'lnlnln', 'ljnlnlkn', '1', '1', '', '', '0', 5),
-('2012654654715', 'Lemarchand', 'Julien', '2024/2025', '2012', '65465451', '35035535', 'kjbkjkbkbj', 'jnhkbhvv', 'cftryctytc', 'trdycytyf', 'uvufuf', 'uhooiopihj', 'oihopop', '1', '1', '', '', '0', 5),
-('2013254895', 'Becker', 'Byron', '2024/2025', '2013', '068468', '0658435', 'iugkkh', 'jgcgcf', 'kyfjg', 'bkkj', 'hfxgd', 'tdxyfc', 'fchfc', '1', '1', '', '', '0', 5),
-('201425256', 'Durand', 'Laurine', '2024/2025', '2014', '65468', '6546846', 'jhvjhv', 'jgvjgv', 'jvjhv', 'jhvjhv', 'jhvjhv', 'jhvjhv', 'jhvjhb', '1', '1', '', '', '0', 5),
-('2014584654685', 'Dupont', 'Antoine', '2024/2025', '2014', '68464', '684654', 'jgvjhgbkhku', 'kjbkkbghvbjh', 'jhvjhvjhvkh', 'jhvkhbk', 'hbkbkjkb', 'hfcdghchfc', 'chytfhtf', '1', '1', '', '', '0', 5),
-('201525485241', 'Pichon', 'Vincent', '2024/2025', '2015', '6851513', '14131351135', 'jvhhb', 'gfxgfxc', 'jhgkgk', 'jhvkvh', 'jgcvjhv', 'jgckhkjb', 'khjbkjb', '1', '1', '', '', '0', 5),
-('20155446545', 'Aldritt', 'Grégorie', '2024/2025', '2015', '6513515531', 'null', 'bhliblkhbhkb', 'null', 'jguvkjhkjhb', 'null', 'rgregerrgrgg', NULL, NULL, NULL, NULL, '', '', '0', 5),
-('20176533', 'Penaud', 'Fabien', '2024/2025', '2017', '365135135', 'null', 'ibkkkkb', 'null', 'kbkjbbkjb', 'null', 'rgrtggg', NULL, NULL, NULL, NULL, '', '', '0', 5),
-('2017654654655', 'Kelleher', 'Byron', '2024/2025', '2017', '6565151', '351351351', 'bkjkjb', 'kjhbkbk', 'kjbkb', 'kjbkjb', 'kjbkjb', 'kjbkjb', 'jukj', '1', '1', '', '', '0', 5),
-('22', 'x', 'x', 'x', 'x', 'x', NULL, 'x', NULL, 'x', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 5),
-('2345324', 'Jean', 'Dufoin', 'oui', 'non', '1234', NULL, 'oui', NULL, 'zre', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 5),
-('4312761', 'a', 'a', 'oui', 'oui', 'oui', NULL, 'oui', NULL, 'oui', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 5),
-('43265', 'q', 'q', 'q', 'q', 'q', NULL, 'q', NULL, 'q', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 5),
-('5376', 'i', 'i', 'i', 'i', 'i', NULL, 'i', NULL, 'i', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 5),
-('8888', 'Montour', 'Jean-Paul', '333', '11', NULL, NULL, NULL, NULL, 'm', NULL, NULL, NULL, NULL, NULL, NULL, 'JPMonour', '1234', 'modif', 5),
-('957', 'Modif', 'Modif', '4321', '31', NULL, NULL, NULL, NULL, 'mod', NULL, NULL, NULL, NULL, NULL, NULL, 'm', 'm', 'modif', 5),
-('999', 'Picot', 'Simon', '3213', '1111', NULL, NULL, NULL, NULL, 'p', NULL, NULL, NULL, NULL, NULL, NULL, 'ysimon', '1234', 'consult', 5),
-('aa', 'aa', 'aa', 'aa', 'aa', 'aa', 'aa', 'aa', 'aa', 'aa', 'aa', 'aa', NULL, NULL, NULL, NULL, 'aa', '$2a$10$.1TM/.Lp8y7VaXI0ElGMOeLR2w1gHyZbI.1gy4TWTJTWVCDV8Y2z2', 'adherent', 5),
-('b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', NULL, NULL, NULL, NULL, NULL, '$2a$10$T.7zMcZGWhYv.4B5XOI/aePk7PcR4B5krKQIHFD7d8T6gGGcNk7Xu', 'adherent', 5),
-('df', 'zed', 'ef', 'hfch', 'hgch', 'fxgfc', 'gfx', 'fc', NULL, 'fchf', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 5),
-('eez', 'aqz', 'eare', 'zsd', 'resd', 'esd', NULL, 'resd', NULL, 'esd', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 5),
-('fc', 'rdf', 'yd', 'hfc', 'hfc', 'hfc', NULL, 'hfc', NULL, 'hfc', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 5),
-('g', 'f', 'f', 'g', 'g', 'g', NULL, 'g', NULL, 'g', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 5),
-('gcfd', 'ytf', 'fh', 'qeez', 'ze', 'eswsw', 'd', 'dsw', NULL, 'sw', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 5),
-('gf', 'trdtd', 'tdf', 'gfxc', 'gf', 'gfxc', NULL, 'gf', NULL, 'gf', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 5),
-('kjhk', 'sjg', 'kkuk', 'kjkj', 'kjhkj', 'hgv', NULL, 'gv', NULL, 'hgv', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 5),
-('o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 5),
-('v', 'v', 'v', 'v', 'v', 'v', NULL, 'v', NULL, 'v', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 5);
+INSERT INTO `adherents` (`numerolicence`, `nom`, `prenom`, `dernierelicenceactive`, `annee`, `tel1`, `tel2`, `adresse1`, `adresse2`, `mail1`, `mail2`, `commentaire`, `contact1`, `contact2`, `sexe`, `droitimage`, `motdepasse`, `role`, `tentativeconnexion`, `changementmdp`) VALUES
+('1', 'Pigeon', 'Jeanine', '2012', '1977', '0298731221', '0000', 'Quimper', 'null', 'poitevinchrichri@test.fr', 'oui', 'ceci est un bon commentaire', 'null', 'null', 'Pain', 'non', '$2a$10$hV5o/44QEYR9vVeeMf6nTud.MOgNm4NQgOLhYN/EzPmsLPGqwieWK', 'admin', 5, 0),
+('20106513152', 'Flamand', 'Jules', '2024/2025', '2010', '6515615', '513153531', 'njjnjn', 'tdrdtrccrf', 'vyutgtu', 'utytty', 'ttyty', 'tfyttyv', 'yttt', '1', '1', '', '0', 5, 0),
+('201165165151', 'Ntamack', 'Michel', '2024/2025', '2011', '35451', '5135135', 'kbkjn', 'jkkb', 'jkbkj', 'jnjnkj', 'ljnlnln', 'ljnln', 'ljbnljn', '1', '1', '', '0', 5, 0),
+('2012654654654', 'Elissalde', 'Jean-Baptiste', '2024/2025', '2012', '535135135', '353513151', 'kbjkbkjkj', 'kjbkljj', 'jbljlnjnl', 'lnll', 'lnlnlkn', 'lnlnln', 'ljnlnlkn', '1', '1', '', '0', 5, 0),
+('2012654654715', 'Lemarchand', 'Julien', '2024/2025', '2012', '65465451', '35035535', 'kjbkjkbkbj', 'jnhkbhvv', 'cftryctytc', 'trdycytyf', 'uvufuf', 'uhooiopihj', 'oihopop', '1', '1', '', '0', 5, 0),
+('2013254895', 'Becker', 'Byron', '2024/2025', '2013', '068468', '0658435', 'iugkkh', 'jgcgcf', 'kyfjg', 'bkkj', 'hfxgd', 'tdxyfc', 'fchfc', '1', '1', '', '0', 5, 0),
+('201425256', 'Durand', 'Laurine', '2024/2025', '2014', '65468', '6546846', 'jhvjhv', 'jgvjgv', 'jvjhv', 'jhvjhv', 'jhvjhv', 'jhvjhv', 'jhvjhb', '1', '1', '', '0', 5, 0),
+('2014584654685', 'Dupont', 'Antoine', '2024/2025', '2014', '68464', '684654', 'jgvjhgbkhku', 'kjbkkbghvbjh', 'jhvjhvjhvkh', 'jhvkhbk', 'hbkbkjkb', 'hfcdghchfc', 'chytfhtf', '1', '1', '', '0', 5, 0),
+('201525485241', 'Pichon', 'Vincent', '2024/2025', '2015', '6851513', '14131351135', 'jvhhb', 'gfxgfxc', 'jhgkgk', 'jhvkvh', 'jgcvjhv', 'jgckhkjb', 'khjbkjb', '1', '1', '', '0', 5, 0),
+('20155446545', 'Aldritt', 'Grégorie', '2024/2025', '2015', '6513515531', 'null', 'bhliblkhbhkb', 'null', 'jguvkjhkjhb', 'null', 'rgregerrgrgg', NULL, NULL, NULL, NULL, '', '0', 5, 0),
+('20176533', 'Penaud', 'Fabien', '2024/2025', '2017', '365135135', 'null', 'ibkkkkb', 'null', 'kbkjbbkjb', 'null', 'rgrtggg', NULL, NULL, NULL, NULL, '', '0', 5, 0),
+('2017654654655', 'Kelleher', 'Byron', '2024/2025', '2017', '6565151', '351351351', 'bkjkjb', 'kjhbkbk', 'kjbkb', 'kjbkjb', 'kjbkjb', 'kjbkjb', 'jukj', '1', '1', '', '0', 5, 0),
+('22', 'x', 'x', 'x', 'x', 'x', NULL, 'x', NULL, 'x', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 5, 0),
+('2345324', 'Jean', 'Dufoin', 'oui', 'non', '1234', NULL, 'oui', NULL, 'zre', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 5, 0),
+('4312761', 'a', 'a', 'oui', 'oui', 'oui', NULL, 'oui', NULL, 'oui', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 5, 0),
+('43265', 'q', 'q', 'q', 'q', 'q', NULL, 'q', NULL, 'q', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 5, 0),
+('5376', 'i', 'i', 'i', 'i', 'i', NULL, 'i', NULL, 'i', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 5, 0),
+('8888', 'Montour', 'Jean-Paul', '333', '11', NULL, NULL, NULL, NULL, 'm', NULL, NULL, NULL, NULL, NULL, NULL, '1234', 'modif', 5, 0),
+('957', 'Modif', 'Modif', '4321', '31', NULL, NULL, NULL, NULL, 'mod', NULL, NULL, NULL, NULL, NULL, NULL, 'm', 'modif', 5, 0),
+('999', 'Picot', 'Simon', '3213', '1111', NULL, NULL, NULL, NULL, 'p', NULL, NULL, NULL, NULL, NULL, NULL, '1234', 'consult', 5, 0),
+('aa', 'aa', 'aa', 'aa', 'aa', 'aa', 'aa', 'aa', 'aa', 'aa', 'aa', 'aa', NULL, NULL, NULL, NULL, '$2a$10$hV5o/44QEYR9vVeeMf6nTud.MOgNm4NQgOLhYN/EzPmsLPGqwieWK', 'adherent', 5, 0),
+('b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', NULL, NULL, NULL, NULL, '$2a$10$T.7zMcZGWhYv.4B5XOI/aePk7PcR4B5krKQIHFD7d8T6gGGcNk7Xu', 'adherent', 5, 0),
+('df', 'zed', 'ef', 'hfch', 'hgch', 'fxgfc', 'gfx', 'fc', NULL, 'fchf', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 5, 0),
+('eez', 'aqz', 'eare', 'zsd', 'resd', 'esd', NULL, 'resd', NULL, 'esd', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 5, 0),
+('fc', 'rdf', 'yd', 'hfc', 'hfc', 'hfc', NULL, 'hfc', NULL, 'hfc', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 5, 0),
+('g', 'f', 'f', 'g', 'g', 'g', NULL, 'g', NULL, 'g', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 5, 0),
+('gcfd', 'ytf', 'fh', 'qeez', 'ze', 'eswsw', 'd', 'dsw', NULL, 'sw', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 5, 0),
+('gf', 'trdtd', 'tdf', 'gfxc', 'gf', 'gfxc', NULL, 'gf', NULL, 'gf', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 5, 0),
+('kjhk', 'sjg', 'kkuk', 'kjkj', 'kjhkj', 'hgv', NULL, 'gv', NULL, 'hgv', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 5, 0),
+('o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 5, 0),
+('v', 'v', 'v', 'v', 'v', 'v', NULL, 'v', NULL, 'v', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 5, 0);
 
 -- --------------------------------------------------------
 
@@ -598,7 +598,16 @@ INSERT INTO `log` (`idlog`, `idconnexion`, `logintime`, `lastactivity`, `logoutt
 (105, 'Pigeon Jeanine 1', '2026-06-16 13:19:56', '2026-06-16 13:21:55', NULL, '0; vers consulter son profil; vers création d\'adhérent; vers consulter les catégories; 2; vers consulter les critères; vers liste d\'adhérents par catégories; vers consulter les critères; vers création d\'adhérent; ajout de l\'adhérent b dans la BDD;'),
 (106, 'Pigeon Jeanine 1', '2026-06-17 08:15:16', NULL, NULL, '0;'),
 (107, 'aa aa aa', '2026-06-17 09:58:55', NULL, NULL, '0;'),
-(108, 'aa aa aa', '2026-06-17 11:45:43', '2026-06-17 11:46:02', NULL, '0; vers consulter son profil; vers consulter les fiches administratives; vers liste d\'adhérents par catégories;');
+(108, 'aa aa aa', '2026-06-17 11:45:43', '2026-06-17 11:46:02', NULL, '0; vers consulter son profil; vers consulter les fiches administratives; vers liste d\'adhérents par catégories;'),
+(109, 'aa aa aa', '2026-06-17 12:04:45', '2026-06-17 12:04:52', NULL, '0; vers consulter son profil; changement de son mot de passe;'),
+(110, 'aa aa aa', '2026-06-17 12:05:17', '2026-06-17 12:07:50', NULL, '0; changement de son mot de passe; modification de ses infos de profil;'),
+(111, 'aa aa aa', '2026-06-17 12:24:56', NULL, NULL, '0;'),
+(112, 'aa aa aa', '2026-06-17 12:28:01', NULL, NULL, '0;'),
+(113, 'aa aa aa', '2026-06-17 12:28:41', NULL, NULL, '0;'),
+(114, 'aa aa aa', '2026-06-17 12:29:11', NULL, NULL, '0;'),
+(115, 'aa aa aa', '2026-06-17 12:48:04', NULL, NULL, '0;'),
+(116, 'aa aa aa', '2026-06-17 12:48:53', NULL, NULL, '0;'),
+(117, 'aa aa aa', '2026-06-17 12:58:42', '2026-06-17 12:58:45', NULL, '0; vers consulter son profil;');
 
 -- --------------------------------------------------------
 
@@ -695,7 +704,7 @@ ALTER TABLE `criteres`
 -- AUTO_INCREMENT pour la table `log`
 --
 ALTER TABLE `log`
-  MODIFY `idlog` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=109;
+  MODIFY `idlog` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=118;
 
 --
 -- Contraintes pour les tables déchargées

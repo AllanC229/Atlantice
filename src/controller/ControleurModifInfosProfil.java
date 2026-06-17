@@ -7,6 +7,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import org.mindrot.jbcrypt.BCrypt;
+
 import connection.DAOAcces;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -168,22 +170,22 @@ public class ControleurModifInfosProfil extends HttpServlet {
     					PreparedStatement checkmdp = conn.prepareStatement("SELECT motdepasse FROM adherents WHERE numerolicence = ?;");
     					checkmdp.setString(1,  activeAdherent.getNumLicence());	//Ce bloc sert à aller chercher le mdp qui correspond à l'utilisateur en cours
     					ResultSet mdp = checkmdp.executeQuery();
-    					String mdpactuel = null;
+    					String mdpactuelBDD = null;
     					
     					while (mdp.next()) {
-    						mdpactuel = mdp.getString("motdepasse");	//On stocke le résultat de la requête (donc le mdp de l'utilisateur actif)
+    						mdpactuelBDD = mdp.getString("motdepasse");	//On stocke le résultat de la requête (donc le mdp de l'utilisateur actif)
     					}
     					
-    					if (mdpactuel.equals(request.getParameter("mdpactuel"))) { //On verifie si le mdp en BDD correspond bien à celui rentré par l'utilisateur
-	    						
+    				 
+    					if (BCrypt.checkpw(request.getParameter("mdpactuel"), mdpactuelBDD) == true) {	//On verifie si le mdp en BDD correspond bien à celui rentré par l'utilisateur	
 	    					
 		    				if ((request.getParameter("nouvmdp")).equals(request.getParameter("confnouvmdp"))) { //On verifie que nouvmdp et confnouvmdp correspondent bien
 		    				
 			    				try {
 				    				    			
-					    			PreparedStatement modifmdp = conn.prepareStatement("UPDATE adherents SET motdepasse = ? WHERE motdepasse = ? ;");
-					    			modifmdp.setString(1, request.getParameter("nouvmdp"));
-					    			modifmdp.setString(2, request.getParameter("mdpactuel"));
+					    			PreparedStatement modifmdp = conn.prepareStatement("UPDATE adherents SET motdepasse = ? , changementmdp = 1 WHERE motdepasse = ? ;");
+					    			modifmdp.setString(1, BCrypt.hashpw(request.getParameter("nouvmdp"), BCrypt.gensalt()));
+					    			modifmdp.setString(2, mdpactuelBDD);
 					    			System.out.println(modifmdp);
 					    			
 					    			modifmdp.executeUpdate();

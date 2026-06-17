@@ -83,7 +83,7 @@ public class ControleurConnexion extends HttpServlet {
 
 				if (verifMdp.next()) {
 					
-					String sql = "SELECT nom, prenom, role, numerolicence, tentativeconnexion FROM adherents WHERE mail1 = ? ;";
+					String sql = "SELECT nom, prenom, role, numerolicence, tentativeconnexion, changementmdp FROM adherents WHERE mail1 = ? ;";
 					checkUser = conn.prepareStatement(sql);
 					checkUser.setString(1, mailsaisi);
 					conn.commit();
@@ -108,6 +108,10 @@ public class ControleurConnexion extends HttpServlet {
 							checkmdp =  BCrypt.checkpw(mdpsaisi, verifMdp.getString("motdepasse")); */
 							
 							if (BCrypt.checkpw(mdpsaisi, verifMdp.getString("motdepasse")) == true) {
+								
+								if (identification.getInt("changementmdp") == 0) {
+									request.setAttribute("chgtmdp", "<script> alert ('Veuillez changer votre mot de passe'); </script>");
+								}
 								
 								PreparedStatement updtentconn = conn.prepareStatement("UPDATE adherents SET tentativeconnexion = DEFAULT WHERE mail1 = ? ;");
 								updtentconn.setString(1,  mailsaisi);
