@@ -38,10 +38,10 @@ public class Connexion extends HttpServlet {
 		
 		
 		//Formulaire de connexion
-			out.println("<html><head><meta charset=\"utf-8\"/>"
-					+"<link href=\"licence.css\" rel=\"stylesheet\">"
+			out.println("<html><head><meta charset='utf-8'/>"
+					+"<link href='licence.css' rel='stylesheet'>"
 					+"</head><body>"
-					+"<div align=center><form name = \"FormConnexion\" action=\"ControleurConnexion\" method=POST>"
+					+"<div align=center><form name = 'FormConnexion' action='ControleurConnexion' method=POST>"
 					+"<h1>Connexion</h1><br>"
 					+"<br>");
 			out.println("<table><tr><td>");
@@ -53,11 +53,16 @@ public class Connexion extends HttpServlet {
 				out.println("Vous êtes bien déconnecté"); 
 			} */ //on sait que la deco fonctionne
 			
-			out.println("Identifiant: </td><td><input type=\"text\" name=\"nameCo\"> </input> </td></tr><tr><td>");
-			out.println("Mot de passe: </td><td><input type=\"password\" name=\"mdpCo\"> </input> </td></tr></table><br><br>");
+			out.println("Adresse mail: </td><td><input type='text' name='mailCo'> </input> </td></tr><tr><td>");
+			out.println("Mot de passe: </td><td><input type='password' name='mdpCo'> </input> </td></tr></table><br><br>");
 
+			if (request.getAttribute("mdperr") != null) {
+				
+				out.println(""+request.getAttribute("mdperr")+"<br>");
+				
+			}
 			
-			out.print("<input type=\"submit\" value = \"Valider\" /></input>");   
+			out.print("<input type='submit' value = 'Valider' /></input>");   
 			out.print("</form></div></body></html>");
 			
 			
