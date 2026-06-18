@@ -93,7 +93,7 @@ public class FicheAdministrative extends HttpServlet {
 					        }									
 							out.println("</table>"
 							+ "<div>"
-							+ "<input type='submit' name='modifAd' value='Modification de l'adhérent'></input>"
+							+ "<input type='submit' name='modifAd' value\"Modification de l'adhérent\"></input>"
 							+ "<input type='submit' name='supprAd' value='Supprimer cet adhérent'></input>"
 							+ "</form></div>");
 				}

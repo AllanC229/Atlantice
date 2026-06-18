@@ -91,7 +91,16 @@ public class Accueil extends HttpServlet {
 			out.print("</select><p /><br><br><input type=\"submit\" name=\"categorie\" value=\"Valider\" /> <p /></form></div></td></tr>");
 			out.println("</table>");	
 			out.print("</body></html>");
+	
+	        if( request.getAttribute("succes") == "Adhérent ajouté !") {
+		        out.println("<script language=\"javascript\">"
+			        + "alert('Adhérent ajouté !')"
+			    	+ "</script>");
+	        }
+	
 	}	
+	
+	
 		 
 		  
 	/**

@@ -66,24 +66,24 @@ public class CreationAdherent extends HttpServlet {
 	    	
 	        out.println("<div align=center><form action=\"ControleurAjtAdherent\" method=\"POST\"><h1>Création d'un adhérent</h1><br><br><br>");
 	        out.println("<table border=1>");
-	        out.println("<tr><td>Nom de l'adhérent (*): </td><td><input type=\"text\" name=\"nmAdh\"></td></tr>");
-	        out.println("<tr><td>Prénom de l'adhérent (*): </td><td><input type=\"text\" name=\"pnmAdh\"></td></tr>");
-	        out.println("<tr><td>Numéro de licence (*): </td><td><input type=\"text\" name=\"numLic\"></td></tr>");
-	        out.println("<tr><td>Dernière licence active (*): </td><td><input type=\"text\" name=\"derAnneeLic\"></td></tr>");
-	        out.println("<tr><td>Année de naissance de l'adhérent (*): </td><td><input type=\"text\" name=\"anneeAdh\"></td></tr>");
-	        out.println("<tr><td>Numéro de téléphone 1 (*): </td><td><input type=\"text\" name=\"numTel1\"></td></tr>");
-	        out.println("<tr><td>Numéro de téléphone 2: </td><td><input type=\"text\" name=\"numTel2\"></td></tr>");
-	        out.println("<tr><td>Adresse postale 1 (*): </td><td><input type=\"text\" name=\"adresse1\"></td></tr>");
+	        out.println("<tr><td>Nom de l'adhérent (*): </td><td><input type=\"text\" name=\"nmAdh\" required></td></tr>");
+	        out.println("<tr><td>Prénom de l'adhérent (*): </td><td><input type=\"text\" name=\"pnmAdh\" required></td></tr>");
+	        out.println("<tr><td>Numéro de licence (*): </td><td><input type=\"text\" name=\"numLic\" required></td></tr>");
+	        out.println("<tr><td>Dernière licence active (*): </td><td><input type=\"text\" name=\"derAnneeLic\" required></td></tr>");
+	        out.println("<tr><td>Année de naissance de l'adhérent (*): </td><td><input type=\"text\" name=\"anneeAdh\" required></td></tr>");
+	        out.println("<tr><td>Numéro de téléphone 1 (*): </td><td><input type=\"tel\" name=\"numTel1\" required></td></tr>");
+	        out.println("<tr><td>Numéro de téléphone 2: </td><td><input type=\"tel\" name=\"numTel2\"></td></tr>");
+	        out.println("<tr><td>Adresse postale 1 (*): </td><td><input type=\"text\" name=\"adresse1\" required></td></tr>");
 	        out.println("<tr><td>Adresse postale 2: </td><td><input type=\"text\" name=\"adresse2\"></td></tr>");
-	        out.println("<tr><td>Adresse mail 1 (*): </td><td><input type=\"text\" name=\"mail1\"></td></tr>");
-	        out.println("<tr><td>Adresse mail 2: </td><td><input type=\"text\" name=\"mail2\"></td></tr>");
+	        out.println("<tr><td>Adresse mail 1 (*): </td><td><input type=\"email\" name=\"mail1\" required></td></tr>");
+	        out.println("<tr><td>Adresse mail 2: </td><td><input type=\"email\" name=\"mail2\"></td></tr>");
 	        out.println("<tr><td>Contact 1: </td><td><input type=\"text\" name=\"contact1\"></td></tr>");
 	        out.println("<tr><td>Contact 2: </td><td><input type=\"text\" name=\"contact2\"></td></tr>");
 	        out.println("<tr><td>Sexe : </td><td><input type=\"text\" name=\"sexe\"></td></tr>");
 	        out.println("<tr><td>Droit à l'image : </td><td><input type=\"text\" name=\"droitImage\"></td></tr>");
 	        out.println("<tr><td>Catégorie(s) (*):</td><td><div>");	
 	       //
-	        out.println("<select name='categories[]' id='choix-categorie' multiple>");
+	        out.println("<select name='categories[]' id='choix-categorie' multiple required>");
 	        
 	        for(Map.Entry<String, String> entry : activeUser.categoriesUser.entrySet()) {
 				
