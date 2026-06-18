@@ -52,15 +52,16 @@ public class ControleurAjtAdherent extends HttpServlet {
 		
 		Utilisateur activeUser = (Utilisateur) h.getAttribute("activeUser");
 		
-		
+		//Instanciation
 		DAOAcces dao = null;
 		Connection conn = null;
 		PreparedStatement psAdh = null;
 		PreparedStatement psSportif = null;
 		PreparedStatement psCategorie = null ;
 		
+		//regex pour les mails accepte uniquement le format: lettres/chiffres + @ + des lettres/chiffres + des lettres
         String regexPattern = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
-		
+        		
         //on récupère les données du formulaire
         String nomAdh = request.getParameter("nmAdh");
         String prenomAdh = request.getParameter("pnmAdh");
@@ -77,21 +78,82 @@ public class ControleurAjtAdherent extends HttpServlet {
         String[] categories = request.getParameterValues("categories[]");
         String role = request.getParameter("role");
         
+        //Si un des champs requis est vide, renvoie au formulaire de CreationAdhrent
+        if(nomAdh.equals("") || prenomAdh.equals("")|| numeroLic.equals("") || derAnneeLic.equals("") 
+        	|| anneeAdh.equals("") || numTel1.equals("") || adresse1.equals("") || mail1.equals("") 
+        	|| ("").equals(request.getParameter("mdpprov"))) {           	
+        	request.setAttribute("cs", "vide");
+        	request.getRequestDispatcher("/CreationAdherent").forward(request, response);
+        	return;
+        }
         
-        // pour chaque paramètre, vérifier s'il contient des chevrons et/ou des guillemets, si oui = renvoie à la vue CreationAdhérent
-        /*for (String
-         * if (request.) {
-        *	
-        *	
-        *	getServletContext().getRequestDispatcher("/CreationAdherent").forward(request, response);
-        *}
-		*/
+        numTel2 = videVersNull(numTel2);
+        adresse2 = videVersNull(adresse2);
+        mail2 = videVersNull(mail2);
+        commentaire = videVersNull(commentaire);
+        System.out.println("vérif méthode videVersNull pour commentaire : " + commentaire);
         
-        // format mail invalide
-        if (!patternMatches(mail1, regexPattern) || !patternMatches(mail2, regexPattern)) {
-	        request.setAttribute("erreur", "Format de l'adresse mail invalide.");
+        //appeler la méthode des caractères interdits
+        ArrayList<String> champsATester = new ArrayList<>();
+        champsATester.add(nomAdh);
+        champsATester.add(prenomAdh);
+        champsATester.add(derAnneeLic);
+        champsATester.add(numeroLic);
+        champsATester.add(anneeAdh);
+        champsATester.add(numTel1);
+        champsATester.add(numTel2);
+        champsATester.add(adresse1);
+        champsATester.add(adresse2);
+        champsATester.add(commentaire);
+        champsATester.add(role);
+
+        for (String champ : champsATester) {
+            if (caractereInterdit(champ)) {
+				// insérer la tentative d'injection dans les logs : 
+            	try {
+					activeUser.lastseen(activeUser.getIdConnexion(), " tentative insertion caractère interdit dans la BDD;");
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+                // pas donner d'indice quant à la nature de l'erreur (request.setAttribute("erreur", "Caractère interdit détecté (< > \")");)
+                getServletContext().getRequestDispatcher("/CreationAdherent").forward(request, response);
+                return;
+            }
+        }
+
+        if (categories != null) {
+            for (String cat : categories) {
+                if (caractereInterdit(cat)) {
+    				// insérer la tentative d'injection dans les logs : 
+                	try {
+						activeUser.lastseen(activeUser.getIdConnexion(), " tentative insertion caractère interdit dans les categ dans la BDD;");
+					} catch (SQLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+                	// pas donner d'indice quant à la nature de l'erreur (request.setAttribute("erreur", "Caractère interdit détecté (< > \")");)                    getServletContext().getRequestDispatcher("/CreationAdherent").forward(request, response);
+                    getServletContext().getRequestDispatcher("/CreationAdherent").forward(request, response);
+                	return;
+                }
+            }
+        }
+        
+        // format mail1 invalide
+        if (patternMatches(mail1, regexPattern) == false) {
+	        request.setAttribute("erreur", "Adresse mail1 invalide");
 	        getServletContext().getRequestDispatcher("/CreationAdherent").forward(request, response);
+	        System.out.println("mail1 invalide:" + mail1);
 	        return;
+        } 
+        // format mail2 invalide
+        if(mail2 != null) {
+	        if (patternMatches(mail2, regexPattern) == false) {
+		        request.setAttribute("erreur", "Adresse mail2 invalide");
+		        getServletContext().getRequestDispatcher("/CreationAdherent").forward(request, response);
+		        System.out.println("mail2 invalide:" + mail2);
+		        return;
+	        }
         }
         
 			try {
@@ -104,40 +166,10 @@ public class ControleurAjtAdherent extends HttpServlet {
 			    conn.setAutoCommit(false);
 			    
 	            
-	            
-	            
-	            if(numTel2.equals(""))
-	            {
-	            	numTel2 = null;
-	            }
-	            
-	            if(adresse2.equals(""))
-	            {
-	            	adresse2 = null;
-	            }
-	            
-	            if(mail2.equals(""))
-	            {
-	            	mail2 = null;
-	            }
-	            
-	            if(commentaire.equals(""))
-	            {
-	            	commentaire = null;
-	            }
-	            
-	          
-	            if(nomAdh.equals("") || prenomAdh.equals("")|| numeroLic.equals("") || derAnneeLic.equals("") || anneeAdh.equals("") || numTel1.equals("") || adresse1.equals("") || mail1.equals("") || ("").equals(request.getParameter("mdpprov")))	//A voir (verifier si == fonctionne ou si il faut mettre des .equals
-	            {           	
-	            	request.setAttribute("cs", "vide");
-	            	request.getRequestDispatcher("/CreationAdherent").forward(request, response);              
-	            }
-	            
-	            else //Modification pour effectuer une requête préparée, 08/12 10:11
-	            {
+	          //Modification pour effectuer une requête préparée, 08/12 10:11
 	          String mdpprov = BCrypt.hashpw(request.getParameter("mdpprov"), BCrypt.gensalt());
 	          String sqlAdh = "INSERT INTO adherents (numerolicence, nom, prenom, dernierelicenceactive, annee, tel1, tel2, adresse1, adresse2, mail1, mail2, commentaire, role, motdepasse) "
-	                        + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+	                        + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);"; //PENSE BETE AJOUT NB TENTATIVE CONNEXION
 	          
 	          psAdh = conn.prepareStatement(sqlAdh);
 	          psAdh.setString(1, numeroLic);
@@ -185,7 +217,7 @@ public class ControleurAjtAdherent extends HttpServlet {
 				request.getRequestDispatcher("/Accueil").forward(request, response);
 				System.out.println("adhérent ajouté");
 
-	            }
+	            
 	
 			 } catch(SQLException e) {
 				System.out.println("Probleme SQL creationAdherent !!");
@@ -218,11 +250,27 @@ public class ControleurAjtAdherent extends HttpServlet {
 		doGet(request, response);
 	}
 
-    // Méthode qui vérifie que la chaîne correspond au pattern regex 
+    // Méthode qui vérifie que les mails correspond au pattern regex 
     public boolean patternMatches(String userInput, String regexPattern) {
         return Pattern.compile(regexPattern)
             .matcher(userInput)
             .matches();
     }
+    
+    //Méthode qui met à null les champs que non requis laissés vides
+    public String videVersNull(String s) {
+    	if (s.equals("") || s.isEmpty() || s.isBlank()) {
+    		s = null;
+    	}
+        return s;
+    }
+
+    // Méthode pour vérifier si un champ contient des chevrons et/ou des guillemets, si oui = renvoie à la vue CreationAdhérent
+    public boolean caractereInterdit(String entreeUtilisateur) {
+    	    if (entreeUtilisateur == null) {
+    	        return false;
+    	    }
+    	    return entreeUtilisateur.contains("<") || entreeUtilisateur.contains(">") || entreeUtilisateur.contains("\"");
+    	}
 	
 }
