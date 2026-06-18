@@ -60,6 +60,13 @@ public class CreationAdherent extends HttpServlet {
 				+ "</head>");  //revoir l'alignement des boutons en haut de la page
 	        		
 	        out.println(Header.afficherEntete(activeUser));   		
+	        
+	        //Afficher erreur mail invalide
+	        if( request.getAttribute("erreur") == "Adresse mail1 invalide" ||  request.getAttribute("erreur") == "Adresse mail2 invalide" ) {
+		        out.println("<script language=\"javascript\">");
+		    	out.println("alert('Adresse mail invalide')");
+		    	out.println("</script>");
+	        }
 	        		
     		out.println("<div align='right'><form action=\"Accueil\" name=\"boutonAccueil\" value=\"accueil\" method=\"POST\">"
 				+ "<input text-align='left' type=\"submit\" name=\"accueil\" value=\"Accueil\"></form>");
