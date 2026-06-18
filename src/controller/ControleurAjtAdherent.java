@@ -161,7 +161,7 @@ public class ControleurAjtAdherent extends HttpServlet {
 		}
 	
 		dao.closeConnection();
-		request.getRequestDispatcher("/Accueil").forward(request, response);
+		response.sendRedirect(request.getContextPath() + "/Accueil");
 	} 
 
 	/**

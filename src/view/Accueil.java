@@ -46,7 +46,7 @@ public class Accueil extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	    HttpSession h = request.getSession(false);
 	    
-	    if (h == null) { //Si la session n'existe pas, renvie vers la page de connexion
+	    if (h == null || h.getAttribute("activeUser") == null) { //Si la session n'existe pas, renvie vers la page de connexion
 		    response.sendRedirect("/Connexion");
 		    return;
 		}
@@ -73,7 +73,7 @@ public class Accueil extends HttpServlet {
 				categorie = "";
 				out.print("<form action='ControleurAccueil' name='boutonajout' method='POST'> <input type = 'submit' name='direction' value='Catégories'> </form>");
 				out.print("<form action='ControleurAccueil' name= 'boutonajout' value = 'ajoutAdherent' method='POST'> <input type = 'submit' name = 'direction' value='Créer un adhérent'> </form>");	
-			} // a été enlevé : action='ControleurAccueil?direction=2' 
+			}
 			
 					out.println("<tr><td><form action = 'ControleurAccueil' method='POST'> <input type='hidden' name='ficheadmin' value='ficheadmin'> <input type='submit'  value='Consulter les fiches Administratives'> </form><br>"
 					+ "<form action='RechercheAdherent' method='POST'> <input type='hidden' name='recherche' value='recherche'> <input type='submit' value='Rechercher un adhérent'> </form> <br>"

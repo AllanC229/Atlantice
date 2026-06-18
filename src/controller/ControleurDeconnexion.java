@@ -34,7 +34,7 @@ public class ControleurDeconnexion extends HttpServlet {
         // TODO Auto-generated constructor stub
     }
     
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     
     String deconnexion = (String)request.getParameter("deconnexion");
 	
@@ -66,6 +66,7 @@ public class ControleurDeconnexion extends HttpServlet {
 			insertLogoutTime.executeUpdate();
 			conn.commit();
 			h.invalidate();
+			System.out.println("Session invalidée");
 			dao.closeConnection();
 		}
 		
@@ -77,17 +78,10 @@ public class ControleurDeconnexion extends HttpServlet {
 		// Besoin de fermer la connexion ou pas?
 		
 		
-		getServletContext().getRequestDispatcher("/Connexion").forward(request, response);
+		response.sendRedirect(request.getContextPath() + "/Connexion");
 		
 		
 	}
 	//Fin déconnexion	
     }
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
-	}
 }
