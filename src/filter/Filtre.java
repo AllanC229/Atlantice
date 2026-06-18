@@ -41,9 +41,9 @@ public class Filtre implements Filter {
         }
         
 
-        resp.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+     /*   resp.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
         resp.setHeader("Pragma", "no-cache");
-        resp.setDateHeader("Expires", 0);
+        resp.setDateHeader("Expires", 0); */
         
         chain.doFilter(request, response);
     }
