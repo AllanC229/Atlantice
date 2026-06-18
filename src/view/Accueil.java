@@ -65,20 +65,28 @@ public class Accueil extends HttpServlet {
 			if (request.getAttribute("chgtmdp") != null) {
 				out.println(request.getAttribute("chgtmdp"));
 			}
-					
+			
 			out.println("<table width=100%><tr><td>");
 			
-			if(activeUser.getRole().equals("admin") || activeUser.getRole().equals("modif"))
-			{
-				categorie = "";
-				out.print("<form action='ControleurAccueil' name='boutonajout' method='POST'> <input type = 'submit' name='direction' value='Catégories'> </form>");
-				out.print("<form action='ControleurAccueil' name= 'boutonajout' value = 'ajoutAdherent' method='POST'> <input type = 'submit' name = 'direction' value='Créer un adhérent'> </form>");	
-			}
+			out.println("<div class='sidebar'>"
+					+ "<div class='logo'>Plan du site</div>"
+					+ "<div class='menu'>");
 			
-					out.println("<tr><td><form action = 'ControleurAccueil' method='POST'> <input type='hidden' name='ficheadmin' value='ficheadmin'> <input type='submit'  value='Consulter les fiches Administratives'> </form><br>"
+					if(activeUser.getRole().equals("admin") || activeUser.getRole().equals("modif"))
+					{
+						categorie = "";
+						out.print("<form action='ControleurAccueil' name='boutonajout' method='POST'> <input type = 'submit' name='direction' value='Catégories'> </form><br>");
+						out.print("<form action='ControleurAccueil' name= 'boutonajout' value = 'ajoutAdherent' method='POST'> <input type = 'submit' name = 'direction' value='Créer un adhérent'> </form><br>");	
+					}
+					
+					out.println("<form action = 'ControleurAccueil' method='POST'> <input type='hidden' name='ficheadmin' value='ficheadmin'> <input type='submit'  value='Consulter les fiches Administratives'> </form><br>"
 					+ "<form action='RechercheAdherent' method='POST'> <input type='hidden' name='recherche' value='recherche'> <input type='submit' value='Rechercher un adhérent'> </form> <br>"
 					+ "<form action='ControleurAccueil' method='POST'> <input type='hidden' name='fichesport' value='fichesport'> <input type='submit' value='Consulter les fiches sportives "+categorie+"'> </form><br>"
-					+ "<form action ='ControleurAccueil' method='POST'> <input type='hidden' name='critere' value='critere'><input type='submit' name='critere' value='Consulter les critères'></form></td>");
+					+ "<form action ='ControleurAccueil' method='POST'> <input type='hidden' name='critere' value='critere'><input type='submit' name='critere' value='Consulter les critères'></form><br>"
+					+ "</div>"
+					+ "</div></td>");
+			
+			
 
 	        
 	        out.println("<td><div align=center><form align=center action='ControleurAccueil' method=POST>"

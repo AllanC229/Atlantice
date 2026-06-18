@@ -169,7 +169,7 @@ public class ControleurAjtAdherent extends HttpServlet {
 	          //Modification pour effectuer une requête préparée, 08/12 10:11
 	          String mdpprov = BCrypt.hashpw(request.getParameter("mdpprov"), BCrypt.gensalt());
 	          String sqlAdh = "INSERT INTO adherents (numerolicence, nom, prenom, dernierelicenceactive, annee, tel1, tel2, adresse1, adresse2, mail1, mail2, commentaire, role, motdepasse) "
-	                        + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);"; //PENSE BETE AJOUT NB TENTATIVE CONNEXION
+	                        + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);"; //PENSE BETE AJOUT NB TENTATIVE CONNEXION --> tentativeconnexion a une valeur DEFAULT de 5 en BDD, pas besoin donc de renseigner sa valeur à l'insertion d'une nouvelle ligne (signé : Allan)
 	          
 	          psAdh = conn.prepareStatement(sqlAdh);
 	          psAdh.setString(1, numeroLic);

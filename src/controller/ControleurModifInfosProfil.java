@@ -36,7 +36,7 @@ public class ControleurModifInfosProfil extends HttpServlet {
 
     			HttpSession h = request.getSession(false);
     			
-    			if (h == null) { //Si la session n'existe pas, renvie vers la page de connexion
+    			if (h == null) { //Si la session n'existe pas, renvoie vers la page de connexion
     			    response.sendRedirect("/Connexion");
     			    return;
     			}
@@ -148,6 +148,8 @@ public class ControleurModifInfosProfil extends HttpServlet {
 		    			activeAdherent.setContact2(contact2);
 		    			activeAdherent.setSexe(sexe);
 		    			activeAdherent.setDroitImage(droitimage);
+		    			activeUser.setNom(nom);		//On redéfinit les variables dans activeUser pour qu'elle soit mise à jour correctement pour la suite de la navigation
+		    			activeUser.setPrenom(prenom);
 		    			
 	    			}
 	    			
