@@ -51,6 +51,7 @@ public class ControleurAjtCritere extends HttpServlet {
 	    
 		if(nomcritere != null && !nomcritere.trim().isEmpty()) { 
 			
+			DAOAcces dao = null;
 		    Connection conn = null;
 		    String insertCritere = null;
 		    PreparedStatement pstInsertCritere = null;
@@ -60,7 +61,7 @@ public class ControleurAjtCritere extends HttpServlet {
 
 			try { 
 			
-				DAOAcces dao = new DAOAcces("com.mysql.cj.jdbc.Driver", "webadherents", "root", "");
+				dao = new DAOAcces("com.mysql.cj.jdbc.Driver", "webadherents", "root", "");
 			
 			    conn = dao.getConn();
 
@@ -88,7 +89,7 @@ public class ControleurAjtCritere extends HttpServlet {
 				System.out.println(pstInsertCritAdh);				
 				
 				conn.commit();
-				dao.closeConnection(); // à revoir : le mettre aprés le catch dans un finally?
+				dao.closeConnection(); 
 	           
 			} catch(SQLException e) {
 				System.out.println("Probleme SQL creationCritere !!");
@@ -102,6 +103,11 @@ public class ControleurAjtCritere extends HttpServlet {
 					}
 				}
 				e.printStackTrace();
+			} finally {
+				if (dao != null) { // vérification nécessaire : si la construction a échoué avant la ligne d'affectation, dao vaut encore null
+			        dao.closeConnection();
+			    }
+				dao.closeConnection();
 			}
 			response.sendRedirect("ControleurAccueil?critere=critere");
 		    		

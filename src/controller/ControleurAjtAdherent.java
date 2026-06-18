@@ -10,6 +10,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.regex.Pattern;
 
 import org.mindrot.jbcrypt.BCrypt;
 
@@ -43,122 +44,167 @@ public class ControleurAjtAdherent extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		HttpSession h = request.getSession(false);
+
+		if (h == null) { //Si la session n'existe pas, renvoie vers la page de connexion
+		    response.sendRedirect("/Connexion");
+		    return;
+		}
+		
 		Utilisateur activeUser = (Utilisateur) h.getAttribute("activeUser");
 		
-		DAOAcces dao = new DAOAcces("com.mysql.cj.jdbc.Driver", "webadherents", "root", ""); 
+		
+		DAOAcces dao = null;
 		Connection conn = null;
 		PreparedStatement psAdh = null;
 		PreparedStatement psSportif = null;
 		PreparedStatement psCategorie = null ;
 		
+        String regexPattern = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
 		
-		try {
+        //on récupère les données du formulaire
+        String nomAdh = request.getParameter("nmAdh");
+        String prenomAdh = request.getParameter("pnmAdh");
+        String derAnneeLic = request.getParameter("derAnneeLic");
+        String numeroLic = request.getParameter("numLic");
+        String anneeAdh = request.getParameter("anneeAdh");
+        String numTel1 = request.getParameter("numTel1");
+        String numTel2 = request.getParameter("numTel2");
+        String adresse1 = request.getParameter("adresse1");
+        String adresse2 = request.getParameter("adresse2");
+        String mail1 = request.getParameter("mail1");
+        String mail2 = request.getParameter("mail2");
+        String commentaire = request.getParameter("commentaire");
+        String[] categories = request.getParameterValues("categories[]");
+        String role = request.getParameter("role");
+        
+        
+        // pour chaque paramètre, vérifier s'il contient des chevrons et/ou des guillemets, si oui = renvoie à la vue CreationAdhérent
+        /*for (String
+         * if (request.) {
+        *	
+        *	
+        *	getServletContext().getRequestDispatcher("/CreationAdherent").forward(request, response);
+        *}
+		*/
+        
+        // format mail invalide
+        if (!patternMatches(mail1, regexPattern) || !patternMatches(mail2, regexPattern)) {
+	        request.setAttribute("erreur", "Format de l'adresse mail invalide.");
+	        getServletContext().getRequestDispatcher("/CreationAdherent").forward(request, response);
+	        return;
+        }
+        
+			try {
+				dao = new DAOAcces("com.mysql.cj.jdbc.Driver", "webadherents", "root", ""); 
+				conn = dao.getConn();
+				
+				activeUser.lastseen(activeUser.getIdConnexion(), " ajout de l'adhérent "+ request.getParameter("numLic") +" dans la BDD;");
+				
+				// désactivation du mode de validation automatique (auto-commit) => gestion de la transaction manuelle
+			    conn.setAutoCommit(false);
+			    
+	            
+	            
+	            
+	            if(numTel2.equals(""))
+	            {
+	            	numTel2 = null;
+	            }
+	            
+	            if(adresse2.equals(""))
+	            {
+	            	adresse2 = null;
+	            }
+	            
+	            if(mail2.equals(""))
+	            {
+	            	mail2 = null;
+	            }
+	            
+	            if(commentaire.equals(""))
+	            {
+	            	commentaire = null;
+	            }
+	            
+	          
+	            if(nomAdh.equals("") || prenomAdh.equals("")|| numeroLic.equals("") || derAnneeLic.equals("") || anneeAdh.equals("") || numTel1.equals("") || adresse1.equals("") || mail1.equals("") || ("").equals(request.getParameter("mdpprov")))	//A voir (verifier si == fonctionne ou si il faut mettre des .equals
+	            {           	
+	            	request.setAttribute("cs", "vide");
+	            	request.getRequestDispatcher("/CreationAdherent").forward(request, response);              
+	            }
+	            
+	            else //Modification pour effectuer une requête préparée, 08/12 10:11
+	            {
+	          String mdpprov = BCrypt.hashpw(request.getParameter("mdpprov"), BCrypt.gensalt());
+	          String sqlAdh = "INSERT INTO adherents (numerolicence, nom, prenom, dernierelicenceactive, annee, tel1, tel2, adresse1, adresse2, mail1, mail2, commentaire, role, motdepasse) "
+	                        + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+	          
+	          psAdh = conn.prepareStatement(sqlAdh);
+	          psAdh.setString(1, numeroLic);
+	          psAdh.setString(2, nomAdh);
+	          psAdh.setString(3, prenomAdh);
+	          psAdh.setString(4, derAnneeLic);
+	          psAdh.setString(5, anneeAdh);
+	          psAdh.setString(6, numTel1);
+	          psAdh.setString(7, numTel2);
+	          psAdh.setString(8, adresse1);
+	          psAdh.setString(9, adresse2);
+	          psAdh.setString(10, mail1);
+	          psAdh.setString(11, mail2);
+	          psAdh.setString(12, commentaire);
+	          psAdh.setString(13, role);
+	          psAdh.setString(14, mdpprov);
+	          psAdh.executeUpdate();
+	          
+	          String sqlCritere = "INSERT INTO critereadherent (numerolicence, idcritere, valcritere) "
+	                  			+ "SELECT ?, idcritere, 0 FROM criteres;";          
+	          
+	          psSportif = conn.prepareStatement(sqlCritere);
+	          psSportif.setString(1, numeroLic);
+	          
+	          psSportif.executeUpdate(); 
+	          
+	          if (categories != null && categories.length != 0) {
+	        	  System.out.println("entrée dans la requete");
+	        	  String sqlCat = "";
+	        	  for (String indice : categories) {
+	        		  
+			          sqlCat = "INSERT INTO categorieadherent (numLic, idcategorie) VALUES (?, ?);";
+			          psAdh = conn.prepareStatement(sqlCat);
+			          psAdh.setString(1, numeroLic);
+			          psAdh.setString(2,  indice); 
+			          psAdh.executeUpdate(); 
+			          System.out.println(sqlCat);
+	        	  }
+	        	  System.out.println(sqlCat);
+	          }
+	
+	            	
+	          	conn.commit();
+				request.setAttribute("succes", "Adhérent ajouté !");
+				request.getRequestDispatcher("/Accueil").forward(request, response);
+				System.out.println("adhérent ajouté");
 
-			activeUser.lastseen(activeUser.getIdConnexion(), " ajout de l'adhérent "+ request.getParameter("numLic") +" dans la BDD;");
-			
-			conn = dao.getConn(); 		    
-		    
-            String nomAdh = request.getParameter("nmAdh");
-            String prenomAdh = request.getParameter("pnmAdh");
-            String derAnneeLic = request.getParameter("derAnneeLic");
-            String numeroLic = request.getParameter("numLic");
-            String anneeAdh = request.getParameter("anneeAdh");
-            String numTel1 = request.getParameter("numTel1");
-            String numTel2 = request.getParameter("numTel2");
-            String adresse1 = request.getParameter("adresse1");
-            String adresse2 = request.getParameter("adresse2");
-            String mail1 = request.getParameter("mail1");
-            String mail2 = request.getParameter("mail2");
-            String commentaire = request.getParameter("commentaire");
-            String[] categories = request.getParameterValues("categories[]");
-            String role = request.getParameter("role");
-            
-            
-            if(numTel2 == "")
-            {
-            	numTel2 = null;
-            }
-            
-            if(adresse2 == "")
-            {
-            	adresse2 = null;
-            }
-            
-            if(mail2 == "")
-            {
-            	mail2 = null;
-            }
-            
-            if(commentaire == "")
-            {
-            	commentaire = null;
-            }
-            
-     
-            
-            
-          
-            if(nomAdh == "" || prenomAdh == "" || numeroLic == "" || derAnneeLic == "" || anneeAdh == "" || numTel1 == "" || adresse1 == "" || mail1 == "" || ("").equals(request.getParameter("mdpprov")))	//A voir (verifier si == fonctionne ou si il faut mettre des .equals
-            {           	
-            	request.setAttribute("cs", "vide");
-            	request.getRequestDispatcher("/CreationAdherent").forward(request, response);              
-            }
-            
-            else //Modification pour effectuer une requête préparée, 08/12 10:11
-            {
-          String mdpprov = BCrypt.hashpw(request.getParameter("mdpprov"), BCrypt.gensalt());
-          String sqlAdh = "INSERT INTO adherents (numerolicence, nom, prenom, dernierelicenceactive, annee, tel1, tel2, adresse1, adresse2, mail1, mail2, commentaire, role, motdepasse) "
-                        + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
-          
-          psAdh = conn.prepareStatement(sqlAdh);
-          psAdh.setString(1, numeroLic);
-          psAdh.setString(2, nomAdh);
-          psAdh.setString(3, prenomAdh);
-          psAdh.setString(4, derAnneeLic);
-          psAdh.setString(5, anneeAdh);
-          psAdh.setString(6, numTel1);
-          psAdh.setString(7, numTel2);
-          psAdh.setString(8, adresse1);
-          psAdh.setString(9, adresse2);
-          psAdh.setString(10, mail1);
-          psAdh.setString(11, mail2);
-          psAdh.setString(12, commentaire);
-          psAdh.setString(13, role);
-          psAdh.setString(14, mdpprov);
-          psAdh.executeUpdate();
-          
-          String sqlCritere = "INSERT INTO critereadherent (numerolicence, idcritere, valcritere) "
-                  			+ "SELECT ?, idcritere, 0 FROM criteres;";          
-          
-          psSportif = conn.prepareStatement(sqlCritere);
-          psSportif.setString(1, numeroLic);
-          
-          psSportif.executeUpdate(); 
-          
-          if (categories != null && categories.length != 0) {
-        	  System.out.println("entrée dans la requete");
-        	  String sqlCat = "";
-        	  for (String indice : categories) {
-        		  
-		          sqlCat = "INSERT INTO categorieadherent (numLic, idcategorie) VALUES (?, ?);";
-		          psAdh = conn.prepareStatement(sqlCat);
-		          psAdh.setString(1, numeroLic);
-		          psAdh.setString(2,  indice); 
-		          psAdh.executeUpdate(); 
-		          System.out.println(sqlCat);
-        	  }
-        	  System.out.println(sqlCat);
-          }
-
-            	
-            	
-            }
-
-		 }
-	    catch(SQLException e) {
-			System.out.println("Probleme SQL !!");
-			e.printStackTrace();
-		}
+	            }
+	
+			 } catch(SQLException e) {
+				System.out.println("Probleme SQL creationAdherent !!");
+				if (conn != null) { //Si la connection n'est pas nulle, retour en arrière = annule la transaction
+					try {
+						conn.rollback();
+						System.out.println("Transaction annulée : rollback effectué");
+					} catch (SQLException ex) {
+						System.out.println("Connexion ok mais probleme SQL creationAdherent !!");
+						ex.printStackTrace();
+					}
+				}
+				e.printStackTrace();
+			} finally {
+				if (dao != null) { // vérification nécessaire : si la construction a échoué avant la ligne d'affectation, dao vaut encore null
+			        dao.closeConnection();
+			    }
+				dao.closeConnection();
+			}
 	
 		dao.closeConnection();
 		response.sendRedirect(request.getContextPath() + "/Accueil");
@@ -172,4 +218,11 @@ public class ControleurAjtAdherent extends HttpServlet {
 		doGet(request, response);
 	}
 
+    // Méthode qui vérifie que la chaîne correspond au pattern regex 
+    public boolean patternMatches(String userInput, String regexPattern) {
+        return Pattern.compile(regexPattern)
+            .matcher(userInput)
+            .matches();
+    }
+	
 }
