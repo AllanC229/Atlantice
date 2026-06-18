@@ -202,7 +202,7 @@ public class ControleurConnexion extends HttpServlet {
 							}	
 					
 							dao.closeConnection();				 
-							getServletContext().getRequestDispatcher("/Accueil").forward(request, response);				 
+							response.sendRedirect(request.getContextPath() + "/Accueil");				 
 						}
 					}
 			
