@@ -64,7 +64,7 @@ public class Critere extends HttpServlet {
 		
 				// boucle pour afficher chaque nom de critere 
 				for (HashMap.Entry<Integer, String> entry : nomCritere.entrySet()) {
-					// ajouter methode pour avoir la première des critères en MAJ
+					
 					r += "<tr><td><input type=\"text\" name=\""+ entry.getValue() + "\" value=\"" + entry.getValue() + "\"></td>" // <input type=\"hidden\" name=\"idcritere\" value=" + entry.getKey() + "></td>"
 					   + "<td><input type=\"checkbox\" name='supprCritere' value=" + entry.getKey() + " class='critere' disabled ></td></tr>";
 				}
