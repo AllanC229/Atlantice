@@ -238,7 +238,6 @@ public class ControleurAjtAdherent extends HttpServlet {
 				dao.closeConnection();
 			}
 	
-		dao.closeConnection();
 		response.sendRedirect(request.getContextPath() + "/Accueil");
 	} 
 
@@ -270,7 +269,8 @@ public class ControleurAjtAdherent extends HttpServlet {
     	    if (entreeUtilisateur == null) {
     	        return false;
     	    }
-    	    return entreeUtilisateur.contains("<") || entreeUtilisateur.contains(">") || entreeUtilisateur.contains("\"");
+    	    return entreeUtilisateur.contains("<") || entreeUtilisateur.contains(">") || entreeUtilisateur.contains("\"")
+    	    	|| entreeUtilisateur.contains("*") || entreeUtilisateur.contains("\'") ||entreeUtilisateur.contains(";");
     	}
 	
 }
