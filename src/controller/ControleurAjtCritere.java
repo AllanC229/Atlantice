@@ -89,7 +89,6 @@ public class ControleurAjtCritere extends HttpServlet {
 				System.out.println(pstInsertCritAdh);				
 				
 				conn.commit();
-				dao.closeConnection(); 
 	           
 			} catch(SQLException e) {
 				System.out.println("Probleme SQL creationCritere !!");
