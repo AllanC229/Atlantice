@@ -53,7 +53,7 @@ public class ControleurModifInfosProfil extends HttpServlet {
 	    			String tel2 = request.getParameter("tel2");
 	    			String adresse1 = request.getParameter("adresse1");
 	    			String adresse2 = request.getParameter("adresse2");
-	    			String mail1 = request.getParameter("mail1");
+	    			//String mail1 = request.getParameter("mail1");
 	    			String mail2 = request.getParameter("mail2");
 	    			String contact1 = request.getParameter("contact1");
 	    			String contact2 = request.getParameter("contact2");
@@ -84,9 +84,9 @@ public class ControleurModifInfosProfil extends HttpServlet {
 	    				adresse2 = activeAdherent.getAdresse2();
 	    			}
 	    			
-	    			if (mail1.equals("")) {
+	    		/*	if (mail1.equals("")) {
 	    				mail1 = activeAdherent.getMail1();
-	    			}
+	    			} */
 	    			
 	    			if (mail2.equals("")) {
 	    				mail2 = activeAdherent.getMail2();
@@ -116,7 +116,7 @@ public class ControleurModifInfosProfil extends HttpServlet {
 	    				
 		    			Connection conn = dao.getConn();	//on fait la mise à jour dans la BDD des infos de l'adhérent
 		    			String sqlmodifinfos = "UPDATE adherents SET nom = ? , prenom = ? , tel1 = ? , tel2 = ? , adresse1 = ? , adresse2 = ? ,"
-		    					+ "mail1 = ? , mail2 = ? , contact1 = ? , contact2 = ? , sexe = ? , droitimage = ? WHERE numerolicence = ? ;";
+		    					/*+ "mail1 = ? ,*/ + "mail2 = ? , contact1 = ? , contact2 = ? , sexe = ? , droitimage = ? WHERE numerolicence = ? ;";
 		    				
 		    			PreparedStatement modifinfos = conn.prepareStatement(sqlmodifinfos);
 		    			modifinfos.setString(1, nom);
@@ -125,13 +125,20 @@ public class ControleurModifInfosProfil extends HttpServlet {
 		    			modifinfos.setString(4, tel2);
 		    			modifinfos.setString(5, adresse1);
 		    			modifinfos.setString(6, adresse2);
-		    			modifinfos.setString(7, mail1);
-		    			modifinfos.setString(8, mail2);
+		    			modifinfos.setString(7, mail2);
+		    			modifinfos.setString(8, contact1);
+		    			modifinfos.setString(9, contact2);
+		    			modifinfos.setString(10, sexe);
+		    			modifinfos.setString(11, droitimage);
+		    			modifinfos.setString(12, activeAdherent.getNumLicence());
+		    			
+		    			/*modifinfos.setString(7, mail1);		Modifs du 22/06 pour ne plus rendre possible la modification du mail1, puisque celui-ci sert comme identifiant de connexion
+		    			modifinfos.setString(8, mail2);			J'ai laissé en commentaire tout ce qui concerne le mail1, pour faciliter le rollback en cas de changement de décision
 		    			modifinfos.setString(9, contact1);
 		    			modifinfos.setString(10, contact2);
 		    			modifinfos.setString(11, sexe);
 		    			modifinfos.setString(12, droitimage);
-		    			modifinfos.setString(13, activeAdherent.getNumLicence());
+		    			modifinfos.setString(13, activeAdherent.getNumLicence()); */
 		    			
 		    			modifinfos.executeUpdate();
 		    			activeUser.lastseen(activeUser.getIdConnexion(), " modification de ses infos de profil;");
@@ -142,7 +149,7 @@ public class ControleurModifInfosProfil extends HttpServlet {
 		    			activeAdherent.setTel2(tel2);
 		    			activeAdherent.setAdresse1(adresse1);
 		    			activeAdherent.setAdresse2(adresse2);
-		    			activeAdherent.setMail1(mail1);
+		    			//activeAdherent.setMail1(mail1);
 		    			activeAdherent.setMail2(mail2);
 		    			activeAdherent.setContact1(contact1);
 		    			activeAdherent.setContact2(contact2);

@@ -44,7 +44,7 @@ public class Profil extends HttpServlet {
 		
 		out.print("<!Doctype html><html><head><meta charset=\"utf-8\"/> \r\n"
 				+ "<link href=\"licence.css\" rel=\"stylesheet\">"
-				+ "<link href=\"header.css\" rel=\"stylesheet\">"
+			//	+ "<link href=\"header.css\" rel=\"stylesheet\">"
 				+ "<link href=\"range-slider-fiche-sportive.css\" rel=\"stylesheet\">"
 				+ "</head>");
 				
@@ -53,7 +53,7 @@ public class Profil extends HttpServlet {
 		if ("modifmdp".equals(request.getParameter("modifmdp"))) {
 			
 			out.print("<body><h1 align=center>Modifier mon mot de passe</h1></br>"
-					+ "<div align='center'><form action='ControleurModifInfosProfil' method='POST'>"
+					+ "<div class='formulaire-adherent'> <form action='ControleurModifInfosProfil' method='POST'>"
 					+ "<table><tr><td> Mot de passe actuel </td><td><input type='password' name='mdpactuel'></td></tr>"
 					+ "<tr><td>Nouveau mot de passe</td><td><input type='password' name='nouvmdp'></td></tr>"
 					+ "<tr><td>Confirmer le mot de passe</td><td><input type='password' name='confnouvmdp'></td></tr>"
@@ -70,7 +70,7 @@ public class Profil extends HttpServlet {
 			
 			
 			out.print("<body><h1 align=center>Informations adhérent : </h1></br>"
-					+ "<div align=center>"
+					+ "<div class='formulaire-adherent'>"
 					+ "<table border>"
 					+ "<form action='ControleurModifInfosProfil' method='POST'>"
 					+ "<tr><td>Nom : </td><td><input type='text' name='nom' placeholder='"+activeAdherent.getNom()+"'></br></td></tr>"
@@ -82,7 +82,7 @@ public class Profil extends HttpServlet {
 					+ "<tr><td>Téléphone 2 : </td><td><input type='text' name='tel2' placeholder='"+activeAdherent.getTel2()+"'></br></td></tr>"
 					+ "<tr><td>Adresse 1 : </td><td><input type='text' name='adresse1' placeholder='"+activeAdherent.getAdresse1()+"'></br></td></tr>"
 					+ "<tr><td>Adresse 2 : </td><td><input type='text' name='adresse2' placeholder='"+activeAdherent.getAdresse2()+"'></br></td></tr>"
-					+ "<tr><td>Mail 1 : </td><td><input type='text' name='mail1' placeholder='"+activeAdherent.getMail1()+"'></br></td></tr>"
+					+ "<tr><td>Mail 1 : </td><td><input type='text' name='mail1' placeholder='"+activeAdherent.getMail1()+"' readonly></br></td></tr>"
 					+ "<tr><td>Mail 2 : </td><td><input type='text' name='mail2' placeholder='"+activeAdherent.getMail2()+"'></br></td></tr>"
 					+ "<tr><td>Commentaire : </td><td><input type='text' name='commentaire' value='"+activeAdherent.getCommentaire()+"' readonly></br></td></tr>"
 					+ "<tr><td>Contact 1 : </td><td><input type='text' name='contact1' placeholder='"+activeAdherent.getContact1()+"'></br></td></tr>"
@@ -97,7 +97,7 @@ public class Profil extends HttpServlet {
 		else {
 						
 		out.println("<h1 align=center>Informations adhérent : </h1></br>"
-				+ "<div align=center>"
+				+ "<div class='formulaire-adherent'>"
 				+ "<table border>"
 				+ "<tr><td>Nom : </td><td>"+activeAdherent.getNom()+"</br></td></tr>"
 				+ "<tr><td>Prénom : </td><td>"+activeAdherent.getPrenom()+"</br></td></tr>"							
