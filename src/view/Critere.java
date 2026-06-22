@@ -77,7 +77,7 @@ public class Critere extends HttpServlet {
 					out.println("<form action='ControleurCritere' method=POST>"
 						+ "<input type='button' name='supprCritere' onclick='activerCheckbox()' value='Supprimer des critères'>"
 						+ "	<div id='divSupprimer' style='display:none;'><br>" 
-					    + "		<input type='submit' id='supprimerCritere' name='direction' onclick='confirmSuppr()' value='Supprimer les critères sélectionnés ?'>"
+					    + "		<input type='submit' id='supprimerCritere' name='direction' value='Supprimer les critères sélectionnés ?'>"
 						+ "	</div>"
 						+ "</form>"
 						+ "<br>"   
@@ -87,11 +87,18 @@ public class Critere extends HttpServlet {
 						+ "        	checkbox.disabled = false;});"
 						+ "			document.getElementById('divSupprimer').style.display ='block';"
 						+ "		}"
-						+ " 	function confirmSuppr() {" //si le bouton 'supprimerCritere' est cliqué affiche une fenêtre de confirmation, si OK -> soumission du formulaire vers ControleurCritere
-						+ "			if (window.confirm('Êtes-vous sûr-e de vouloir supprimer ce(s) critère(s) ?')){"
-						+ "				document.getElementById('supprimerCritere').submit();"
-						+ "			}"
-						+ "		}"  
+						
+						+ "		let suppressionEnCours = false;"
+						+ "		document.getElementById('supprimerCritere').addEventListener('click', function() {"
+						+ "    		suppressionEnCours = true;});"
+						
+						+ "		function confirmSuppr() {"//si le bouton 'supprimerCritere' est cliqué affiche une fenêtre de confirmation, si OK -> soumission du formulaire vers ControleurCritere
+						+ "    		if (suppressionEnCours) {"
+						+ "        		suppressionEnCours = false;"
+						+ "        		return window.confirm('Êtes-vous sûr-e de vouloir supprimer ce(s) critère(s) ?');"
+						+ "    		}"
+						+ "    		return true;" // Valider les modifications passe sans confirmation pour le bouton de modification
+						+ "		}"
 						+ "</script>"
 						+ "<br>"	
 
