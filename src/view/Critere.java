@@ -57,7 +57,7 @@ public class Critere extends HttpServlet {
 			
 		out.println("<body><h1 align=center>Critères : </h1></br>"
 				+ "	<div class='formulaire-ficheadmin'>"
-				+ "		<form action='ControleurCritere' method=POST>"
+				+ "		<form action='ControleurCritere' method=POST onsubmit='return confirmSuppr()'>"
 				+ " 	<table>"
 				+ " 	<tr><th>Nom</th></tr>");
 		
@@ -70,12 +70,10 @@ public class Critere extends HttpServlet {
 				out.println("</table><br>");
 				
 				if ((activeUser.getRole().equals("admin") || activeUser.getRole().equals("modif"))) {
-					out.println("<input type='submit' name='direction' value='Valider les modifications'><br><br>"
-							+ "</form>");
+					out.println("<input type='submit' name='direction' value='Valider les modifications'><br><br>");
 					
 					//Suppression d'un ou plusieurs critères : active les checkbox et la div qui contient le bouton d'envoi
-					out.println("<form action='ControleurCritere' method=POST>"
-						+ "<input type='button' name='supprCritere' onclick='activerCheckbox()' value='Supprimer des critères'>"
+					out.println("<input type='button' name='supprCritere' onclick='activerCheckbox()' value='Supprimer des critères'>"
 						+ "	<div id='divSupprimer' style='display:none;'><br>" 
 					    + "		<input type='submit' id='supprimerCritere' name='direction' value='Supprimer les critères sélectionnés ?'>"
 						+ "	</div>"
