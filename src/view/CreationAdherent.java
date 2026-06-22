@@ -40,7 +40,7 @@ public class CreationAdherent extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     	HttpSession h = request.getSession(false);
     	
-    	if (h == null || h.getAttribute("activeUser") == null) { //Si la session n'existe pas, renvie vers la page de connexion
+    	if (h == null || h.getAttribute("activeUser") == null) { //Si la session n'existe pas, renvoie vers la page de connexion
 		    response.sendRedirect("/Connexion");
 		    return;
 		}
@@ -56,29 +56,11 @@ public class CreationAdherent extends HttpServlet {
 			//Formulaire d'ajout d'adhérent
 		out.print("<!Doctype html><html><head><meta charset='utf-8'/> \r\n"
 				+ "<link href='licence.css' rel='stylesheet'>"
-				+ "<link href='header.css' rel='stylesheet'>"
 				+ "</head>");  //revoir l'alignement des boutons en haut de la page
 	        		
 	        out.println(Header.afficherEntete(activeUser));   	
 	        
-			out.println("<table width=100%><tr><td>");
-			
-			out.println("<div class='sidebar' align='top'>"
-					+ "<div class='logo'>Plan du site</div>"
-					+ "<div class='menu'>");
-		
-					if(activeUser.getRole().equals("admin") || activeUser.getRole().equals("modif"))
-					{
-						out.print("<form action='ControleurAccueil' name='boutonajout' method='POST'> <input type = 'submit' name='direction' value='Catégories'> </form><br>");
-						out.print("<form action='ControleurAccueil' name= 'boutonajout' value = 'ajoutAdherent' method='POST'> <input type = 'submit' name = 'direction' value='Créer un adhérent'> </form><br>");	
-					}
-					
-					out.println("<form action = 'ControleurAccueil' method='POST'> <input type='hidden' name='ficheadmin' value='ficheadmin'> <input type='submit'  value='Consulter les fiches Administratives'> </form><br>"
-					+ "<form action='RechercheAdherent' method='POST'> <input type='hidden' name='recherche' value='recherche'> <input type='submit' value='Rechercher un adhérent'> </form> <br>"
-					+ "<form action='ControleurAccueil' method='POST'> <input type='hidden' name='fichesport' value='fichesport'> <input type='submit' value='Consulter les fiches sportives'> </form><br>"
-					+ "<form action ='ControleurAccueil' method='POST'> <input type='hidden' name='critere' value='critere'><input type='submit' name='critere' value='Consulter les critères'></form><br>"
-					+ "</div>"
-					+ "</div></td>");
+			out.println("<table><tr>");
 	        
 	        //Afficher erreur mail invalide
 	        if( request.getAttribute("erreur") == "Adresse mail1 invalide" ||  request.getAttribute("erreur") == "Adresse mail2 invalide" ) {
@@ -88,7 +70,7 @@ public class CreationAdherent extends HttpServlet {
 	        }
 
 	    	
-	        out.println("<td><div align=center>"
+	        out.println("<td><div class='formulaire-ficheadmin'>"
 	        		  +"<form action='ControleurAjtAdherent' method='POST'>"
 	        		  +"<h1>Création d'un adhérent</h1><br>"
 	        		  +"<table border=1>"
