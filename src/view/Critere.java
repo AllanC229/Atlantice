@@ -58,27 +58,25 @@ public class Critere extends HttpServlet {
 			
 			r += "<body><h1 align=center>Critères : </h1></br>"
 				+ "	<div align=center>"
-				+ "		<form action=\"ControleurCritere\" method=POST>"
+				+ "		<form action=\"ControleurCritere\" method=POST onsubmit='return confirmSuppr()'>" //EXPLIQUE
 				+ " 	<table border>"
 				+ " 	<tr><th>Nom</th></tr>";
 		
 				// boucle pour afficher chaque nom de critere 
 				for (HashMap.Entry<Integer, String> entry : nomCritere.entrySet()) {
 					
-					r += "<tr><td><input type=\"text\" name=\""+ entry.getValue() + "\" value=\"" + entry.getValue() + "\"></td>" // <input type=\"hidden\" name=\"idcritere\" value=" + entry.getKey() + "></td>"
+					r += "<tr><td><input type=\"text\" name=\""+ entry.getValue() + "\" value=\"" + entry.getValue() + "\"><input type=\"hidden\" name=\"idcritere\" value=" + entry.getKey() + "></td>"
 					   + "<td><input type=\"checkbox\" name='supprCritere' value=" + entry.getKey() + " class='critere' disabled ></td></tr>";
 				}
 				r += "</table><br>";
 				
 				if ((activeUser.getRole().equals("admin") || activeUser.getRole().equals("modif"))) {
-					r+= "<input type=\"submit\" name=\"direction\" value=\"Valider les modifications\"><br><br>"
-							+ "</form>";
+					r+= "<input type=\"submit\" name=\"direction\" value=\"Valider les modifications\"><br><br>";
 					
 					//Suppression d'un ou plusieurs critères : active les checkbox et la div qui contient le bouton d'envoi
-					r += "<form action=\"ControleurCritere\" method=POST>"
-						+ "<input type=\"button\" name=\"supprCritere\" onclick=\"activerCheckbox()\" value=\"Supprimer des critères\">"
+					r += "<input type=\"button\" name=\"supprCritere\" onclick=\"activerCheckbox()\" value=\"Supprimer des critères\">"
 						+ "	<div id='divSupprimer' style='display:none;'><br>" 
-					    + "		<input type='submit' id='supprimerCritere' name='direction' onclick='confirmSuppr()' value='Supprimer les critères sélectionnés ?'>"
+					    + "		<input type='submit' id='supprimerCritere' name='direction' value='Supprimer les critères sélectionnés ?'>"
 						+ "	</div>"
 						+ "</form>"
 						+ "<br>"   
@@ -88,11 +86,18 @@ public class Critere extends HttpServlet {
 						+ "        	checkbox.disabled = false;});"
 						+ "			document.getElementById('divSupprimer').style.display ='block';"
 						+ "		}"
-						+ " 	function confirmSuppr() {" //si le bouton 'supprimerCritere' est cliqué affiche une fenêtre de confirmation, si OK -> soumission du formulaire vers ControleurCritere
-						+ "			if (window.confirm('Êtes-vous sûr-e de vouloir supprimer ce(s) critère(s) ?')){"
-						+ "				document.getElementById('supprimerCritere').submit();"
-						+ "			}"
-						+ "		}"  
+						
+						+ "		let suppressionEnCours = false;"
+						+ "		document.getElementById('supprimerCritere').addEventListener('click', function() {"
+						+ "    		suppressionEnCours = true;});"
+						
+						+ "		function confirmSuppr() {"//si le bouton 'supprimerCritere' est cliqué affiche une fenêtre de confirmation, si OK -> soumission du formulaire vers ControleurCritere
+						+ "    		if (suppressionEnCours) {"
+						+ "        		suppressionEnCours = false;"
+						+ "        		return window.confirm('Êtes-vous sûr-e de vouloir supprimer ce(s) critère(s) ?');"
+						+ "    		}"
+						+ "    		return true;" // Valider les modifications passe sans confirmation pour le bouton de modification
+						+ "		}"
 						+ "</script>"
 						+ "<br>"	
 
