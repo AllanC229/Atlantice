@@ -6,10 +6,10 @@ public class ControleDeSaisie {
 
 	
 	//regex pour les mails accepte uniquement le format: lettres/chiffres + @ + des lettres/chiffres + des lettres
-    String regexPattern = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
+   public static String regexPattern = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
 	
     
- // Méthode qui vérifie que les mails correspond au pattern regex 
+   	// Méthode qui vérifie que les mails correspond au pattern regex 
     public static boolean patternMatches(String userInput, String regexPattern) {
         return Pattern.compile(regexPattern)
             .matcher(userInput)
