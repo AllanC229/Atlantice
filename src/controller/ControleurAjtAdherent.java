@@ -132,7 +132,7 @@ public class ControleurAjtAdherent extends HttpServlet {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-                	// pas donner d'indice quant à la nature de l'erreur (request.setAttribute("erreur", "Caractère interdit détecté (< > \")");)                    getServletContext().getRequestDispatcher("/CreationAdherent").forward(request, response);
+                	// pas donner d'indice quant à la nature de l'erreur (request.setAttribute("erreur", "Caractère interdit détecté (< > \")");)  getServletContext().getRequestDispatcher("/CreationAdherent").forward(request, response);
                     getServletContext().getRequestDispatcher("/CreationAdherent").forward(request, response);
                 	return;
                 }
