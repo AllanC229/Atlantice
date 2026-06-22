@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map.Entry;
 
 import connection.DAOAcces;
 import jakarta.servlet.ServletException;
@@ -112,83 +113,82 @@ public class ControleurCritere extends HttpServlet {
 				}
 			}
 			response.sendRedirect("ControleurAccueil?critere=critere"); // rafraichir vue Critère à jour 
-		}
+		} // fin du bloc modification du nom du critere
 		
 		if ("Supprimer les critères sélectionnés ?".equals(direction)) {
 		    System.out.println("bouton confirmer suppression critère cliqué");
 		    
-		    //récupérer les valeurs des ckbox cochée(s) puis supprimer le critère et toutes les occurences le concernant dans critereadh 
+		    //récupérer les valeurs des ckbox cochée(s) 
 			String[] idsSupprimes = request.getParameterValues("supprCritere");
-			System.out.println("ckbox cochées:" + Arrays.toString(idsSupprimes)); // = null ????
-		    
-			if (idsSupprimes != null) { //vérif pertinente ou pas? car si on clique sur ces boutons supprimés apriori ça peut pas être null
-				try {
-					dao = new DAOAcces("com.mysql.cj.jdbc.Driver", "webadherents", "root", "");
-					
-					conn = dao.getConn();
-					
-					activeUser.lastseen(activeUser.getIdConnexion(), " critère supprimé "+ request.getParameterValues("supprCritere") +" dans la BDD;");
-					
-				    // désactivation du mode de validation automatique (auto-commit) => gestion de la transaction manuelle
-				    conn.setAutoCommit(false);
-					
-					//suppression dans critereadheretn
-					String deleteCritereAdhSQL = "DELETE FROM critereadherent " //DELETE --- ?? FROM
-											+ "WHERE idcritere = ?";
-					
-					// Création d'un PreparedStatement
-					PreparedStatement pstSupprCritereAdh = conn.prepareStatement(deleteCritereAdhSQL);
-					
-					//int idCritere = entry.getKey();
-					//System.out.println("idCritere:" + idCritere);
-					
-					//pstSupprCritereAdh.setInt (1, idCritere);
-	 
-					pstSupprCritereAdh.executeUpdate();
-					System.out.println("requête exécutée dans critereadh : " + pstSupprCritereAdh);
-					
-					//suppression dans criteres
-					String deleteCritereSQL = "DELETE idcritere, nomcritere FROM criteres " 
-											+ "WHERE idcritere = ?";
-					
-					PreparedStatement pstSupprCritere = conn.prepareStatement(deleteCritereSQL);
-							
-					//pstSupprCritere.setInt (1, idCritere);
-			 
-					pstSupprCritere.executeUpdate();
-					System.out.println("requête exécutée dans critere : " + pstSupprCritere);
+			System.out.println("ckbox cochées:" + Arrays.toString(idsSupprimes));
 
+			if (idsSupprimes != null) { //vérif pertinente ou pas? car si on clique sur ces boutons supprimés apriori ça peut pas être null
+				//supprimer le ou les critères et toutes les occurences les concernant dans critereadh 
+				for (String idcritere : idsSupprimes){
+					try {
+						dao = new DAOAcces("com.mysql.cj.jdbc.Driver", "webadherents", "root", "");
+						
+						conn = dao.getConn();
+						
+						activeUser.lastseen(activeUser.getIdConnexion(), " critère supprimé "+ request.getParameterValues("supprCritere") +" dans la BDD;");
+						
+					    // désactivation du mode de validation automatique (auto-commit) => gestion de la transaction manuelle
+					    conn.setAutoCommit(false);
+						
+						//suppression dans critereadheretn
+						String deleteCritereAdhSQL = "DELETE FROM critereadherent " 
+												+ "WHERE idcritere = ?";
+						
+						// Création d'un PreparedStatement
+						PreparedStatement pstSupprCritereAdh = conn.prepareStatement(deleteCritereAdhSQL);
+						
+						
+						int idCritere= Integer.parseInt(idcritere);
+						System.out.println("idCritere:" + idCritere);
+						
+						pstSupprCritereAdh.setInt (1, idCritere);
+		 
+						pstSupprCritereAdh.executeUpdate();
+						System.out.println("requête exécutée dans critereadh : " + pstSupprCritereAdh);
+						
+						//suppression dans criteres
+						String deleteCritereSQL = "DELETE FROM criteres " 
+												+ "WHERE idcritere = ?";
+						
+						PreparedStatement pstSupprCritere = conn.prepareStatement(deleteCritereSQL);
 								
-				conn.commit();
-					
-				} catch(SQLException e) {
-					System.out.println("Probleme SQL supprCritere !!");
-					if (conn != null) { //Si la connection n'est pas nulle, retour en arrière = annule la transaction
-						try {
-							conn.rollback();
-							// insérer la tentative d'injection dans les logs : 
-							activeUser.lastseen(activeUser.getIdConnexion(), " tentative de suppression de critère "+ request.getParameterValues("supprCritere") +" dans la BDD;");
-							System.out.println("Transaction annulée : rollback effectué");
-						} catch (SQLException ex) {
-							System.out.println("Connexion ok mais probleme SQL supprCritere !!");
-							ex.printStackTrace();
-						}
-					}
-					e.printStackTrace();
-				} finally {
-					if (dao != null) { // vérification nécessaire : si la construction a échoué avant la ligne d'affectation, dao vaut encore null
-				        dao.closeConnection();
-				    }
-					dao.closeConnection();
-				}
-				response.sendRedirect("ControleurAccueil?critere=critere");
-				
-				
-			}
-			
-		    
+						pstSupprCritere.setInt (1, idCritere);
+				 
+						pstSupprCritere.executeUpdate();
+						System.out.println("requête exécutée dans critere : " + pstSupprCritere);
 	
-		}
+									
+					conn.commit();
+						
+					} catch(SQLException e) {
+						System.out.println("Probleme SQL supprCritere !!");
+						if (conn != null) { //Si la connection n'est pas nulle, retour en arrière = annule la transaction
+							try {
+								conn.rollback();
+								// insérer la tentative d'injection dans les logs : 
+								activeUser.lastseen(activeUser.getIdConnexion(), " tentative de suppression de critère "+ request.getParameterValues("supprCritere") +" dans la BDD;");
+								System.out.println("Transaction annulée : rollback effectué");
+							} catch (SQLException ex) {
+								System.out.println("Connexion ok mais probleme SQL supprCritere !!");
+								ex.printStackTrace();
+							}
+						}
+						e.printStackTrace();
+					} finally {
+						if (dao != null) { // vérification nécessaire : si la construction a échoué avant la ligne d'affectation, dao vaut encore null
+					        dao.closeConnection();
+					    }
+						dao.closeConnection();
+					}
+				} // fin for each 
+			} // fin du if
+			response.sendRedirect("ControleurAccueil?critere=critere"); // rafraichir vue Critère à jour 
+		}//fin bloc suppression de critère-s
 	}
 
 	/**
