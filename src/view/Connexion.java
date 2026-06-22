@@ -46,13 +46,6 @@ public class Connexion extends HttpServlet {
 					+"<br>");
 			out.println("<table><tr><td>");
 			
-		/*	if (h.getAttribute("nom")!=null && !h.getAttribute("nom").equals("")){
-				System.out.println("Non effacé");
-			}
-			else {
-				out.println("Vous êtes bien déconnecté"); 
-			} */ //on sait que la deco fonctionne
-			
 			out.println("Adresse mail: </td><td><input type='text' name='mailCo'> </input> </td></tr><tr><td>");
 			out.println("Mot de passe: </td><td><input type='password' name='mdpCo'> </input> </td></tr></table><br><br>");
 

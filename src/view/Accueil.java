@@ -52,12 +52,10 @@ public class Accueil extends HttpServlet {
 		}
 	    
 	    Utilisateur activeUser = (Utilisateur) h.getAttribute("activeUser");
-		String categorie = null;
 		PrintWriter out=response.getWriter();		
 			
 			out.println("<html><head><meta charset='utf-8'/> "
 					+"<link href='licence.css' rel='stylesheet'>"
-					+ "<link href='header.css' rel='stylesheet'>"
 					+"</head>");
 					
 			out.println(Header.afficherEntete(activeUser));
@@ -66,30 +64,8 @@ public class Accueil extends HttpServlet {
 				out.println(request.getAttribute("chgtmdp"));
 			}
 			
-			out.println("<table width=100%><tr><td>");
-			
-			out.println("<div class='sidebar'>"
-					+ "<div class='logo'>Plan du site</div>"
-					+ "<div class='menu'>");
-			
-					if(activeUser.getRole().equals("admin") || activeUser.getRole().equals("modif"))
-					{
-						categorie = "";
-						out.print("<form action='ControleurAccueil' name='boutonajout' method='POST'> <input type = 'submit' name='direction' value='Catégories'> </form><br>");
-						out.print("<form action='ControleurAccueil' name= 'boutonajout' value = 'ajoutAdherent' method='POST'> <input type = 'submit' name = 'direction' value='Créer un adhérent'> </form><br>");	
-					}
-					
-					out.println("<form action = 'ControleurAccueil' method='POST'> <input type='hidden' name='ficheadmin' value='ficheadmin'> <input type='submit'  value='Consulter les fiches Administratives'> </form><br>"
-					+ "<form action='RechercheAdherent' method='POST'> <input type='hidden' name='recherche' value='recherche'> <input type='submit' value='Rechercher un adhérent'> </form> <br>"
-					+ "<form action='ControleurAccueil' method='POST'> <input type='hidden' name='fichesport' value='fichesport'> <input type='submit' value='Consulter les fiches sportives "+categorie+"'> </form><br>"
-					+ "<form action ='ControleurAccueil' method='POST'> <input type='hidden' name='critere' value='critere'><input type='submit' name='critere' value='Consulter les critères'></form><br>"
-					+ "</div>"
-					+ "</div></td>");
-			
-			
-
-	        
-	        out.println("<td><div align=center><form align=center action='ControleurAccueil' method=POST>"
+			out.println("<table width=100%><tr><td>"
+					+ "<div align=center><form align=center action='ControleurAccueil' method=POST>"
 					+ "<h1>Licenciés par catégorie(s)</h1><br><br><h2>Choisissez une catégorie parmi les suivantes:</h2><br>"+
 					"<select multiple='multiple' name='categorie[]' size='5'>");
 
@@ -100,7 +76,7 @@ public class Accueil extends HttpServlet {
 					out.print("</option><br><br>");  
 				}
 
-			out.print("</select><p /><br><br><input type='submit' name='categorie' value='Valider' /> <p /></form></div></td></tr>");
+			out.print("</select><p><br><br><input type='submit' name='categorie' value='Valider'> <p></form></div></td></tr>");
 			out.println("</table>");	
 			out.print("</body></html>");
 	

@@ -61,7 +61,7 @@ public class FicheAdministrative extends HttpServlet {
 					out.println(Header.afficherEntete(activeUser));
 							
 					out.println("<h1 align=center>Formulaire adhérent : </h1></br>"
-							+ "<div align=center><form action=\"ControleurFicheAdministrative\" method=POST>"
+							+ "<div class='formulaire-adherent'><form action=\"ControleurFicheAdministrative\" method=POST>"
 							+ "<table border>"
 							+ "<tr><td>Nom : </td><td><input type='text' name='nom' value='"+a.getNom()+"'></br></td></tr>"
 							+ "<tr><td>Prénom : </td><td><input align=center type='text' name='prenom' value='"+a.getPrenom()+"'></br></td></tr>"							
@@ -92,8 +92,8 @@ public class FicheAdministrative extends HttpServlet {
 					        			+ "</select></td></tr></div>");	        	
 					        }									
 							out.println("</table>"
-							+ "<div>"
-							+ "<input type='submit' name='modifAd' value\"Modification de l'adhérent\"></input>"
+							+ "<div class='actions'>"
+							+ "<input type='submit' name='modifAd' value'Modification de l'adhérent'></input>"
 							+ "<input type='submit' name='supprAd' value='Supprimer cet adhérent'></input>"
 							+ "</form></div>");
 				}
@@ -109,7 +109,11 @@ public class FicheAdministrative extends HttpServlet {
 					a = adh;
 					out.print("<!Doctype html><html><head><meta charset=\"utf-8\"/> \r\n"
 							+ "<link href=\"licence.css\" rel=\"stylesheet\">"
-							+ "</head><body><h1 align=center>Formulaire adhérent : </h1></br>"
+							+ "</head>");
+					
+					out.println(Header.afficherEntete(activeUser));
+					
+					out.print("<body><h1 align=center>Formulaire adhérent : </h1></br>"
 							+ "<div align='right'> <form action='ControleurDeconnexion' name='boutondeconnexion' method='get'> <input type ='submit' name='deconnexion' value='Se déconnecter'> </form><br>"
 							+ "<div align=center>"
 							+ "<table border>"

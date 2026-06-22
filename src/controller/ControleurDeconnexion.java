@@ -39,7 +39,9 @@ public class ControleurDeconnexion extends HttpServlet {
     String deconnexion = (String)request.getParameter("deconnexion");
 	
 	//Deconnexion de la session, Allan
-	if("Se déconnecter".equals(deconnexion)) {
+	if("Déconnexion".equals(deconnexion)) {
+		
+		System.out.println("on passe ici");
 		
 		HttpSession h = request.getSession(false);	
 		
