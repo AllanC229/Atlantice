@@ -21,6 +21,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import model.Utilisateur;
+import tool.ControleDeSaisie;
 import connection.DAOAcces;
 
 /**
@@ -60,7 +61,7 @@ public class ControleurAjtAdherent extends HttpServlet {
 		PreparedStatement psCategorie = null ;
 		
 		//regex pour les mails accepte uniquement le format: lettres/chiffres + @ + des lettres/chiffres + des lettres
-        String regexPattern = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
+        String regexMail = ControleDeSaisie.regexPattern;
         		
         //on récupère les données du formulaire
         String nomAdh = request.getParameter("nmAdh");
@@ -87,10 +88,10 @@ public class ControleurAjtAdherent extends HttpServlet {
         	return;
         }
         
-        numTel2 = videVersNull(numTel2);
-        adresse2 = videVersNull(adresse2);
-        mail2 = videVersNull(mail2);
-        commentaire = videVersNull(commentaire);
+        numTel2 = ControleDeSaisie.videVersNull(numTel2);
+        adresse2 = ControleDeSaisie.videVersNull(adresse2);
+        mail2 = ControleDeSaisie.videVersNull(mail2);
+        commentaire = ControleDeSaisie.videVersNull(commentaire);
         System.out.println("vérif méthode videVersNull pour commentaire : " + commentaire);
         
         //appeler la méthode des caractères interdits
@@ -108,7 +109,7 @@ public class ControleurAjtAdherent extends HttpServlet {
         champsATester.add(role);
 
         for (String champ : champsATester) {
-            if (caractereInterdit(champ)) {
+            if (ControleDeSaisie.caractereInterdit(champ)) {
 				// insérer la tentative d'injection dans les logs : 
             	try {
 					activeUser.lastseen(activeUser.getIdConnexion(), " tentative insertion caractère interdit dans la BDD;");
@@ -124,7 +125,7 @@ public class ControleurAjtAdherent extends HttpServlet {
 
         if (categories != null) {
             for (String cat : categories) {
-                if (caractereInterdit(cat)) {
+                if (ControleDeSaisie.caractereInterdit(cat)) {
     				// insérer la tentative d'injection dans les logs : 
                 	try {
 						activeUser.lastseen(activeUser.getIdConnexion(), " tentative insertion caractère interdit dans les categ dans la BDD;");
@@ -140,7 +141,7 @@ public class ControleurAjtAdherent extends HttpServlet {
         }
         
         // format mail1 invalide
-        if (patternMatches(mail1, regexPattern) == false) {
+        if (ControleDeSaisie.patternMatches(mail1, regexMail) == false) {
 	        request.setAttribute("erreur", "Adresse mail1 invalide");
 	        getServletContext().getRequestDispatcher("/CreationAdherent").forward(request, response);
 	        System.out.println("mail1 invalide:" + mail1);
@@ -148,7 +149,7 @@ public class ControleurAjtAdherent extends HttpServlet {
         } 
         // format mail2 invalide
         if(mail2 != null) {
-	        if (patternMatches(mail2, regexPattern) == false) {
+	        if (ControleDeSaisie.patternMatches(mail2, regexMail) == false) {
 		        request.setAttribute("erreur", "Adresse mail2 invalide");
 		        getServletContext().getRequestDispatcher("/CreationAdherent").forward(request, response);
 		        System.out.println("mail2 invalide:" + mail2);
@@ -249,28 +250,6 @@ public class ControleurAjtAdherent extends HttpServlet {
 		doGet(request, response);
 	}
 
-    // Méthode qui vérifie que les mails correspond au pattern regex 
-    public boolean patternMatches(String userInput, String regexPattern) {
-        return Pattern.compile(regexPattern)
-            .matcher(userInput)
-            .matches();
-    }
-    
-    //Méthode qui met à null les champs que non requis laissés vides
-    public String videVersNull(String s) {
-    	if (s.equals("") || s.isEmpty() || s.isBlank()) {
-    		s = null;
-    	}
-        return s;
-    }
-
-    // Méthode pour vérifier si un champ contient des chevrons et/ou des guillemets, si oui = renvoie à la vue CreationAdhérent
-    public boolean caractereInterdit(String entreeUtilisateur) {
-    	    if (entreeUtilisateur == null) {
-    	        return false;
-    	    }
-    	    return entreeUtilisateur.contains("<") || entreeUtilisateur.contains(">") || entreeUtilisateur.contains("\"")
-    	    	|| entreeUtilisateur.contains("*") || entreeUtilisateur.contains("\'") ||entreeUtilisateur.contains(";");
-    	}
+   
 	
 }
