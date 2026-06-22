@@ -23,17 +23,74 @@ public class Header {
 		//ajouter sur chaque vue : + "<link href='header.css' rel='stylesheet'>"
 		
 			String htmlEntete = "<body> " 
-					+ "<header>"
-					+ "<nav>"
-					+ "	<div id=\"logoClub\">"
-					+ "		<img src='images/logo.png' alt='Logo du club sportif' style='max-width:50%; height:auto;'>" //logo format svg?
-					+ "</div>"
-					+ "<div id='profil'>" + activeUser.getPrenom() +" "+activeUser.getNom()+" "+activeUser.getRole()+""
-					+ "			<form action='ControleurDeconnexion' name='boutondeconnexion' method='POST'> <input type ='submit' name='deconnexion' value='Se déconnecter'> </form><br>"
-					+ "			<form action='ControleurAccueil' name='accesprofil' method='POST'> <input type ='submit' name='direction' value='Profil'> </form>"
-					+ "</div>"
-					+ "</nav>"
-					+ "</header>";
+					
+						    +"<header>"
+						    + "<nav>"
+
+						    + "<div id='logoClub'>"
+						    + "    <img src='images/logo.png' alt='Logo du club sportif'>"
+						    + "</div>"
+
+						    + "<div id='menuPrincipal'>"
+						    + "<form action='Accueil' name='retouraccueil' method='POST' > <input type = 'submit' name='retouraccueil' value='Acueil'> </form>"
+
+						;
+
+						if(activeUser.getRole().equals("admin") || activeUser.getRole().equals("modif"))
+						{
+							htmlEntete +=
+						        "<form action='ControleurAccueil' method='POST'>"
+						        + "<input type='submit' name='direction' value='Catégories'>"
+						        + "</form>"
+
+						        + "<form action='ControleurAccueil' method='POST'>"
+						        + "<input type='submit' name='direction' value='Créer un adhérent'>"
+						        + "</form>"
+						    ;
+						}
+
+						htmlEntete +=
+
+						    "<form action='ControleurAccueil' method='POST'>"
+						    + "<input type='hidden' name='ficheadmin' value='ficheadmin'>"
+						    + "<input type='submit' value='Fiches administratives'>"
+						    + "</form>"
+
+						    + "<form action='RechercheAdherent' method='POST'>"
+						    + "<input type='hidden' name='recherche' value='recherche'>"
+						    + "<input type='submit' value='Rechercher un adhérent'>"
+						    + "</form>"
+
+						    + "<form action='ControleurAccueil' method='POST'>"
+						    + "<input type='hidden' name='fichesport' value='fichesport'>"
+						    + "<input type='submit' value='Fiches sportives'>"
+						    + "</form>"
+
+						    + "<form action='ControleurAccueil' method='POST'>"
+						    + "<input type='hidden' name='critere' value='critere'>"
+						    + "<input type='submit' name='critere' value='Critères'>"
+						    + "</form>"
+
+						    + "</div>"
+
+						    + "<div id='profil'>"
+						    + activeUser.getPrenom() + " "
+						    + activeUser.getNom() + "<br>"
+						    + activeUser.getRole()
+
+						    + "<form action='ControleurAccueil' method='POST'>"
+						    + "<input type='submit' name='direction' value='Profil'>"
+						    + "</form>"
+
+						    + "<form action='ControleurDeconnexion' method='POST'>"
+						    + "<input type='submit' name='deconnexion' value='Déconnexion'>"
+						    + "</form>"
+
+						    + "</div>"
+
+						    + "</nav>"
+						    + "</header>"
+						;
 			
 			return htmlEntete;		
 	}

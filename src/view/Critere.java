@@ -49,9 +49,9 @@ public class Critere extends HttpServlet {
 		System.out.println("Vue critere HashMap : " + nomCritere);
 
 		
-		String r = "<!Doctype html><html><head><meta charset=\"utf-8\"/>"
-				+ " <link href=\"licence.css\" rel=\"stylesheet\">"
-				+ " <link href=\"header.css\" rel=\"stylesheet\">"
+		String r = "<!Doctype html><html><head><meta charset='utf-8'/>"
+				+ " <link href='licence.css' rel='stylesheet'>"
+				//+ " <link href='header.css' rel='stylesheet'>"
 				+ " </head>";
 				
 		out.println(Header.afficherEntete(activeUser));
@@ -102,11 +102,11 @@ public class Critere extends HttpServlet {
 						+ "<br>"	
 
 						//Création de critères
-						+ "<tr><td><form action=\"CreationCritere\" method=GET>" 
-						+ "<input type=\"submit\" name=\"creationCritere\" value=\"Créer un critère\"></td></tr></form><br>";
+						+ "<tr><td><form action='CreationCritere' method=GET>" 
+						+ "<input type='submit' name='creationCritere' value='Créer un critère'></td></tr></form><br>";
 				
-					r += "<div><form action=\"Accueil\" name=\"retouraccueil\" value=\"accueil\" method=\"GET\">"
-						+ "<input type=\"submit\" name=\"retouraccueil\" value=\"Retour à l'accueil\"> </form>"
+					r += "<div><form action='Accueil' name='retouraccueil' value='accueil' method='GET'>"
+						+ "<input type='submit' name='retouraccueil' value='Retour à l'accueil'> </form>"
 						+ "</div></body></html>";					
 							
 				}
