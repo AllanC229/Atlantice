@@ -49,32 +49,33 @@ public class Critere extends HttpServlet {
 		System.out.println("Vue critere HashMap : " + nomCritere);
 
 		
-		String r = "<!Doctype html><html><head><meta charset='utf-8'/>"
+		out.println("<html><head><meta charset='utf-8'/>"
 				+ " <link href='licence.css' rel='stylesheet'>"
-				//+ " <link href='header.css' rel='stylesheet'>"
-				+ " </head>";
+				+ " </head>");
 				
 		out.println(Header.afficherEntete(activeUser));
 			
-			r += "<body><h1 align=center>Critères : </h1></br>"
-				+ "	<div align=center>"
-				+ "		<form action=\"ControleurCritere\" method=POST onsubmit='return confirmSuppr()'>" //EXPLIQUE
-				+ " 	<table border>"
-				+ " 	<tr><th>Nom</th></tr>";
+		out.println("<body><h1 align=center>Critères : </h1></br>"
+				+ "	<div class='formulaire-ficheadmin'>"
+				+ "		<form action='ControleurCritere' method=POST>"
+				+ " 	<table>"
+				+ " 	<tr><th>Nom</th></tr>");
 		
 				// boucle pour afficher chaque nom de critere 
 				for (HashMap.Entry<Integer, String> entry : nomCritere.entrySet()) {
 					
-					r += "<tr><td><input type=\"text\" name=\""+ entry.getValue() + "\" value=\"" + entry.getValue() + "\"><input type=\"hidden\" name=\"idcritere\" value=" + entry.getKey() + "></td>"
-					   + "<td><input type=\"checkbox\" name='supprCritere' value=" + entry.getKey() + " class='critere' disabled ></td></tr>";
+					out.println("<tr><td><input type='text' name='"+ entry.getValue() + "' value='" + entry.getValue() + "'></td>"
+					   + "<td><input type='checkbox' name='supprCritere' value=" + entry.getKey() + " class='critere' disabled ></td></tr>");
 				}
-				r += "</table><br>";
+				out.println("</table><br>");
 				
 				if ((activeUser.getRole().equals("admin") || activeUser.getRole().equals("modif"))) {
-					r+= "<input type=\"submit\" name=\"direction\" value=\"Valider les modifications\"><br><br>";
+					out.println("<input type='submit' name='direction' value='Valider les modifications'><br><br>"
+							+ "</form>");
 					
 					//Suppression d'un ou plusieurs critères : active les checkbox et la div qui contient le bouton d'envoi
-					r += "<input type=\"button\" name=\"supprCritere\" onclick=\"activerCheckbox()\" value=\"Supprimer des critères\">"
+					out.println("<form action='ControleurCritere' method=POST>"
+						+ "<input type='button' name='supprCritere' onclick='activerCheckbox()' value='Supprimer des critères'>"
 						+ "	<div id='divSupprimer' style='display:none;'><br>" 
 					    + "		<input type='submit' id='supprimerCritere' name='direction' value='Supprimer les critères sélectionnés ?'>"
 						+ "	</div>"
@@ -103,15 +104,11 @@ public class Critere extends HttpServlet {
 
 						//Création de critères
 						+ "<tr><td><form action='CreationCritere' method=GET>" 
-						+ "<input type='submit' name='creationCritere' value='Créer un critère'></td></tr></form><br>";
+						+ "<input type='submit' name='creationCritere' value='Créer un critère'></td></tr></form><br>");
 				
-					r += "<div><form action='Accueil' name='retouraccueil' value='accueil' method='GET'>"
-						+ "<input type='submit' name='retouraccueil' value='Retour à l'accueil'> </form>"
-						+ "</div></body></html>";					
+					out.println("</body></html>");					
 							
 				}
-				
-			response.getWriter().append(r);
 		
 	}
 	

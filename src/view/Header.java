@@ -32,7 +32,7 @@ public class Header {
 						    + "</div>"
 
 						    + "<div id='menuPrincipal'>"
-						    + "<form action='Accueil' name='retouraccueil' method='POST' > <input type = 'submit' name='retouraccueil' value='Acueil'> </form>"
+						    + "<form action='Accueil' name='retouraccueil' method='POST' > <input type = 'submit' name='retouraccueil' value='Accueil'> </form>"
 
 						;
 
