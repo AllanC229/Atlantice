@@ -214,6 +214,8 @@ nav {
     background-color: var(--couleur-danger-hover);
 }
 
+
+
 /* ========================= */
 /* TABLEAUX ADMINISTRATIFS */
 /* ========================= */
@@ -233,6 +235,12 @@ nav {
 }
 
 .formulaire-ficheadmin h1 {
+    text-align: center;
+    color: var(--couleur-principale);
+    margin-bottom: 20px;
+}
+
+.formulaire-ficheadmin h2 {
     text-align: center;
     color: var(--couleur-principale);
     margin-bottom: 20px;
@@ -363,14 +371,12 @@ nav {
 }
 
 .formulaire-ficheadmin input[type="text"], .formulaire-ficheadmin input[type="tel"], .formulaire-ficheadmin input[type="email"] {
-    width: 95%;
+    width: 45%;
     padding: 8px;
     border: 1px solid #cfd8dc;
     border-radius: 5px;
-    box-sizing: border-box;
+    
 }
-
-
 
 /* Bloc confirmation suppression */
 
