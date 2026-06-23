@@ -66,11 +66,11 @@ public class FicheSportive extends HttpServlet {
 				out.println(Header.afficherEntete(activeUser));
 
 						
-				affichage += "<h1 align=center>Suivi sportif : </h1></br>" 
+				out.println("<h1 align=center>Suivi sportif : </h1></br>" 
 						+ "<div align=center><table border>"
 						+ "		<tr><td>Nom : </td><td>"+a.getNom()+"</td></tr>"
 						+ "		<tr><td>Prénom : </td><td>"+a.getPrenom()+"</td></tr>"
-						+ "		<tr><td>Numéro de licence : </td><td>"+a.getNumLicence()+"</td></tr>" ;
+						+ "		<tr><td>Numéro de licence : </td><td>"+a.getNumLicence()+"</td></tr>" );
 						for (HashMap.Entry<String, Integer> entry : criteres.entrySet()) {
 							affichage +=  "<tr><td>"+entry.getKey()+"</td><td>"
 										+ "<div class='range-slider' style='--value-a: 0; width: 350px;'>"
@@ -80,11 +80,11 @@ public class FicheSportive extends HttpServlet {
 										+ "<div class='range-slider__progress'></div></div>";
 						}
 												
-						affichage += "</table></div>";
+						out.println("</table></div>");
 						if ((activeUser.getRole().equals("admin") || activeUser.getRole().equals("modif"))) {				
-						affichage +="<div align=center><form action='ControleurFicheSportive' method=POST>"
+							out.println("<div align=center><form action='ControleurFicheSportive' method=POST>"
 								+ "<input type=submit name='modifAd' value='Modification de l'adhérent'></input>"
-								+ "</form></div>";
+								+ "</form></div>");
 						}
 						
 						affichage += "<div align=center><form action='Accueil' name='retouraccueil' value='accueil' method='POST'>"

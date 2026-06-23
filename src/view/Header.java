@@ -60,12 +60,12 @@ public class Header {
 						    + "<input type='hidden' name='recherche' value='recherche'>"
 						    + "<input type='submit' value='Rechercher un adhérent'>"
 						    + "</form>"
-
+						    /*
 						    + "<form action='ControleurAccueil' method='POST'>"
 						    + "<input type='hidden' name='fichesport' value='fichesport'>"
 						    + "<input type='submit' value='Fiches sportives'>"
 						    + "</form>"
-
+							*/
 						    + "<form action='ControleurAccueil' method='POST'>"
 						    + "<input type='hidden' name='critere' value='critere'>"
 						    + "<input type='submit' name='critere' value='Critères'>"

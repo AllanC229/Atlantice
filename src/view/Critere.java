@@ -49,13 +49,13 @@ public class Critere extends HttpServlet {
 		System.out.println("Vue critere HashMap : " + nomCritere);
 
 		
-		out.println("<html><head><meta charset='utf-8'/>"
+		out.println("<!DOCTYPE html><html><head><meta charset='utf-8'/>"
 				+ " <link href='licence.css' rel='stylesheet'>"
 				+ " </head>");
 				
 		out.println(Header.afficherEntete(activeUser));
 			
-		out.println("<body><h1 align=center>Critères : </h1></br>"
+		out.println("<h1 align=center>Critères : </h1><br>"
 				+ "	<div class='formulaire-ficheadmin'>"
 				+ "		<form action='ControleurCritere' method=POST onsubmit='return confirmSuppr()'>"
 				+ " 	<table>"
@@ -101,8 +101,8 @@ public class Critere extends HttpServlet {
 						+ "<br>"	
 
 						//Création de critères
-						+ "<tr><td><form action='CreationCritere' method=GET>" 
-						+ "<input type='submit' name='creationCritere' value='Créer un critère'></td></tr></form><br>");
+						+ "<form class='creation-critere' action='CreationCritere' method=GET>" 
+						+ "<input type='submit' name='creationCritere'  value='Ajouter un critère'></form><br>");
 				
 			        if (request.getAttribute("erreur") != null) {
 			        	out.println(request.getAttribute("erreur"));
