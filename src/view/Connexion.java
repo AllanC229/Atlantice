@@ -56,7 +56,12 @@ public class Connexion extends HttpServlet {
 			}
 			
 			out.print("<input type='submit' value = 'Valider' /></input>");   
-			out.print("</form></div></body></html>");
+			out.print("</form></div>");
+			
+	        if (request.getAttribute("erreur") != null) {
+	        	out.println(request.getAttribute("erreur"));
+	        }
+			out.println("</body></html>");
 			
 			
 	        

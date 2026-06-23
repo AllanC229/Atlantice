@@ -57,7 +57,15 @@ public class CreationCritere extends HttpServlet {
 						+ "<br><br>"
 						+ "<input type='submit' value = 'Valider' /></input>"
 						+ "</form><br>"
-						+ "</div></body></html>");      
+						+ "<form action=\"Accueil\" name=\"retouraccueil\" value=\"accueil\" method='POST'>"
+						+ "<input type=\"submit\" name=\"retouraccueil\" value=\"Retour à l'accueil\"> </form>"
+						+ "</div>");   
+			
+	        if (request.getAttribute("erreur") != null) {
+	        	out.println(request.getAttribute("erreur"));
+	        }
+			
+			out.println("</body></html>");
 	}
 
 	/**

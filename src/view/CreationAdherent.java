@@ -61,14 +61,6 @@ public class CreationAdherent extends HttpServlet {
 	        out.println(Header.afficherEntete(activeUser));   	
 	        
 			out.println("<table><tr>");
-	        
-	        //Afficher erreur mail invalide
-	        if( request.getAttribute("erreur") == "Adresse mail1 invalide" ||  request.getAttribute("erreur") == "Adresse mail2 invalide" ) {
-		        out.println("<script language='javascript'>");
-		    	out.println("alert('Adresse mail invalide')");
-		    	out.println("</script>");
-	        }
-
 	    	
 	        out.println("<td><div class='formulaire-ficheadmin'>"
 	        		  +"<form action='ControleurAjtAdherent' method='POST'>"
@@ -114,7 +106,13 @@ public class CreationAdherent extends HttpServlet {
 	    			+ "Commentaire: <br> <textarea rows=4 cols=40 name='commentaire'></textarea><br>"
 	    			+ "Renseignements obligatoires: (*)<br>"
 	    			+ "<input type='submit' value='Valider'></form></div></td></tr>"
-	    			+ "</table></body></html>");      
+	    			+ "</table>");     
+	        
+	        if (request.getAttribute("erreur") != null) {
+	        	out.println(request.getAttribute("erreur"));
+	        }
+			
+			out.println("</body></html>");
     }
 
     /**

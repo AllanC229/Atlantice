@@ -89,7 +89,7 @@ public class Accueil extends HttpServlet {
 	        	out.println(request.getAttribute("erreur"));
 	        }
 			
-			out.print("</body></html>");
+			out.println("</body></html>");
 	
 
 	

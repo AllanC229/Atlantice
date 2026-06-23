@@ -104,7 +104,11 @@ public class Critere extends HttpServlet {
 						+ "<form class='creation-critere' action='CreationCritere' method=GET>" 
 						+ "<input type='submit' name='creationCritere'  value='Ajouter un critère'></form><br>");
 				
-					out.println("</div></body></html>");					
+			        if (request.getAttribute("erreur") != null) {
+			        	out.println(request.getAttribute("erreur"));
+			        }
+					
+					out.println("</body></html>");
 							
 				}
 		

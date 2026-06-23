@@ -190,8 +190,13 @@ public class Tableau extends HttpServlet {
 					out.println("</td></tr>");
 				}
 		}
-		out.println("</table></div></body></html>");
+		out.println("</table></div>");
 		h.setAttribute("adherents", (ArrayList<Adherent>)request.getAttribute("adherents"));
+		
+        if (request.getAttribute("erreur") != null) {
+        	out.println(request.getAttribute("erreur"));
+        }
+		out.println("</body></html>");
 	
 		if(activeUser.getRole().equals("admin") || activeUser.getRole().equals("modif"))
 		{		

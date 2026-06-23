@@ -69,8 +69,13 @@ public class ModifInfosProfil extends HttpServlet {
 				+ "<tr><td>Sexe : </td><td><input align=center type='text' name='sexe' value='"+activeAdherent.getSexe()+"'></br></td></tr>"
 				+ "<tr><td>Droit à l'image : </td><td><input align=center type='text' name='droitImage' value='"+activeAdherent.getDroitImage()+"'></br></td></tr>"
 				+ "</table>"
-				+ "<input type='submit' name='modifinfos' value='Valider les modifications'> </form>"
-				+ "</body></html>");
+				+ "<input type='submit' name='modifinfos' value='Valider les modifications'> </form>");
+		
+        if (request.getAttribute("erreur") != null) {
+        	out.println(request.getAttribute("erreur"));
+        }
+		
+		out.println("</body></html>");
     }
     
 	/**

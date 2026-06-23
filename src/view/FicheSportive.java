@@ -87,10 +87,14 @@ public class FicheSportive extends HttpServlet {
 								+ "</form></div>");
 						}
 						
-						out.println("<div align=center><form action='Accueil' name='retouraccueil' value='accueil' method='POST'>"
-						+ "<input type='submit' name='retouraccueil' value='Retour à l'accueil'> </form>"
-						+ "</div></body></html>");
+						affichage += "<div align=center><form action='Accueil' name='retouraccueil' value='accueil' method='POST'>"
+						+ "<input type='submit' name='retouraccueil' value='Retour à l'accueil'> </form>";
 						
+				        if (request.getAttribute("erreur") != null) {
+				        	out.println(request.getAttribute("erreur"));
+				        }
+						
+						out.println("</body></html>");
 			}
 		}
 		

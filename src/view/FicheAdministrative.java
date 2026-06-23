@@ -141,8 +141,12 @@ public class FicheAdministrative extends HttpServlet {
 				}
 			}
 		}
+		
+        if (request.getAttribute("erreur") != null) {
+        	out.println(request.getAttribute("erreur"));
+        }
 
-		out.print("</body></html>");		
+		out.println("</body></html>");		
 	}
 	
 	/**

@@ -68,10 +68,15 @@ public class Categories extends HttpServlet {
 					+ "<input type=\"submit\" name=\"modifCategories\" value='Valider les modifications'> </form><br>"
 					
 					+ "<form action=\"CreationCategorie\" method=POST> <input type=\"submit\" name=\"creationCategorie\" value=\"Créer une catégorie\"></form>"
-					+ "</div></body></html>");					
+					+ "</div>");					
 				
 				/*	out.print("<form action=\"ControleurCategories\" name=\"boutonCreerCateg\" method=\"get\"> <input type = \"submit\" name=\"creationCategorie\" value=\"Créer une catégorie\"> </form>");	*/
 			
+			        if (request.getAttribute("erreur") != null) {
+			        	out.println(request.getAttribute("erreur"));
+			        }
+					
+					out.print("</body></html>");
 				
 				}
 		
