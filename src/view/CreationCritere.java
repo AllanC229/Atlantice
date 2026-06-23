@@ -60,7 +60,13 @@ public class CreationCritere extends HttpServlet {
 						+ "</form><br>"
 						+ "<form action=\"Accueil\" name=\"retouraccueil\" value=\"accueil\" method='POST'>"
 						+ "<input type=\"submit\" name=\"retouraccueil\" value=\"Retour à l'accueil\"> </form>"
-						+ "</div></body></html>");      
+						+ "</div>");   
+			
+	        if (request.getAttribute("erreur") != null) {
+	        	out.println(request.getAttribute("erreur"));
+	        }
+			
+			out.println("</body></html>");
 	}
 
 	/**

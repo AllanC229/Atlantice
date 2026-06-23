@@ -38,7 +38,7 @@ public class CreationCategorie extends HttpServlet {
 
 		
 		//Formulaire d'ajout de classe
-		out.print("<!Doctype html><html><head><meta charset=\"utf-8\"/> \r\n"
+		out.println("<!Doctype html><html><head><meta charset=\"utf-8\"/> \r\n"
 				+ "<link href=\"licence.css\" rel=\"stylesheet\">"
 				+ "<link href=\"header.css\" rel=\"stylesheet\">"
 				+ "</head>");
@@ -52,8 +52,14 @@ public class CreationCategorie extends HttpServlet {
 		out.println("Nom de la catégorie: <input type=\"text\" name=\"nmC\"> </input> <br><br>");
 		out.println("Année de la catégorie: <input type=\"text\" name=\"annee\"> </input> <br><br>");
 
-		out.print("<input type=\"submit\" value = \"Valider\" /></input></div>");   
-		out.print("</form></body></html>");
+		out.println("<input type=\"submit\" value = \"Valider\" /></input></div>");   
+		out.println("</form>");
+		
+        if (request.getAttribute("erreur") != null) {
+        	out.println(request.getAttribute("erreur"));
+        }
+		
+		out.println("</body></html>");
 			    
 	}
 

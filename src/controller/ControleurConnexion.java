@@ -56,6 +56,7 @@ public class ControleurConnexion extends HttpServlet {
         String regexMail = ControleDeSaisie.regexPattern;
 		
 		if (mailsaisi.equals("") || mdpsaisi.equals("")) {
+			request.setAttribute("erreur", "Veuillez compléter tous les champs svp !");
 			getServletContext().getRequestDispatcher("/Connexion").forward(request, response);
 			System.out.println("Veuillez compléter tous les champs svp !");
 

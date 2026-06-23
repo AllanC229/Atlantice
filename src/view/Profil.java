@@ -59,10 +59,12 @@ public class Profil extends HttpServlet {
 					+ "<tr><td>Confirmer le mot de passe</td><td><input type='password' name='confnouvmdp'></td></tr>"
 					+ "</table>"
 					+ "<input type='hidden' name='valider' value='validermdp'><input type='submit' value='Valider'>"
-					+ "</form></div>"
-					+ "</body>"
-					
-					);
+					+ "</form></div>");
+			
+	        if (request.getAttribute("erreur") != null) {
+	        	out.println(request.getAttribute("erreur"));
+	        }
+			out.println("</body></html>");
 			
 		}
 
@@ -90,8 +92,12 @@ public class Profil extends HttpServlet {
 					+ "<tr><td>Sexe : </td><td><input type='text' name='sexe' placeholder='"+activeAdherent.getSexe()+"'></br></td></tr>"
 					+ "<tr><td>Droit à l'image : </td><td><input type='text' name='droitimage' placeholder='"+activeAdherent.getDroitImage()+"'></br></td></tr>"
 					+ "</table></div>"
-					+ "<div align ='center'><input type='hidden' name='valider' value='validerinfos'> <input type='submit' value='Valider les modifications'> </form></div>"
-					+ "</body>");
+					+ "<div align ='center'><input type='hidden' name='valider' value='validerinfos'> <input type='submit' value='Valider les modifications'> </form></div>");
+	       
+			if (request.getAttribute("erreur") != null) {
+	        	out.println(request.getAttribute("erreur"));
+	        }
+			out.println("</body></html>");
 		}
 		
 		else {
@@ -125,12 +131,21 @@ public class Profil extends HttpServlet {
 						+ "<div class='range-slider__progress'></div></div>");
 			}
 			out.print( "</table></div>"
-						+ "<div align ='center'> <form action='Profil' method='POST'> <input type='hidden' name='modifinfos' value='modifinfos'> <input type='submit' name='modifinfos' value='Modifier mes informations'> </form></div>"
-						+ "<div align ='center'> <form action='Profil' method='POST'> <input type='hidden' name='modifmdp' value='modifmdp'> <input type='submit' name='modifmdp' value='Modifier mon mot de passe'> </form></div>"
-						+ "</body>");
+						+ "<div align ='center'> "
+						+ "<form action='Profil' method='POST'> <input type='hidden' name='modifinfos' value='modifinfos'> "
+						+ "<input type='submit' name='modifinfos' value='Modifier mes informations'> "
+						+ "</form></div>"
+						+ "<div align ='center'> <form action='Profil' method='POST'> "
+						+ "<input type='hidden' name='modifmdp' value='modifmdp'> "
+						+ "<input type='submit' name='modifmdp' value='Modifier mon mot de passe'> "
+						+ "</form></div>");
 		}
 		
-		out.print("</html>");
+        if (request.getAttribute("erreur") != null) {
+        	out.println(request.getAttribute("erreur"));
+        }
+		out.println("</body></html>");
+
 	}
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub

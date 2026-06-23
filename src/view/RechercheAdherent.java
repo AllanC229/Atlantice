@@ -61,7 +61,14 @@ public class RechercheAdherent extends HttpServlet {
 				+ "<tr><td> Recherche par Nom </td><td><input type='text' name='nom'></td></tr>"
 				+ "</table>"
 				+ "<input type='submit' value='Recherche'>"
-				+ "</form></body></html>");
+				+ "</form>");
+		
+        if (request.getAttribute("erreur") != null) {
+        	out.println(request.getAttribute("erreur"));
+        }
+		out.println("</body></html>");
+		
+		
 	}
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
