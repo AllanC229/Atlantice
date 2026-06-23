@@ -138,11 +138,7 @@ public class FicheAdministrative extends HttpServlet {
 			}
 		}
 		
-		out.print("<div>"
-				+ "<form action='Accueil' name='boutonAccueil' value='accueil' method='get'>"
-				+ "<input type='submit' name='accueil' value='Accueil'> </form>"
-				+ "</div>"
-				+ "</body></html>");		
+		out.print("</body></html>");		
 	}
 	
 	/**
