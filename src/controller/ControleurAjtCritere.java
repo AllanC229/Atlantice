@@ -16,6 +16,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import model.Utilisateur;
 import connection.DAOAcces;
+import tool.ControleDeSaisie;
+
 
 /**
  * Servlet implementation class ControleurAjtCategorie
@@ -44,77 +46,85 @@ public class ControleurAjtCritere extends HttpServlet {
 		    response.sendRedirect("/Connexion");
 		    return;
 		}
-		
-	//	PrintWriter out=response.getWriter();
-		
+				
 		String nomcritere = (request.getParameter("nomCritere"));
+		
+		DAOAcces dao = null;
+	    Connection conn = null;
+	    String insertCritere = null;
+	    PreparedStatement pstInsertCritere = null;
 	    
-		if(nomcritere != null && !nomcritere.trim().isEmpty()) { 
-			
-			DAOAcces dao = null;
-		    Connection conn = null;
-		    String insertCritere = null;
-		    PreparedStatement pstInsertCritere = null;
-		    
-		    String insertCritereAdh = null;
-		    PreparedStatement pstInsertCritAdh = null;
-
-			try { 
-			
-				dao = new DAOAcces("com.mysql.cj.jdbc.Driver", "webadherents", "root", "");
-			
-			    conn = dao.getConn();
-
-				activeUser.lastseen(activeUser.getIdConnexion(), " ajout du critère "+ request.getParameter("nomCritere") +" dans la BDD;");
-				
-			    // désactivation du mode de validation automatique (auto-commit) => gestion de la transaction manuelle
-			    conn.setAutoCommit(false);
-			    
-				// Insertion du nouveau critere dans la table critere
-				insertCritere = "INSERT INTO criteres(idcritere, nomcritere) "
-										+ "VALUES (DEFAULT, ?);";	
-				pstInsertCritere = conn.prepareStatement(insertCritere);
-				pstInsertCritere.setString (1, nomcritere);
-				pstInsertCritere.executeUpdate();
-				System.out.println(pstInsertCritere);
-				
-				//Insertion de ce nouveau critere pour tout les adh dans critereadherent à 0
-				insertCritereAdh = "INSERT INTO critereadherent (numerolicence, idcritere, valcritere) "
-								+ "SELECT numerolicence, LAST_INSERT_ID(), ? "
-								+ "FROM adherents;";
-				
-				pstInsertCritAdh = conn.prepareStatement(insertCritereAdh);
-				pstInsertCritAdh.setInt (1, 0);
-				pstInsertCritAdh.executeUpdate();
-				System.out.println(pstInsertCritAdh);				
-				
-				conn.commit();
-	           
-			} catch(SQLException e) {
-				System.out.println("Probleme SQL creationCritere !!");
-				if (conn != null) { //Si la connection n'est pas nulle, retour en arrière = annule la transaction
-					try {
-						conn.rollback();
-						System.out.println("Transaction annulée : rollback effectué");
-					} catch (SQLException ex) {
-						System.out.println("Connexion ok mais probleme SQL creationCritere !!");
-						ex.printStackTrace();
-					}
-				}
-				e.printStackTrace();
-			} finally {
-				if (dao != null) { // vérification nécessaire : si la construction a échoué avant la ligne d'affectation, dao vaut encore null
-			        dao.closeConnection();
-			    }
-				dao.closeConnection();
-			}
-			response.sendRedirect("ControleurAccueil?critere=critere");
-		    		
-        } else {  
-        	//PrintWriter out=response.getWriter("Veuillez remplir le champ !");
+	    String insertCritereAdh = null;
+	    PreparedStatement pstInsertCritAdh = null;
+	    
+		if(nomcritere.trim().isEmpty()) {
+			//PrintWriter out=response.getWriter("Veuillez remplir le champ !");
         	request.getRequestDispatcher("/CreationCritere").forward(request, response);
-        	
+		}
+		
+		if (ControleDeSaisie.caractereInterdit(nomcritere)) {
+			// insérer la tentative d'injection dans les logs : 
+        	try {
+				activeUser.lastseen(activeUser.getIdConnexion(), " tentative insertion caractère interdit creatoinCritere;");
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+            // pas donner d'indice quant à la nature de l'erreur (request.setAttribute("erreur", "Caractère interdit détecté (< > \")");)
+            getServletContext().getRequestDispatcher("/CreationCritere").forward(request, response);
+            return;
         }
+			
+		try { 
+		
+			dao = new DAOAcces("com.mysql.cj.jdbc.Driver", "webadherents", "root", "");
+		
+		    conn = dao.getConn();
+
+			activeUser.lastseen(activeUser.getIdConnexion(), " ajout du critère "+ request.getParameter("nomCritere") +" dans la BDD;");
+			
+		    // désactivation du mode de validation automatique (auto-commit) => gestion de la transaction manuelle
+		    conn.setAutoCommit(false);
+		    
+			// Insertion du nouveau critere dans la table critere
+			insertCritere = "INSERT INTO criteres(idcritere, nomcritere) "
+									+ "VALUES (DEFAULT, ?);";	
+			pstInsertCritere = conn.prepareStatement(insertCritere);
+			pstInsertCritere.setString (1, nomcritere);
+			pstInsertCritere.executeUpdate();
+			System.out.println(pstInsertCritere);
+			
+			//Insertion de ce nouveau critere pour tout les adh dans critereadherent à 0
+			insertCritereAdh = "INSERT INTO critereadherent (numerolicence, idcritere, valcritere) "
+							+ "SELECT numerolicence, LAST_INSERT_ID(), ? "
+							+ "FROM adherents;";
+			
+			pstInsertCritAdh = conn.prepareStatement(insertCritereAdh);
+			pstInsertCritAdh.setInt (1, 0);
+			pstInsertCritAdh.executeUpdate();
+			System.out.println(pstInsertCritAdh);				
+			
+			conn.commit();
+           
+		} catch(SQLException e) {
+			System.out.println("Probleme SQL creationCritere !!");
+			if (conn != null) { //Si la connection n'est pas nulle, retour en arrière = annule la transaction
+				try {
+					conn.rollback();
+					System.out.println("Transaction annulée : rollback effectué");
+				} catch (SQLException ex) {
+					System.out.println("Connexion ok mais probleme SQL creationCritere !!");
+					ex.printStackTrace();
+				}
+			}
+			e.printStackTrace();
+		} finally {
+			if (dao != null) { // vérification nécessaire : si la construction a échoué avant la ligne d'affectation, dao vaut encore null
+		        dao.closeConnection();
+		    }
+			dao.closeConnection();
+		}
+		response.sendRedirect("ControleurAccueil?critere=critere");
 		
 
 	}

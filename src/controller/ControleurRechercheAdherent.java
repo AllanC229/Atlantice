@@ -17,6 +17,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import model.Adherent;
 import model.Utilisateur;
+import tool.ControleDeSaisie;
+
 
 /**
  * Servlet implementation class ControleurRechercheAdherent

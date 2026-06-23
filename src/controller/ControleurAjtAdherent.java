@@ -157,16 +157,16 @@ public class ControleurAjtAdherent extends HttpServlet {
 	        }
         }
         
-			try {
-				dao = new DAOAcces("com.mysql.cj.jdbc.Driver", "webadherents", "root", ""); 
-				conn = dao.getConn();
-				
-				activeUser.lastseen(activeUser.getIdConnexion(), " ajout de l'adhérent "+ request.getParameter("numLic") +" dans la BDD;");
-				
-				// désactivation du mode de validation automatique (auto-commit) => gestion de la transaction manuelle
-			    conn.setAutoCommit(false);
-			    
-	            
+		try {
+			dao = new DAOAcces("com.mysql.cj.jdbc.Driver", "webadherents", "root", ""); 
+			conn = dao.getConn();
+			
+			activeUser.lastseen(activeUser.getIdConnexion(), " ajout de l'adhérent "+ request.getParameter("numLic") +" dans la BDD;");
+			
+			// désactivation du mode de validation automatique (auto-commit) => gestion de la transaction manuelle
+		    conn.setAutoCommit(false);
+		    
+            
 	          //Modification pour effectuer une requête préparée, 08/12 10:11
 	          String mdpprov = BCrypt.hashpw(request.getParameter("mdpprov"), BCrypt.gensalt());
 	          String sqlAdh = "INSERT INTO adherents (numerolicence, nom, prenom, dernierelicenceactive, annee, tel1, tel2, adresse1, adresse2, mail1, mail2, commentaire, role, motdepasse) "
@@ -196,27 +196,27 @@ public class ControleurAjtAdherent extends HttpServlet {
 	          psSportif.setString(1, numeroLic);
 	          
 	          psSportif.executeUpdate(); 
-	          
-	          if (categories != null && categories.length != 0) {
-	        	  System.out.println("entrée dans la requete");
-	        	  String sqlCat = "";
-	        	  for (String indice : categories) {
-	        		  
-			          sqlCat = "INSERT INTO categorieadherent (numLic, idcategorie) VALUES (?, ?);";
-			          psAdh = conn.prepareStatement(sqlCat);
-			          psAdh.setString(1, numeroLic);
-			          psAdh.setString(2,  indice); 
-			          psAdh.executeUpdate(); 
-			          System.out.println(sqlCat);
-	        	  }
-	        	  System.out.println(sqlCat);
-	          }
-	
-	            	
-	          	conn.commit();
-				request.setAttribute("succes", "Adhérent ajouté !");
-				request.getRequestDispatcher("/Accueil").forward(request, response);
-				System.out.println("adhérent ajouté");
+          
+          if (categories != null && categories.length != 0) {
+        	  System.out.println("entrée dans la requete");
+        	  String sqlCat = "";
+        	  for (String indice : categories) {
+        		  
+		          sqlCat = "INSERT INTO categorieadherent (numLic, idcategorie) VALUES (?, ?);";
+		          psAdh = conn.prepareStatement(sqlCat);
+		          psAdh.setString(1, numeroLic);
+		          psAdh.setString(2,  indice); 
+		          psAdh.executeUpdate(); 
+		          System.out.println(sqlCat);
+        	  }
+        	  System.out.println(sqlCat);
+          	}
+
+            	
+          	conn.commit();
+			request.setAttribute("succes", "Adhérent ajouté !");
+			request.getRequestDispatcher("/Accueil").forward(request, response);
+			System.out.println("adhérent ajouté");
 
 	            
 	

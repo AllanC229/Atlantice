@@ -78,13 +78,20 @@ public class Accueil extends HttpServlet {
 
 			out.print("</select><p><br><br><input type='submit' name='categorie' value='Valider'> <p></form></div></td></tr>");
 			out.println("</table>");	
+			
+			if(request.getAttribute("succes") != null) {
+		        if(request.getAttribute("succes").equals("Adhérent ajouté !")) {
+			        out.println(request);
+		        }
+			}
+	        
+	        if (request.getAttribute("erreur") != null) {
+	        	out.println(request.getAttribute("erreur"));
+	        }
+			
 			out.print("</body></html>");
 	
-	        if( request.getAttribute("succes") == "Adhérent ajouté !") {
-		        out.println("<script language=\"javascript\">"
-			        + "alert('Adhérent ajouté !')"
-			    	+ "</script>");
-	        }
+
 	
 	}	
 	

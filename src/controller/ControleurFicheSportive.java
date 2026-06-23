@@ -14,6 +14,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import model.Adherent;
+import tool.ControleDeSaisie;
+
 
 	/**
 	 * Servlet implementation class ControleurFicheAdministrative
