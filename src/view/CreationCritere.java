@@ -44,22 +44,19 @@ public class CreationCritere extends HttpServlet {
 		PrintWriter out=response.getWriter();
 		
 		//Formulaire d'ajout de critère
-			out.println("<html><head><meta charset=\"utf-8\"/>"
-					+"<link href=\"licence.css\" rel=\"stylesheet\">"
-					+ "<link href=\"header.css\" rel=\"stylesheet\">"
+			out.println("<html><head><meta charset='utf-8'/>"
+					+"<link href='licence.css' rel='stylesheet'>"
 					+ "</head>");
 			
 			out.println(Header.afficherEntete(activeUser));
 					
-			out.println("<div align=center><form name=\"ajouterCritere\" action=\"ControleurAjtCritere\" method=POST>" 
-						+ "<h1>Ajouter un nouveau critère :</h1><br>"
+			out.println("<div class='formulaire-ficheadmin'><form name='ajouterCritere' action='ControleurAjtCritere' method=POST>" 
+						+ "<h1>Ajouter un nouveau critère </h1><br>"
 						+ "<br>"
-						+ "Nom du critère : <input type=\"text\" name=\"nomCritere\"> </input>"
+						+ "<h2>Nom du critère : </h2> <br> <input type='text' name='nomCritere'> </input>"
 						+ "<br><br>"
-						+ "<input type=\"submit\" value = \"Valider\" /></input>"
+						+ "<input type='submit' value = 'Valider' /></input>"
 						+ "</form><br>"
-						+ "<form action=\"Accueil\" name=\"retouraccueil\" value=\"accueil\" method='POST'>"
-						+ "<input type=\"submit\" name=\"retouraccueil\" value=\"Retour à l'accueil\"> </form>"
 						+ "</div></body></html>");      
 	}
 

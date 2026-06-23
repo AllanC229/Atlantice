@@ -61,7 +61,7 @@ public class FicheAdministrative extends HttpServlet {
 					out.println(Header.afficherEntete(activeUser));
 							
 					out.println("<h1 align=center>Formulaire adhérent : </h1></br>"
-							+ "<div class='formulaire-adherent'><form action=\"ControleurFicheAdministrative\" method=POST>"
+							+ "<div class='formulaire-adherent'><form action='ControleurFicheAdministrative' method=POST>"
 							+ "<table border>"
 							+ "<tr><td>Nom : </td><td><input type='text' name='nom' value='"+a.getNom()+"'></br></td></tr>"
 							+ "<tr><td>Prénom : </td><td><input align=center type='text' name='prenom' value='"+a.getPrenom()+"'></br></td></tr>"							
@@ -93,9 +93,13 @@ public class FicheAdministrative extends HttpServlet {
 					        }									
 							out.println("</table>"
 							+ "<div class='actions'>"
-							+ "<input type='submit' name='modifAd' value'Modification de l'adhérent'></input>"
-							+ "<input type='submit' name='supprAd' value='Supprimer cet adhérent'></input>"
-							+ "</form></div>");
+							+ "<input type='submit' name='modifAd' value='Modification de l'adhérent'>"
+							+ "<input type='submit' name='supprAd' value='Supprimer cet adhérent' onclick='return confirmSuppr();'>"							+ "</form></div>");
+							out.print("<script>"	
+									+ "function confirmSuppr() {"//si le bouton 'supprimeradherent' est cliqué affiche une fenêtre de confirmation, si OK -> soumission du formulaire vers ControleurCritere
+									+ "return confirm('Êtes-vous sûr-e de vouloir supprimer l\'adhérent? Cette action est irréversible');"
+									+ "}"
+									+ "</script>");
 				}
 			}
 		}
@@ -137,7 +141,7 @@ public class FicheAdministrative extends HttpServlet {
 				}
 			}
 		}
-		
+
 		out.print("</body></html>");		
 	}
 	
