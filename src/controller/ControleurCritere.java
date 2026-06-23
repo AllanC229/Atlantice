@@ -19,6 +19,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import model.Categorie;
 import model.Utilisateur;
+import tool.ControleDeSaisie;
+
 
 /**
  * Servlet implementation class ControleurCategories
@@ -59,6 +61,21 @@ public class ControleurCritere extends HttpServlet {
 			//pour chaque nomcritere modifié, mettre à jour la table critere
 			for (HashMap.Entry<Integer, String> entry : nomCritere.entrySet() ) {
 				if (!entry.getValue().equals(request.getParameter(entry.getValue()))){
+					
+					if (ControleDeSaisie.caractereInterdit(request.getParameter(entry.getValue()))) {
+						// insérer la tentative d'injection dans les logs : 
+		            	try {
+							activeUser.lastseen(activeUser.getIdConnexion(), " tentative insertion caractère interdit sur modif nomcritere;");
+						} catch (SQLException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+		                // pas donner d'indice quant à la nature de l'erreur (request.setAttribute("erreur", "Caractère interdit détecté (< > \")");)
+		                getServletContext().getRequestDispatcher("/Critere").forward(request, response);
+		                return;
+		            }
+					
+					
 					try {
 						dao = new DAOAcces("com.mysql.cj.jdbc.Driver", "webadherents", "root", "");
 						

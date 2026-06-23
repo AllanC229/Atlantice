@@ -18,6 +18,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import model.Adherent;
 import model.Utilisateur;
+import tool.ControleDeSaisie;
+
 
 @WebServlet("/ControleurModifInfosProfil")
 public class ControleurModifInfosProfil extends HttpServlet {

@@ -73,12 +73,27 @@ public class ControleurConnexion extends HttpServlet {
         if (mdpsaisi != null) {
                 if (ControleDeSaisie.caractereInterdit(mdpsaisi)) {
     				// insérer la tentative d'injection dans les logs : 
-                	/*try {
-						activeUser.lastseen(activeUser.getIdConnexion(), " tentative insertion caractère interdit dans le champ mdp vue connexion dans la BDD;");
+                	try {
+                		DAOAcces dao = new DAOAcces("com.mysql.cj.jdbc.Driver", "webadherents", "root", "");
+            			Connection conn = dao.getConn();
+            			
+            			Timestamp tslastseen = new Timestamp(System.currentTimeMillis());
+            			tslastseen.setNanos(0);
+            			
+            			String sql = "UPDATE log SET lastactivity = ? , navhistory = CONCAT(navhistory, ?) WHERE idlog = DEFAULT ;";
+            			PreparedStatement lastseen = conn.prepareStatement(sql);
+            			
+						String page =  " tentative insertion caractère interdit dans le champ mdp vue connexion dans la BDD;";
+            			
+            			lastseen.setTimestamp(1, tslastseen);
+            			lastseen.setString(2, page);
+            			//lastseen.setInt(3, id);
+            			System.out.println(lastseen);
+            			lastseen.executeUpdate();
 					} catch (SQLException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
-					}*/
+					}
                 	// pas donner d'indice quant à la nature de l'erreur (request.setAttribute("erreur", "Caractère interdit détecté (< > \")");)  getServletContext().getRequestDispatcher("/CreationAdherent").forward(request, response);
                     getServletContext().getRequestDispatcher("/Connexion").forward(request, response);
                     System.out.println("mdp contient caractère interdit:" + mdpsaisi);

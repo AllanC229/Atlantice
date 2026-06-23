@@ -20,6 +20,8 @@ import model.Utilisateur;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import tool.ControleDeSaisie;
+
 
 /**
  * Servlet implementation class ControleurAccueil
@@ -449,6 +451,24 @@ public class ControleurAccueil extends HttpServlet {
 					getServletContext().getRequestDispatcher("/Accueil").forward(request, response);
 				    return; // Arrête l'exécution de doGet() ICI, retour à l'accueil, le code reprend au début
 				} //fin 
+				
+				//Controle de saisie 
+		        if (categorie != null) {
+		            for (String cat : categorie) {
+		                if (ControleDeSaisie.caractereInterdit(cat)) {
+		    				// insérer la tentative d'injection dans les logs : 
+		                	try {
+								activeUser.lastseen(activeUser.getIdConnexion(), " tentative insertion caractère interdit dans les categ dans la BDD;");
+							} catch (SQLException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+		                	// pas donner d'indice quant à la nature de l'erreur (request.setAttribute("erreur", "Caractère interdit détecté (< > \")");)  getServletContext().getRequestDispatcher("/CreationAdherent").forward(request, response);
+		                    getServletContext().getRequestDispatcher("/Accueil").forward(request, response);
+		                	return;
+		                }
+		            }
+		        }
 				
 				try {
 					
