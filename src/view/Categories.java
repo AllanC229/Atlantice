@@ -53,7 +53,8 @@ public class Categories extends HttpServlet {
 		out.print(Header.afficherEntete(activeUser));
 
 		out.print("<h1 align=center>Catégories : </h1></br>"
-				+ "<div align=center><table border>"
+				+ "<div align=center><form action='ControleurCategories' method=POST>"
+				+ "<table border>"
 				+ "<tr><th>Années</th><th>Nom</th></tr>");
 		
 				for(Categorie c : (ArrayList<Categorie>)request.getAttribute("categories")) {
@@ -64,8 +65,9 @@ public class Categories extends HttpServlet {
 				
 				if ((activeUser.getRole().equals("admin") || activeUser.getRole().equals("modif"))) {
 				
-					out.print("<div align=center><form action='ControleurCategories' method=POST>"
-					+ "<input type=\"submit\" name=\"modifCategories\" value='Valider les modifications'> </form><br>"
+					out.print("<div align=center>"
+					+ "<input type=\"submit\" name=\"modifCategories\" value='Valider les modifications'>"
+					+ "</form><br>"
 					
 					+ "<form action=\"CreationCategorie\" method=POST> <input type=\"submit\" name=\"creationCategorie\" value=\"Créer une catégorie\"></form>"
 					+ "</div>");					

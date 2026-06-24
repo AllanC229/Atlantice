@@ -6,6 +6,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import org.mindrot.jbcrypt.BCrypt;
 
@@ -46,6 +47,8 @@ public class ControleurModifInfosProfil extends HttpServlet {
     			Adherent activeAdherent = (Adherent) h.getAttribute("activeAdherent");
     			Utilisateur activeUser = (Utilisateur) h.getAttribute("activeUser");
     			
+    			//regex pour les mails accepte uniquement le format: lettres/chiffres + @ + des lettres/chiffres + des lettres
+    	        String regexMail = ControleDeSaisie.regexPattern;
     			
     			if (request.getParameter("valider").equals("validerinfos")) {
     			
@@ -110,6 +113,46 @@ public class ControleurModifInfosProfil extends HttpServlet {
 	    				droitimage = activeAdherent.getDroitImage();
 	    			}
 	    			
+	    	        //appeler la méthode des caractères interdits
+	    	        ArrayList<String> champsATester = new ArrayList<>();
+	    	        champsATester.add(nom);
+	    	        champsATester.add(prenom);
+	    	        champsATester.add(tel1);
+	    	        champsATester.add(tel2);
+	    	        champsATester.add(adresse1);
+	    	        champsATester.add(adresse2);
+	    	      //  champsATester.add(mail1);
+	    	        champsATester.add(mail2);
+	    	        champsATester.add(contact1);
+	    	        champsATester.add(contact2);
+	    	        champsATester.add(sexe);
+	    	        champsATester.add(droitimage);
+	    	        
+	    	        for (String champ : champsATester) {
+	    	            if (ControleDeSaisie.caractereInterdit(champ)) {
+	    					// insérer la tentative d'injection dans les logs : 
+	    	            	try {
+	    						activeUser.lastseen(activeUser.getIdConnexion(), " tentative insertion caractère interdit dans modif Profil;");
+	    					} catch (SQLException e) {
+	    						// TODO Auto-generated catch block
+	    						e.printStackTrace();
+	    					}
+	    	                // pas donner d'indice quant à la nature de l'erreur ?? 
+	    	            	request.setAttribute("erreur", "Caractère interdit détecté");
+	    	                getServletContext().getRequestDispatcher("/Profil").forward(request, response);
+	    	                return;
+	    	            }
+	    	        }
+
+	    	        // format mail2 invalide
+	    	        if(mail2 != null) {
+	    		        if (ControleDeSaisie.patternMatches(mail2, regexMail) == false) {
+	    			        request.setAttribute("erreur", "Adresse mail 2 invalide");
+	    			        getServletContext().getRequestDispatcher("/Profil").forward(request, response);
+	    			        System.out.println("mail2 invalide:" + mail2);
+	    			        return;
+	    		        }
+	    	        }	    			
 	    			
 	    			DAOAcces dao = new DAOAcces("com.mysql.cj.jdbc.Driver", "webadherents", "root", "");
 	    			
@@ -172,6 +215,40 @@ public class ControleurModifInfosProfil extends HttpServlet {
     			}
     			
     			else if (request.getParameter("valider").equals("validermdp")) {
+    				
+    				//on récupère les données du formulaire
+    		        String mdpactuel = request.getParameter("mdpactuel");
+    		        String nouvmdp = request.getParameter("nouvmdp");
+    		        String confnouvmdp = request.getParameter("confnouvmdp");
+    		        
+    		        if (mdpactuel.trim().isEmpty() || nouvmdp.trim().isEmpty() || confnouvmdp.trim().isEmpty()) {
+    		        	request.setAttribute("erreur", "Veuillez remplir tout les champs !");
+    		        	getServletContext().getRequestDispatcher("/Profil").forward(request, response);
+    		        	return;
+    		        } else {
+    		        	//appeler la méthode des caractères interdits
+    		            ArrayList<String> champsATester = new ArrayList<>();
+    		            champsATester.add(mdpactuel);
+    		            champsATester.add(nouvmdp);
+    		            champsATester.add(confnouvmdp);
+    		            
+    		            for (String champ : champsATester) {
+    		                if (ControleDeSaisie.caractereInterdit(champ)) {
+    		    				// insérer la tentative d'injection dans les logs : 
+    		                	try {
+    		    					activeUser.lastseen(activeUser.getIdConnexion(), " tentative insertion caractère interdit dans changement mdp;");
+    		    				} catch (SQLException e) {
+    		    					// TODO Auto-generated catch block
+    		    					e.printStackTrace();
+    		    				}
+    		                    // pas donner d'indice quant à la nature de l'erreur ?? 
+    		                	request.setAttribute("erreur", "Caractère interdit détecté");
+    		                    getServletContext().getRequestDispatcher("/Profil").forward(request, response);
+    		                    return;
+    		                }
+    		            }
+    		        }
+    				
     				
     				DAOAcces dao = new DAOAcces("com.mysql.cj.jdbc.Driver", "webadherents", "root", "");
     				Connection conn = dao.getConn();

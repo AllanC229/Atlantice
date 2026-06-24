@@ -54,41 +54,41 @@ public class FicheSportive extends HttpServlet {
 		}
 		System.out.println(numLic);
 		
-		String affichage = "";
 		for (Adherent adh : (ArrayList<Adherent>) h.getAttribute("adherents")) {
 			if(adh.getNumLicence().equals(numLic)) {
 				a = adh;
-				affichage = "<!Doctype html><html><head><meta charset='utf-8'> \r\n"
+				out.println("<!Doctype html><html><head><meta charset='utf-8'> \r\n"
 						+"<link href='licence.css' rel='stylesheet'>"
 						+ "<link href='range-slider-fiche-sportive.css' rel='stylesheet'>" //fichier CSS pour l'input range-slider
-						+ "</head>";
+						+ "</head>");
 						
 				out.println(Header.afficherEntete(activeUser));
 
 						
 				out.println("<h1 align=center>Suivi sportif : </h1></br>" 
 						+ "<div align=center><table border>"
+						+ "<form action='ControleurFicheSportive' method=POST>"
 						+ "		<tr><td>Nom : </td><td>"+a.getNom()+"</td></tr>"
 						+ "		<tr><td>Prénom : </td><td>"+a.getPrenom()+"</td></tr>"
 						+ "		<tr><td>Numéro de licence : </td><td>"+a.getNumLicence()+"</td></tr>" );
 						for (HashMap.Entry<String, Integer> entry : criteres.entrySet()) {
-							affichage +=  "<tr><td>"+entry.getKey()+"</td><td>"
+							out.println("<tr><td>"+entry.getKey()+"</td><td>"
 										+ "<div class='range-slider' style='--value-a: 0; width: 350px;'>"
 										+ "<input id='"+entry.getKey()+"' name='"+entry.getKey()+"' type='range' min='0' max='5' value='" + entry.getValue() 
 																					+"'oninput='this.parentNode.style.setProperty('--value-a', this.value)'>"
 										+ "<div class='range-slider__values'>0 1 2 3 4 5</div>"
-										+ "<div class='range-slider__progress'></div></div>";
+										+ "<div class='range-slider__progress'></div></div>");
 						}
 												
 						out.println("</table></div>");
 						if ((activeUser.getRole().equals("admin") || activeUser.getRole().equals("modif"))) {				
-							out.println("<div align=center><form action='ControleurFicheSportive' method=POST>"
-								+ "<input type=submit name='modifAd' value='Modification de l'adhérent'></input>"
+							out.println("<div align=center>"
+								+ "<input type=submit name='modifAd' value=\"Modification de l'adhérent\"></input>"
 								+ "</form></div>");
 						}
 						
-						affichage += "<div align=center><form action='Accueil' name='retouraccueil' value='accueil' method='POST'>"
-						+ "<input type='submit' name='retouraccueil' value='Retour à l'accueil'> </form>";
+						out.println("<div align=center><form action='Accueil' name='retouraccueil' value='accueil' method='POST'>"
+						+ "<input type='submit' name='retouraccueil' value=\"Retour à l'accueil\"> </form>");
 						
 				        if (request.getAttribute("erreur") != null) {
 				        	out.println(request.getAttribute("erreur"));
@@ -99,7 +99,7 @@ public class FicheSportive extends HttpServlet {
 		}
 		
 		
-		response.getWriter().append(affichage);
+		//response.getWriter().append(affichage);
 	
 	}
 	/**
