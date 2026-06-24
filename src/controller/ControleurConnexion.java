@@ -81,7 +81,8 @@ public class ControleurConnexion extends HttpServlet {
             			Timestamp tslastseen = new Timestamp(System.currentTimeMillis());
             			tslastseen.setNanos(0);
             			
-            			String sql = "UPDATE log SET lastactivity = ? , navhistory = CONCAT(navhistory, ?) WHERE idlog = DEFAULT ;";
+            			String sql = "UPDATE log SET lastactivity = ? , navhistory = CONCAT(navhistory, ?) "
+            					+ "WHERE idlog = (SELECT CONNECTION_ID()) ;";
             			PreparedStatement lastseen = conn.prepareStatement(sql);
             			
 						String page =  " tentative insertion caractère interdit dans le champ mdp vue connexion dans la BDD;";

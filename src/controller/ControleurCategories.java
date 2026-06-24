@@ -46,79 +46,100 @@ public class ControleurCategories extends HttpServlet {
 		
 		Utilisateur activeUser = (Utilisateur) h.getAttribute("activeUser");
 		
-		/*PAS FONCTIONNEL !!
+		/* UPDATE PAS FONCTIONNEL !!
 		 * à revoir 
 		 */
 		
-		ArrayList<String> champsATester = new ArrayList<>();
-        champsATester.add(request.getParameter("nom"));
-        champsATester.add(request.getParameter("annee"));
+		String[] noms = request.getParameterValues("nom");
+		String[] annees = request.getParameterValues("annee");
 		
-        for (String champ : champsATester) {
-            if (ControleDeSaisie.caractereInterdit(champ)) {
-				// insérer la tentative d'injection dans les logs : 
-            	try {
-					activeUser.lastseen(activeUser.getIdConnexion(), " tentative insertion caractère interdit modifCateg;");
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-                // pas donner d'indice quant à la nature de l'erreur (request.setAttribute("erreur", "Caractère interdit détecté (< > \")");)
-                getServletContext().getRequestDispatcher("/CreationAdherent").forward(request, response);
-                return;
-            } else {
-            	HashMap<String, String> modifCateg = new HashMap<>();
-        		modifCateg.put(request.getParameter("nom"), request.getParameter("annee"));
-        		System.out.println(modifCateg);
-        			
-				try {
-					DAOAcces dao = new DAOAcces("com.mysql.cj.jdbc.Driver", "webadherents", "root", "");
-					
-					//pour chaque categorie modifiée (nom et/ou annee) dans categorie, mettre à jour la table categorieannee et toutes les tables où il y a un  nom de categ
-					for (HashMap.Entry<String, String> entry : modifCateg.entrySet()) {
-						System.out.println(entry);
-					
-					String modifCategSQL = "UPDATE anneecategorie "
-										+ "SET categories=?, annee=?"
-										+ "WHERE;";
-	
-					/* "UPDATE anneecategorie, categoriesportive, categorieutilisateur "
-										+ "SET `anneecategorie.categories`=?, anneecategorie.annee`=?, `categoriesportive.nomcategorie`=?, `categorieutilisateur.categorieUser`=?;";
-					*/
-					
-					// Création d'un PreparedStatement
-					PreparedStatement pstModifCateg = dao.getConn().prepareStatement(modifCategSQL);
-					System.out.println("connexion BDD ok");
-					
-					String nomAnneeCateg = entry.getKey();
-					String annee = entry.getValue();
-				//	String nomCategSport = request.getParameter("nom") ;
-				//	String nomCategUser = request.getParameter("nom");
-					
-					pstModifCateg.setString (1, nomAnneeCateg); 
-					pstModifCateg.setString (2, annee);
-			//		pstModifCateg.setString (3, nomCategSport); 
-				//	pstModifCateg.setString (4, nomCategUser); 
-	
-					pstModifCateg.executeUpdate();
-					System.out.println("requête exécutée : " + pstModifCateg);
-					
+		// contrôle des caractères interdits
+		if (noms != null && annees != null) {
+		    for (String champ : noms) {
+		        if (ControleDeSaisie.caractereInterdit(champ)) {
+		        	// insérer la tentative d'injection dans les logs : 
+	            	System.out.println("controle de saisie categ ok");
+	            	try {
+						activeUser.lastseen(activeUser.getIdConnexion(), " tentative insertion caractère interdit modifCateg champ nom;");
+					} catch (SQLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
 					}
-					dao.closeConnection();
-		
-				} catch (SQLException e) {
-					System.out.println("Problème SQL modif categorie");
-					e.printStackTrace();
-				}
-				response.sendRedirect("ControleurAccueil?categories=true"); // rafraichir vue Categorie à jour 
-            }
-        }
-			
-			
-			
-			
-			
+	                // pas donner d'indice quant à la nature de l'erreur ?
+	            	request.setAttribute("erreur", "Caractère interdit détecté");
+	                getServletContext().getRequestDispatcher("/Accueil").forward(request, response);
+	                return;
+		        }
+		    }
+		    for (String champ : annees) {
+		        if (ControleDeSaisie.caractereInterdit(champ)) {
+		        	// insérer la tentative d'injection dans les logs : 
+	            	try {
+						activeUser.lastseen(activeUser.getIdConnexion(), " tentative insertion caractère interdit modifCateg champs annee;");
+					} catch (SQLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+	                // pas donner d'indice quant à la nature de l'erreur ?
+	            	request.setAttribute("erreur", "Caractère interdit détecté");
+	                getServletContext().getRequestDispatcher("/Accueil").forward(request, response);
+	                return;
+		        }
+		    }
 		}
+            
+    	HashMap<String, String> modifCateg = new HashMap<>();
+		modifCateg.put(request.getParameter("nom"), request.getParameter("annee"));
+		System.out.println(modifCateg);
+			
+		try {
+			DAOAcces dao = new DAOAcces("com.mysql.cj.jdbc.Driver", "webadherents", "root", "");
+			
+			//pour chaque categorie modifiée (nom et/ou annee) dans categorie, mettre à jour la table categorieannee et toutes les tables où il y a un  nom de categ
+			for (HashMap.Entry<String, String> entry : modifCateg.entrySet()) {
+				System.out.println(entry);
+			
+			String modifCategSQL = "UPDATE anneecategorie "
+								+ "SET categories=?, annee=? "
+								+ "WHERE;";
+
+			/* "UPDATE anneecategorie, categoriesportive, categorieutilisateur "
+								+ "SET `anneecategorie.categories`=?, anneecategorie.annee`=?, `categoriesportive.nomcategorie`=?, `categorieutilisateur.categorieUser`=?;";
+			*/
+			
+			// Création d'un PreparedStatement
+			PreparedStatement pstModifCateg = dao.getConn().prepareStatement(modifCategSQL);
+			System.out.println("connexion BDD ok");
+			
+			String nomAnneeCateg = entry.getKey();
+			String annee = entry.getValue();
+		//	String nomCategSport = request.getParameter("nom") ;
+		//	String nomCategUser = request.getParameter("nom");
+			
+			pstModifCateg.setString (1, nomAnneeCateg); 
+			pstModifCateg.setString (2, annee);
+	//		pstModifCateg.setString (3, nomCategSport); 
+		//	pstModifCateg.setString (4, nomCategUser); 
+
+			pstModifCateg.executeUpdate();
+			System.out.println("requête exécutée : " + pstModifCateg);
+			
+			}
+			dao.closeConnection();
+
+		} catch (SQLException e) {
+			System.out.println("Problème SQL modif categorie");
+			e.printStackTrace();
+		}
+		//response.sendRedirect("ControleurAccueil?categories=true"); // rafraichir vue Categorie à jour 
+        }
+   // }
+			
+			
+			
+			
+			
+		
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)

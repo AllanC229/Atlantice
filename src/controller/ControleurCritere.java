@@ -70,7 +70,8 @@ public class ControleurCritere extends HttpServlet {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
-		                // pas donner d'indice quant à la nature de l'erreur (request.setAttribute("erreur", "Caractère interdit détecté (< > \")");)
+		                // pas donner d'indice quant à la nature de l'erreur 
+		            	request.setAttribute("erreur", "Caractère interdit détecté");
 		                getServletContext().getRequestDispatcher("/Critere").forward(request, response);
 		                return;
 		            }
