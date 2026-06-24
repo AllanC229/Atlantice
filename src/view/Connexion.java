@@ -40,8 +40,9 @@ public class Connexion extends HttpServlet {
 		//Formulaire de connexion
 			out.println("<html><head><meta charset='utf-8'/>"
 					+"<link href='licence.css' rel='stylesheet'>"
-					+"</head><body>"
-					+"<div align=center><form name = 'FormConnexion' action='ControleurConnexion' method=POST>"
+					+"</head>"
+					+ "<body>"
+					+"<div class='formulaire-adherent'><form name = 'FormConnexion' action='ControleurConnexion' method=POST>"
 					+"<h1>Connexion</h1><br>"
 					+"<br>");
 			out.println("<table><tr><td>");

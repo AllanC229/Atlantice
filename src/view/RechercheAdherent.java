@@ -35,38 +35,40 @@ public class RechercheAdherent extends HttpServlet {
 		
 		PrintWriter out = response.getWriter();
 		HttpSession h = request.getSession(false);
+	    Utilisateur activeUser = (Utilisateur) h.getAttribute("activeUser");
 		
-		if (h == null) { //Si la session n'existe pas, renvie vers la page de connexion
-		    response.sendRedirect("/Connexion");
+		if (h == null || !activeUser.getRole().equals("admin")) { //Si la session n'existe pas, renvoie vers la page d'accueil
+		    response.sendRedirect("/Accueil");
 		    return;
 		}
 		
-	    Utilisateur activeUser = (Utilisateur) h.getAttribute("activeUser");
+
 				
 		out.println("<!doctype html>"
 				+ "<html>"
 				+ "<head>"
-				+ "<meta charset=\"utf-8\"/> "
-				+ "<link href=\"licence.css\" rel=\"stylesheet\">"
-				+ "<link href=\"header.css\" rel=\"stylesheet\">"
+				+ "<meta charset='utf-8'/> "
+				+ "<link href='licence.css' rel='stylesheet'>"
 				+ "</head>");
 				
 		out.println(Header.afficherEntete(activeUser));
 				
-		out.println("<h1 align='center'> Rechercher un adhérent </h1><br><br>"
-				+ "<form action=\"Accueil\" name=\"retouraccueil\" method='POST' > <input type = \"submit\" name=\"retouraccueil\" value=\"Retour à l'accueil\"> </form></div><br>"
+		out.println("<div class='formulaire-adherent'>"
+				+ "<h1 align='center'> Rechercher un adhérent </h1><br><br>"
 				+ "<form action='ControleurRechercheAdherent' name='RechercheAdherent' method='POST'>"
-				+ "<table style='width: 50%' border='5px'>"
+				+ "<table style='width: 50%'>"
 				+ "<tr><td> Recherche par numéro de licence </td> <td><input type='text' name='numLic'></td></tr>"
 				+ "<tr><td> Recherche par Nom </td><td><input type='text' name='nom'></td></tr>"
 				+ "</table>"
+				+ "<div class='actions'>"
 				+ "<input type='submit' value='Recherche'>"
+				+ "</div>"
 				+ "</form>");
 		
         if (request.getAttribute("erreur") != null) {
         	out.println(request.getAttribute("erreur"));
         }
-		out.println("</body></html>");
+		out.println("</div></body></html>");
 		
 		
 	}
