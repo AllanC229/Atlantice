@@ -46,6 +46,11 @@ public class Header {
 						        + "<form action='ControleurAccueil' method='POST'>"
 						        + "<input type='submit' name='direction' value='Créer un adhérent'>"
 						        + "</form>"
+						        
+						    	+ "<form action='RechercheAdherent' method='POST'>"
+						    	+ "<input type='hidden' name='recherche' value='recherche'>"
+						    	+ "<input type='submit' value='Rechercher un adhérent'>"
+						    	+ "</form>"
 						    ;
 						}
 
@@ -56,10 +61,6 @@ public class Header {
 						    + "<input type='submit' value='Fiches administratives'>"
 						    + "</form>"
 
-						    + "<form action='RechercheAdherent' method='POST'>"
-						    + "<input type='hidden' name='recherche' value='recherche'>"
-						    + "<input type='submit' value='Rechercher un adhérent'>"
-						    + "</form>"
 						    /*
 						    + "<form action='ControleurAccueil' method='POST'>"
 						    + "<input type='hidden' name='fichesport' value='fichesport'>"
