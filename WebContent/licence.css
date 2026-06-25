@@ -5,8 +5,8 @@
 /* ========================= */
 
 :root {
-    --couleur-principale: rgb(114, 171, 224);
-    --couleur-principale-hover: rgb(89, 149, 205);
+    --couleur-principale: rgb(0, 83, 152);
+    --couleur-principale-hover: rgb(0, 46, 83);
 
     --couleur-fond: #f4f6f9;
 
@@ -179,6 +179,70 @@ nav {
     background-color: #eeeeee;
     color: #666;
 }
+
+/* ========================= */
+/* FORMULAIRE CONNEXION */
+/* ========================= */
+
+.formulaire-connexion {
+    width: 80%;
+    max-width: 1000px;
+    margin: 30px auto;
+    background: white;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.15);
+    transition: 0.3s;
+}
+
+.formulaire-connexion:hover {
+    box-shadow: 0 6px 18px rgba(0,0,0,0.18);
+}
+
+.formulaire-connexion table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.formulaire-connexion td {
+    padding: 7px;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.formulaire-connexion tr:nth-child(even) {
+    background-color: #f8fafc;
+}
+
+.formulaire-connexion td:first-child {
+    width: 35%;
+    font-weight: bold;
+    color: var(--couleur-principale);
+}
+
+.formulaire-connexion input[type="text"],
+.formulaire-connexion input[type="password"],
+.formulaire-connexion select {
+    width: 40%;
+    padding: 8px;
+    border: 1px solid #cfd8dc;
+    border-radius: 5px;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+.formulaire-connexion input[type="text"]:focus,
+.formulaire-connexion input[type="password"],
+.formulaire-connexion select:focus {
+    outline: none;
+    border-color: var(--couleur-principale);
+    box-shadow: 0 0 4px rgba(114,171,224,0.4);
+}
+
+.formulaire-connexion input[readonly] {
+    background-color: #eeeeee;
+    color: #666;
+}
+
 
 /* ========================= */
 /* BOUTONS ACTIONS */

@@ -53,9 +53,8 @@ public class FicheAdministrative extends HttpServlet {
 					
 					a = adh;
 					
-					out.print("<!Doctype html><html><head><meta charset=\"utf-8\"/> \r\n"
-							+ "<link href=\"licence.css\" rel=\"stylesheet\">"
-							+ "<link href=\"header.css\" rel=\"stylesheet\">"
+					out.print("<!Doctype html><html><head><meta charset='utf-8'/> \r\n"
+							+ "<link href='licence.css' rel='stylesheet'>"
 							+ "</head>");
 							
 					out.println(Header.afficherEntete(activeUser));
@@ -93,11 +92,12 @@ public class FicheAdministrative extends HttpServlet {
 					        }									
 							out.println("</table>"
 							+ "<div class='actions'>"
-							+ "<input type='submit' name='modifAd' value=\"Modification de l'adhérent\">"
-							+ "<input type='submit' name='supprAd' value='Supprimer cet adhérent' onclick='return confirmSuppr();'>"							+ "</form></div>");
+							+ "<input type='submit' name='modifAd' value='Modification de l'adhérent'>"
+							+ "<input type='submit' name='supprAd' value='Supprimer cet adhérent' onclick='return confirmSuppr();'>"							
+							+ "</form></div>");
 							out.print("<script>"	
 									+ "function confirmSuppr() {"//si le bouton 'supprimeradherent' est cliqué affiche une fenêtre de confirmation, si OK -> soumission du formulaire vers ControleurCritere
-									+ "return confirm('Êtes-vous sûr-e de vouloir supprimer l\'adhérent? Cette action est irréversible');"
+									+ "return confirm(\'Êtes-vous sûr-e de vouloir supprimer l\'adhérent? Cette action est irréversible\');"
 									+ "}"
 									+ "</script>");
 				}
@@ -111,8 +111,8 @@ public class FicheAdministrative extends HttpServlet {
 				if(adh.getNumLicence().equals(request.getParameter("numLic"))) {
 					
 					a = adh;
-					out.print("<!Doctype html><html><head><meta charset=\"utf-8\"/> \r\n"
-							+ "<link href=\"licence.css\" rel=\"stylesheet\">"
+					out.print("<!Doctype html><html><head><meta charset='utf-8'/> \r\n"
+							+ "<link href='licence.css' rel='stylesheet'>"
 							+ "</head>");
 					
 					out.println(Header.afficherEntete(activeUser));

@@ -26,7 +26,7 @@ public class Filtre implements Filter {
         
 
         // Pages accessibles sans connexion
-        if (uri.endsWith("/Connexion") || uri.endsWith("/ControleurConnexion") || uri.endsWith("/ControleurDeconnexion")) {
+        if (uri.endsWith("/Connexion") || uri.endsWith("/ControleurConnexion") || uri.endsWith("/ControleurDeconnexion") || uri.endsWith(".css")) {
 
             chain.doFilter(request, response);
             return;
