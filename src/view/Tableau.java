@@ -70,12 +70,17 @@ public class Tableau extends HttpServlet {
 
 		out.println(Header.afficherEntete(activeUser));
 				
-		out.println("<div class='formulaire-ficheadmin'>"
-				+ "<div class='creation-adherent'>"
+		out.println("<div class='formulaire-ficheadmin'>");
+		
+		if (activeUser.getRole().equals("admin") || activeUser.getRole().equals("modif")) {
+				
+				out.print("<div class='creation-adherent'>"
 				+ "<form action='CreationAdherent' name='boutonAjoutAdherent' value='ajoutAdherent' method='POST'>"
 				+ "<input type='submit' name='test' value='Créer un adhérent'> </form>"
-				+ "</div>"
-				+ "<h1>Licenciés </h1><br><br><br>"
+				+ "</div>");
+		}
+		
+				out.print("<h1>Licenciés </h1><br><br><br>"
 				+ "<div class='card-body'>"
 				+ "<table style='width: 100%;' id='example2' class='table table-hover table-striped table-bordered'>"
 				+ "<thead><tr>"

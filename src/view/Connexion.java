@@ -42,8 +42,8 @@ public class Connexion extends HttpServlet {
 					+"<link href='licence.css' rel='stylesheet'>"
 					+"</head>"
 					+ "<body>"
-					+"<div class='formulaire-adherent'><form name = 'FormConnexion' action='ControleurConnexion' method=POST>"
-					+"<h1>Connexion</h1><br>"
+					+"<div class='formulaire-connexion'> <form name = 'FormConnexion' action='ControleurConnexion' method=POST>"
+					+"<h1>Connexion au portail de gestion</h1><br>"
 					+"<br>");
 			out.println("<table><tr><td>");
 			
@@ -56,7 +56,7 @@ public class Connexion extends HttpServlet {
 				
 			}
 			
-			out.print("<input type='submit' value = 'Valider' /></input>");   
+			out.print("<div class = 'actions'> <input type='submit' value = 'Se connecter'> </div>");   
 			out.print("</form></div>");
 			
 	        if (request.getAttribute("erreur") != null) {
