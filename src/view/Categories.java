@@ -53,7 +53,7 @@ public class Categories extends HttpServlet {
 
 		out.print("<div class='formulaire-categories'><h1 align=center>Catégories : </h1></br>"
 				+ "<form action='ControleurCategories' method=POST>"
-				+ "<table border>"
+				+ "<table>"
 				+ "<tr><th>Années</th><th>Nom</th></tr>");
 		
 				for(Categorie c : (ArrayList<Categorie>)request.getAttribute("categories")) {
