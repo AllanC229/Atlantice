@@ -59,14 +59,13 @@ public class FicheSportive extends HttpServlet {
 				a = adh;
 				out.println("<!Doctype html><html><head><meta charset='utf-8'> \r\n"
 						+"<link href='licence.css' rel='stylesheet'>"
-						+ "<link href='range-slider-fiche-sportive.css' rel='stylesheet'>" //fichier CSS pour l'input range-slider
 						+ "</head>");
 						
 				out.println(Header.afficherEntete(activeUser));
 
 						
 				out.println("<h1 align=center>Suivi sportif : </h1></br>" 
-						+ "<div align=center><table border>"
+						+ "<div class='formulaire-ficheadmin'><table>"
 						+ "<form action='ControleurFicheSportive' method=POST>"
 						+ "		<tr><td>Nom : </td><td>"+a.getNom()+"</td></tr>"
 						+ "		<tr><td>Prénom : </td><td>"+a.getPrenom()+"</td></tr>"
@@ -82,13 +81,10 @@ public class FicheSportive extends HttpServlet {
 												
 						out.println("</table></div>");
 						if ((activeUser.getRole().equals("admin") || activeUser.getRole().equals("modif"))) {				
-							out.println("<div align=center>"
-								+ "<input type=submit name='modifAd' value=\"Modification de l'adhérent\"></input>"
+							out.println("<div class='actions'>"
+								+ "<input type=submit name='modifAd' value='Enregistrer les modifications'>"
 								+ "</form></div>");
 						}
-						
-						out.println("<div align=center><form action='Accueil' name='retouraccueil' value='accueil' method='POST'>"
-						+ "<input type='submit' name='retouraccueil' value=\"Retour à l'accueil\"> </form>");
 						
 				        if (request.getAttribute("erreur") != null) {
 				        	out.println(request.getAttribute("erreur"));
@@ -97,9 +93,6 @@ public class FicheSportive extends HttpServlet {
 						out.println("</body></html>");
 			}
 		}
-		
-		
-		//response.getWriter().append(affichage);
 	
 	}
 	/**

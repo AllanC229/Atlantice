@@ -217,7 +217,7 @@ public class ControleurAjtAdherent extends HttpServlet {
             	
           	conn.commit();
 			request.setAttribute("succes", "Adhérent ajouté !");
-			request.getRequestDispatcher("/Accueil").forward(request, response);
+			getServletContext().getRequestDispatcher("/Accueil").forward(request, response);
 			System.out.println("adhérent ajouté");
 
 	            
@@ -234,14 +234,16 @@ public class ControleurAjtAdherent extends HttpServlet {
 					}
 				}
 				e.printStackTrace();
+				response.sendRedirect(request.getContextPath() + "/Accueil");
 			} finally {
 				if (dao != null) { // vérification nécessaire : si la construction a échoué avant la ligne d'affectation, dao vaut encore null
 			        dao.closeConnection();
 			    }
 				dao.closeConnection();
+				//response.sendRedirect(request.getContextPath() + "/Accueil");
 			}
-	
-		response.sendRedirect(request.getContextPath() + "/Accueil");
+		//getServletContext().getRequestDispatcher("/Accueil").forward(request, response);
+		
 	} 
 
 	/**

@@ -65,28 +65,31 @@ public class Accueil extends HttpServlet {
 			}
 			
 			out.println("<table width=100%><tr><td>"
-					+ "<div align=center><form align=center action='ControleurAccueil' method=POST>"
-					+ "<h1>Licenciés par catégorie(s)</h1><br><br><h2>Choisissez une catégorie parmi les suivantes:</h2><br>"+
-					"<select multiple='multiple' name='categorie[]' size='5'>");
+					+ "<div class='form-accueil'><form action='ControleurAccueil' method=POST>"
+					+ "<h1>Licenciés par catégorie(s)</h1><br><br>"
+					+ "<h2>Choisissez une catégorie parmi les suivantes:</h2><br>"
+					+ "<select multiple='multiple' name='categorie[]' size='5'>");
 
 			out.print("<option value='Toutes'>Toutes</option><br><br>"); 
 			for(Map.Entry<String, String> entry : activeUser.categoriesUser.entrySet()) {
 					out.println();
-					out.print("<option value="+entry.getKey()+">"+entry.getValue());  
-					out.print("</option><br><br>");  
+					out.print("<option value=\""+entry.getKey()+"\">"+entry.getValue());  
+					out.print("</option>");  
 				}
 
-			out.print("</select><p><br><br><input type='submit' name='categorie' value='Valider'> <p></form></div></td></tr>");
-			out.println("</table>");	
+			out.print("</select><div class='submit-wrapper'><input type='submit' name='categorie' value='Valider'></div>"
+					+ "</form></div></td></tr>"
+					+ "</table>");	
 			
 			if(request.getAttribute("succes") != null) {
-		        if(request.getAttribute("succes").equals("Adhérent ajouté !")) {
-			        out.println(request);
-		        }
+				
+			        out.println("<div class='message-succes'> "+ request.getAttribute("succes") +"</div>"); 
+		        
 			}
 	        
 	        if (request.getAttribute("erreur") != null) {
-	        	out.println(request.getAttribute("erreur"));
+	        	
+	        	out.println("<div class='message-erreur'> "+ request.getAttribute("erreur") +"</div>"); 
 	        }
 			
 			out.println("</body></html>");
