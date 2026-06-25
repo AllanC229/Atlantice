@@ -243,6 +243,67 @@ nav {
     color: #666;
 }
 
+/* ========================= */
+/* FORMULAIRE CATEGORIES */
+/* ========================= */
+
+.formulaire-categories {
+    width: 80%;
+    max-width: 1000px;
+    margin: 30px auto;
+    background: white;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.15);
+    transition: 0.3s;
+}
+
+.formulaire-categories:hover {
+    box-shadow: 0 6px 18px rgba(0,0,0,0.18);
+}
+
+.formulaire-categories table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.formulaire-categories td {
+    padding: 7px;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.formulaire-categories tr:nth-child(even) {
+    background-color: #f8fafc;
+}
+
+.formulaire-categories td:first-child {
+    width: 50%;
+    font-weight: bold;
+    color: var(--couleur-principale);
+}
+
+.formulaire-categories input[type="text"],
+.formulaire-categories select {
+    width: 40%;
+    padding: 8px;
+    border: 1px solid #cfd8dc;
+    border-radius: 5px;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+.formulaire-categories input[type="text"]:focus,
+.formulaire-categories select:focus {
+    outline: none;
+    border-color: var(--couleur-principale);
+    box-shadow: 0 0 4px rgba(114,171,224,0.4);
+}
+
+.formulaire-categories input[readonly] {
+    background-color: #eeeeee;
+    color: #666;
+}
+
 
 /* ========================= */
 /* BOUTONS ACTIONS */

@@ -91,6 +91,7 @@ public class ControleurAjtCategorie extends HttpServlet {
 			ajtCateg.setString(2,  annee);
             	
             ajtCateg.executeUpdate();
+            conn.commit();
           
 
 		} catch(SQLException e) {

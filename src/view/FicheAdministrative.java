@@ -65,7 +65,7 @@ public class FicheAdministrative extends HttpServlet {
 							+ "<tr><td>Nom : </td><td><input type='text' name='nom' value='"+a.getNom()+"'></br></td></tr>"
 							+ "<tr><td>Prénom : </td><td><input align=center type='text' name='prenom' value='"+a.getPrenom()+"'></br></td></tr>"							
 							+ "<tr><td>Numéro de licence : </td><td><input type='text' name='numeroLicence' value='" +a.getNumLicence()+ "' readonly></br></td></tr>"
-							+ "<tr><td>Modifier le numéro de licence : </td><td><input type='text' name='modifnumeroLicence' value=''></br></td></tr>"
+							+ "<tr><td>Modifier le numéro de licence </td><td><input type='text' name='modifnumeroLicence' value=''></br></td></tr>"
 							+ "<tr><td>Dernière année de licence active : </td><td><input type='text' name='derniereAnneeLicence' value='"+a.getDerniereLicenceActive()+"'></br></td></tr>"
 							+ "<tr><td>Année de naissance : </td><td><input align=center type='text' name='anneeNaissance' value='"+a.getAnneeNaissance()+"'></br></td></tr>"
 							+ "<tr><td>Téléphone 1 : </td><td><input type='text' name='telephone1' value='"+a.getTel1()+"'></br></td></tr>"
@@ -92,12 +92,12 @@ public class FicheAdministrative extends HttpServlet {
 					        }									
 							out.println("</table>"
 							+ "<div class='actions'>"
-							+ "<input type='submit' name='modifAd' value='Modification de l\'adhérent'>"
+							+ "<input type='submit' name='modifAd' value=\"Modification de l'adhérent\">"
 							+ "<input type='submit' name='supprAd' value='Supprimer cet adhérent' onclick='return confirmSuppr();'>"							
 							+ "</form></div>");
 							out.print("<script>"	
 									+ "function confirmSuppr() {"//si le bouton 'supprimeradherent' est cliqué affiche une fenêtre de confirmation, si OK -> soumission du formulaire vers ControleurCritere
-									+ "return confirm(\'Êtes-vous sûr-e de vouloir supprimer l\'adhérent? Cette action est irréversible\');"
+									+ "return confirm('Êtes-vous sûr-e de vouloir supprimer l\\'adhérent? Cette action est irréversible');"
 									+ "}"
 									+ "</script>");
 				}
