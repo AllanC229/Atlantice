@@ -58,7 +58,7 @@ public class ControleurAjtCritere extends HttpServlet {
 	    PreparedStatement pstInsertCritAdh = null;
 	    
 		if(nomcritere.trim().isEmpty()) {
-			//PrintWriter out=response.getWriter("Veuillez remplir le champ !");
+			request.setAttribute("erreur", "Veuillez remplir le champ !");
         	request.getRequestDispatcher("/CreationCritere").forward(request, response);
 		}
 		
@@ -70,7 +70,8 @@ public class ControleurAjtCritere extends HttpServlet {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-            // pas donner d'indice quant à la nature de l'erreur (request.setAttribute("erreur", "Caractère interdit détecté (< > \")");)
+            // pas donner d'indice quant à la nature de l'erreur?
+        	request.setAttribute("erreur", "Caractère interdit détecté");
             getServletContext().getRequestDispatcher("/CreationCritere").forward(request, response);
             return;
         }

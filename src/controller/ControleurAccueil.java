@@ -447,7 +447,7 @@ public class ControleurAccueil extends HttpServlet {
 				
 				 //début : ajout du 17/03/2026 - pauline
 				if (categorie == null || categorie.length == 0) { /* traite l'erreur où l'utilisateur coche rien et où il accède au site via l'url */
-					request.getSession().setAttribute("erreur", "Veuillez sélectionner au moins une catégorie.");
+					request.setAttribute("erreur", "Veuillez sélectionner au moins une catégorie."); // getSession()
 					getServletContext().getRequestDispatcher("/Accueil").forward(request, response);
 				    return; // Arrête l'exécution de doGet() ICI, retour à l'accueil, le code reprend au début
 				} //fin 
@@ -463,7 +463,8 @@ public class ControleurAccueil extends HttpServlet {
 								// TODO Auto-generated catch block
 								e.printStackTrace();
 							}
-		                	// pas donner d'indice quant à la nature de l'erreur (request.setAttribute("erreur", "Caractère interdit détecté (< > \")");)  getServletContext().getRequestDispatcher("/CreationAdherent").forward(request, response);
+		                	//donner d'indice quant à la nature de l'erreur ??
+		                	request.setAttribute("erreur", "Caractère interdit détecté");
 		                    getServletContext().getRequestDispatcher("/Accueil").forward(request, response);
 		                	return;
 		                }

@@ -50,15 +50,35 @@ public class ControleurRechercheAdherent extends HttpServlet {
 		DAOAcces dao = new DAOAcces("com.mysql.cj.jdbc.Driver", "webadherents", "root", "");
 		Connection conn = null;
 		PreparedStatement rechAdh = null;
-		String numLic = request.getParameter("numLic") ; //on pensera à ajouter une fonction trim()
+		String numLic = request.getParameter("numLic") ; 
 		String nom = request.getParameter("nom");
 		
-	/*	if (numLic.equals("")) {
-			numLic = null;
+		if (numLic.trim().isEmpty() && nom.trim().isEmpty()) {
+			request.setAttribute("erreur", "Veuillez remplir un des deux champs !");
+			getServletContext().getRequestDispatcher("/RechercheAdherent").forward(request, response);
+			return;
 		}
-		if (nom.equals("")) {
-			nom = null;
-		} */
+		
+        //appeler la méthode des caractères interdits
+        ArrayList<String> champsATester = new ArrayList<>();
+        champsATester.add(numLic);
+        champsATester.add(nom);
+        
+        for (String champ : champsATester) {
+            if (ControleDeSaisie.caractereInterdit(champ)) {
+				// insérer la tentative d'injection dans les logs : 
+            	try {
+					activeUser.lastseen(activeUser.getIdConnexion(), " tentative insertion caractère interdit dans recherche adh;");
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+                // pas donner d'indice quant à la nature de l'erreur ?? 
+            	request.setAttribute("erreur", "Caractère interdit détecté");
+                getServletContext().getRequestDispatcher("/RechercheAdherent").forward(request, response);
+                return;
+            }
+        }
 		
 		String sql;
 		ArrayList<Adherent> adherents = new ArrayList<Adherent>();

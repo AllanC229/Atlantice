@@ -51,6 +51,7 @@ public class ControleurAjtCategorie extends HttpServlet {
 		String annee = request.getParameter("annee");
 		
         if(nomCategorie.trim().isEmpty() && annee.trim().isEmpty()) { //si nomCategorie et annee sont vides -> renvoie sur la vue CreationCategorie
+			request.setAttribute("erreur", "Veuillez remplir tout les champs !");
         	request.getRequestDispatcher("/CreationCategorie").forward(request, response);
         }
 		
@@ -68,7 +69,8 @@ public class ControleurAjtCategorie extends HttpServlet {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-                // pas donner d'indice quant à la nature de l'erreur (request.setAttribute("erreur", "Caractère interdit détecté (< > \")");)
+                // pas donner d'indice quant à la nature de l'erreur? 
+            	request.setAttribute("erreur", "Caractère interdit détecté");
                 getServletContext().getRequestDispatcher("/CreationCategorie").forward(request, response);
                 return;
             }
@@ -82,7 +84,7 @@ public class ControleurAjtCategorie extends HttpServlet {
 			conn = dao.getConn(); 
 		    conn.setAutoCommit(false);		
 
-			String sqlCateg= "INSERT INTO categorie(categories, annee) VALUES (?, ?);";
+			String sqlCateg= "INSERT INTO anneecategorie(categories, annee) VALUES (?, ?);";
 			
 			ajtCateg = conn.prepareStatement(sqlCateg);
 			ajtCateg.setString(1, nomCategorie);
@@ -100,6 +102,7 @@ public class ControleurAjtCategorie extends HttpServlet {
 		    }
 			dao.closeConnection();
 		}
+		request.setAttribute("succes", "Nouvelle catégorie créer !");
         request.getRequestDispatcher("/Accueil").forward(request, response);
 
 	}
