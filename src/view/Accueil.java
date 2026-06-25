@@ -60,9 +60,7 @@ public class Accueil extends HttpServlet {
 					
 			out.println(Header.afficherEntete(activeUser));
 			
-			if (request.getAttribute("chgtmdp") != null) {
-				out.println(request.getAttribute("chgtmdp"));
-			}
+
 			
 			out.println("<table width=100%><tr><td>"
 					+ "<div class='form-accueil'><form action='ControleurAccueil' method=POST>"
@@ -91,7 +89,12 @@ public class Accueil extends HttpServlet {
 	        	
 	        	out.println("<div class='message-erreur'> "+ request.getAttribute("erreur") +"</div>"); 
 	        }
+	        
+			if (request.getAttribute("chgtmdp") != null) {
 			
+				out.println(request.getAttribute("chgtmdp"));
+			}
+	        
 			out.println("</body></html>");
 	
 

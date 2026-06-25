@@ -77,8 +77,7 @@ public class Critere extends HttpServlet {
 						+ "	<div id='divSupprimer' style='display:none;'><br>" 
 					    + "		<input type='submit' id='supprimerCritere' name='direction' value='Supprimer les critères sélectionnés ?'>"
 						+ "	</div>"
-						+ "</form>"
-						+ "<br>"   
+						+ "</form>"  
 						+ "<script>"
 						+ "		function activerCheckbox() {" //fonction qui active une checkbox pour chaque critere (class critere) et display la div contenant le bouton pour supprimer
 						+ "  		document.querySelectorAll('.critere').forEach(function(checkbox) {"
@@ -98,8 +97,6 @@ public class Critere extends HttpServlet {
 						+ "    		return true;" // Valider les modifications passe sans confirmation pour le bouton de modification
 						+ "		}"
 						+ "</script>"
-						+ "<br>"	
-
 						//Création de critères
 						+ "<form class='creation-critere' action='CreationCritere' method=GET>" 
 						+ "<input type='submit' name='creationCritere'  value='Ajouter un critère'></form><br>");

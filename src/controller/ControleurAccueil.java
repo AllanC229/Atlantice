@@ -111,6 +111,70 @@ public class ControleurAccueil extends HttpServlet {
 					    // Nouvel adhérent
 					    
 					    if (!licence.equals(currentLicence)) {
+					    	String tel2;
+					    	String adresse2;
+					    	String mail2;
+					    	String contact1;
+					    	String contact2;
+					    	String sexe;
+					    	String droitimage;
+					    	String commentaire;
+					    	
+					    	if (rsAdh.getString("tel2") == null || rsAdh.getString("tel2").isEmpty()) {
+					    		tel2 = "" ;
+					    	}
+					    	else {
+					    		tel2 = rsAdh.getString("tel2");
+					    	}
+					    	
+					    	if (rsAdh.getString("adresse2") == null || rsAdh.getString("adresse2").isEmpty()) {
+					    		adresse2 = "" ;
+					    	}
+					    	else {
+					    		adresse2 = rsAdh.getString("adresse2");
+					    	}
+					    	
+					    	if (rsAdh.getString("mail2") == null || rsAdh.getString("mail2").isEmpty()) {
+					    		mail2 = "" ;
+					    	}
+					    	else {
+					    		mail2 = rsAdh.getString("mail2");
+					    	}
+					    	
+					    	if (rsAdh.getString("contact1") == null || rsAdh.getString("contact1").isEmpty()) {
+					    		contact1 = "" ;
+					    	}
+					    	else {
+					    		contact1 = rsAdh.getString("contact1");
+					    	}
+					    	
+					    	if (rsAdh.getString("contact2") == null || rsAdh.getString("contact2").isEmpty()) {
+					    		contact2 = "" ;
+					    	}
+					    	else {
+					    		contact2 = rsAdh.getString("contact2");
+					    	}
+					    	
+					    	if (rsAdh.getString("sexe") == null || rsAdh.getString("sexe").isEmpty()) {
+					    		sexe = "" ;
+					    	}
+					    	else {
+					    		sexe = rsAdh.getString("sexe");
+					    	}
+					    	
+					    	if (rsAdh.getString("droitimage") == null || rsAdh.getString("droitimage").isEmpty()) {
+					    		droitimage = "" ;
+					    	}
+					    	else {
+					    		droitimage = rsAdh.getString("droitimage");
+					    	}
+					    	
+					    	if (rsAdh.getString("commentaire") == null || rsAdh.getString("commentaire").isEmpty()) {
+					    		commentaire = "" ;
+					    	}
+					    	else {
+					    		commentaire = rsAdh.getString("commentaire");
+					    	}
 
 					        categoriesAdh = new HashMap<>();
 
@@ -120,17 +184,17 @@ public class ControleurAccueil extends HttpServlet {
 					            rsAdh.getString("prenom"),
 					            rsAdh.getString("annee"),
 					            rsAdh.getString("tel1"),
-					            rsAdh.getString("tel2"),
+					            tel2,
 					            rsAdh.getString("adresse1"),
-					            rsAdh.getString("adresse2"),
+					            adresse2,
 					            rsAdh.getString("mail1"),
-					            rsAdh.getString("mail2"),
-					            rsAdh.getString("commentaire"),
+					            mail2,
+					            commentaire,
 					            rsAdh.getString("dernierelicenceactive"),
-					            rsAdh.getString("contact1"),
-					            rsAdh.getString("contact2"),
-					            rsAdh.getString("sexe"),
-					            rsAdh.getString("droitimage"),
+					            contact1,
+					            contact2,
+					            sexe,
+					            droitimage,
 					            categoriesAdh
 					            //dao
 					        ));
@@ -162,7 +226,7 @@ public class ControleurAccueil extends HttpServlet {
 			
 			Connection conn = null;
 			PreparedStatement psAdh = null;	
-			page = " 2;";
+			page = " vers le tableau des fiches administratives;";
 			
 			ArrayList<Adherent> adherents = new ArrayList<Adherent>();
 			DAOAcces dao = new DAOAcces("com.mysql.cj.jdbc.Driver", "webadherents", "root", "");
@@ -194,6 +258,70 @@ public class ControleurAccueil extends HttpServlet {
 
 				    // Nouvel adhérent
 				    if (!licence.equals(currentLicence)) {
+				    	String tel2;
+				    	String adresse2;
+				    	String mail2;
+				    	String contact1;
+				    	String contact2;
+				    	String sexe;
+				    	String droitimage;
+				    	String commentaire;
+				    	
+				    	if (rsAdh.getString("tel2") == null || rsAdh.getString("tel2").isEmpty()) {
+				    		tel2 = "" ;
+				    	}
+				    	else {
+				    		tel2 = rsAdh.getString("tel2");
+				    	}
+				    	
+				    	if (rsAdh.getString("adresse2") == null || rsAdh.getString("adresse2").isEmpty()) {
+				    		adresse2 = "" ;
+				    	}
+				    	else {
+				    		adresse2 = rsAdh.getString("adresse2");
+				    	}
+				    	
+				    	if (rsAdh.getString("mail2") == null || rsAdh.getString("mail2").isEmpty()) {
+				    		mail2 = "" ;
+				    	}
+				    	else {
+				    		mail2 = rsAdh.getString("mail2");
+				    	}
+				    	
+				    	if (rsAdh.getString("contact1") == null || rsAdh.getString("contact1").isEmpty()) {
+				    		contact1 = "" ;
+				    	}
+				    	else {
+				    		contact1 = rsAdh.getString("contact1");
+				    	}
+				    	
+				    	if (rsAdh.getString("contact2") == null || rsAdh.getString("contact2").isEmpty()) {
+				    		contact2 = "" ;
+				    	}
+				    	else {
+				    		contact2 = rsAdh.getString("contact2");
+				    	}
+				    	
+				    	if (rsAdh.getString("sexe") == null || rsAdh.getString("sexe").isEmpty()) {
+				    		sexe = "" ;
+				    	}
+				    	else {
+				    		sexe = rsAdh.getString("sexe");
+				    	}
+				    	
+				    	if (rsAdh.getString("droitimage") == null || rsAdh.getString("droitimage").isEmpty()) {
+				    		droitimage = "" ;
+				    	}
+				    	else {
+				    		droitimage = rsAdh.getString("droitimage");
+				    	}
+				    	
+				    	if (rsAdh.getString("commentaire") == null || rsAdh.getString("commentaire").isEmpty()) {
+				    		commentaire = "" ;
+				    	}
+				    	else {
+				    		commentaire = rsAdh.getString("commentaire");
+				    	}
 
 				        categoriesAdh = new HashMap<>();
 
@@ -203,19 +331,19 @@ public class ControleurAccueil extends HttpServlet {
 				            rsAdh.getString("prenom"),
 				            rsAdh.getString("annee"),
 				            rsAdh.getString("tel1"),
-				            rsAdh.getString("tel2"),
+				            tel2,
 				            rsAdh.getString("adresse1"),
-				            rsAdh.getString("adresse2"),
+				            adresse2,
 				            rsAdh.getString("mail1"),
-				            rsAdh.getString("mail2"),
-				            rsAdh.getString("commentaire"),
+				            mail2,
+				            commentaire,
 				            rsAdh.getString("dernierelicenceactive"),
-				            rsAdh.getString("contact1"),
-				            rsAdh.getString("contact2"),
-				            rsAdh.getString("sexe"),
-				            rsAdh.getString("droitimage"),
+				            contact1,
+				            contact2,
+				            sexe,
+				            droitimage,
 				            categoriesAdh
-				           //dao
+				            //dao
 				        ));
 
 				        currentLicence = licence;
@@ -359,28 +487,92 @@ public class ControleurAccueil extends HttpServlet {
 	
 					    // Nouvel adhérent
 					    if (!licence.equals(currentLicence)) {
-	
+					    	String tel2;
+					    	String adresse2;
+					    	String mail2;
+					    	String contact1;
+					    	String contact2;
+					    	String sexe;
+					    	String droitimage;
+					    	String commentaire;
+					    	
+					    	if (rsProfilAdh.getString("tel2") == null || rsProfilAdh.getString("tel2").isEmpty()) {
+					    		tel2 = "" ;
+					    	}
+					    	else {
+					    		tel2 = rsProfilAdh.getString("tel2");
+					    	}
+					    	
+					    	if (rsProfilAdh.getString("adresse2") == null || rsProfilAdh.getString("adresse2").isEmpty()) {
+					    		adresse2 = "" ;
+					    	}
+					    	else {
+					    		adresse2 = rsProfilAdh.getString("adresse2");
+					    	}
+					    	
+					    	if (rsProfilAdh.getString("mail2") == null || rsProfilAdh.getString("mail2").isEmpty()) {
+					    		mail2 = "" ;
+					    	}
+					    	else {
+					    		mail2 = rsProfilAdh.getString("mail2");
+					    	}
+					    	
+					    	if (rsProfilAdh.getString("contact1") == null || rsProfilAdh.getString("contact1").isEmpty()) {
+					    		contact1 = "" ;
+					    	}
+					    	else {
+					    		contact1 = rsProfilAdh.getString("contact1");
+					    	}
+					    	
+					    	if (rsProfilAdh.getString("contact2") == null || rsProfilAdh.getString("contact2").isEmpty()) {
+					    		contact2 = "" ;
+					    	}
+					    	else {
+					    		contact2 = rsProfilAdh.getString("contact2");
+					    	}
+					    	
+					    	if (rsProfilAdh.getString("sexe") == null || rsProfilAdh.getString("sexe").isEmpty()) {
+					    		sexe = "" ;
+					    	}
+					    	else {
+					    		sexe = rsProfilAdh.getString("sexe");
+					    	}
+					    	
+					    	if (rsProfilAdh.getString("droitimage") == null || rsProfilAdh.getString("droitimage").isEmpty()) {
+					    		droitimage = "" ;
+					    	}
+					    	else {
+					    		droitimage = rsProfilAdh.getString("droitimage");
+					    	}
+					    	
+					    	if (rsProfilAdh.getString("commentaire") == null || rsProfilAdh.getString("commentaire").isEmpty()) {
+					    		commentaire = "" ;
+					    	}
+					    	else {
+					    		commentaire = rsProfilAdh.getString("commentaire");
+					    	}
+
 					        categoriesAdh = new HashMap<>();
-	
+
 					        activeAdherent = new Adherent (
 					            licence,
 					            rsProfilAdh.getString("nom"),
 					            rsProfilAdh.getString("prenom"),
 					            rsProfilAdh.getString("annee"),
 					            rsProfilAdh.getString("tel1"),
-					            rsProfilAdh.getString("tel2"),
+					            tel2,
 					            rsProfilAdh.getString("adresse1"),
-					            rsProfilAdh.getString("adresse2"),
+					            adresse2,
 					            rsProfilAdh.getString("mail1"),
-					            rsProfilAdh.getString("mail2"),
-					            rsProfilAdh.getString("commentaire"),
+					            mail2,
+					            commentaire,
 					            rsProfilAdh.getString("dernierelicenceactive"),
-					            rsProfilAdh.getString("contact1"),
-					            rsProfilAdh.getString("contact2"),
-					            rsProfilAdh.getString("sexe"),
-					            rsProfilAdh.getString("droitimage"),
+					            contact1,
+					            contact2,
+					            sexe,
+					            droitimage,
 					            categoriesAdh
-					           //dao
+					            //dao
 					        );
 					        
 					        currentLicence = licence;
@@ -566,11 +758,76 @@ public class ControleurAccueil extends HttpServlet {
 				
 				while (rsAdherent.next()) {
 
-					String licence = rsAdherent.getString("numerolicence");
-					 
-					if (!licence.equals(currentlicence)) {
-						
-						categoriesAdh = new HashMap<>();
+				    String licence = rsAdherent.getString("numerolicence");
+
+				    // Nouvel adhérent
+				    if (!licence.equals(currentlicence)) {
+				    	String tel2;
+				    	String adresse2;
+				    	String mail2;
+				    	String contact1;
+				    	String contact2;
+				    	String sexe;
+				    	String droitimage;
+				    	String commentaire;
+				    	
+				    	if (rsAdherent.getString("tel2") == null || rsAdherent.getString("tel2").isEmpty()) {
+				    		tel2 = "" ;
+				    	}
+				    	else {
+				    		tel2 = rsAdherent.getString("tel2");
+				    	}
+				    	
+				    	if (rsAdherent.getString("adresse2") == null || rsAdherent.getString("adresse2").isEmpty()) {
+				    		adresse2 = "" ;
+				    	}
+				    	else {
+				    		adresse2 = rsAdherent.getString("adresse2");
+				    	}
+				    	
+				    	if (rsAdherent.getString("mail2") == null || rsAdherent.getString("mail2").isEmpty()) {
+				    		mail2 = "" ;
+				    	}
+				    	else {
+				    		mail2 = rsAdherent.getString("mail2");
+				    	}
+				    	
+				    	if (rsAdherent.getString("contact1") == null || rsAdherent.getString("contact1").isEmpty()) {
+				    		contact1 = "" ;
+				    	}
+				    	else {
+				    		contact1 = rsAdherent.getString("contact1");
+				    	}
+				    	
+				    	if (rsAdherent.getString("contact2") == null || rsAdherent.getString("contact2").isEmpty()) {
+				    		contact2 = "" ;
+				    	}
+				    	else {
+				    		contact2 = rsAdherent.getString("contact2");
+				    	}
+				    	
+				    	if (rsAdherent.getString("sexe") == null || rsAdherent.getString("sexe").isEmpty()) {
+				    		sexe = "" ;
+				    	}
+				    	else {
+				    		sexe = rsAdherent.getString("sexe");
+				    	}
+				    	
+				    	if (rsAdherent.getString("droitimage") == null || rsAdherent.getString("droitimage").isEmpty()) {
+				    		droitimage = "" ;
+				    	}
+				    	else {
+				    		droitimage = rsAdherent.getString("droitimage");
+				    	}
+				    	
+				    	if (rsAdherent.getString("commentaire") == null || rsAdherent.getString("commentaire").isEmpty()) {
+				    		commentaire = "" ;
+				    	}
+				    	else {
+				    		commentaire = rsAdherent.getString("commentaire");
+				    	}
+
+				        categoriesAdh = new HashMap<>();
 
 				        adherents.add(new Adherent(
 				            licence,
@@ -578,17 +835,17 @@ public class ControleurAccueil extends HttpServlet {
 				            rsAdherent.getString("prenom"),
 				            rsAdherent.getString("annee"),
 				            rsAdherent.getString("tel1"),
-				            rsAdherent.getString("tel2"),
+				            tel2,
 				            rsAdherent.getString("adresse1"),
-				            rsAdherent.getString("adresse2"),
+				            adresse2,
 				            rsAdherent.getString("mail1"),
-				            rsAdherent.getString("mail2"),
-				            rsAdherent.getString("commentaire"),
+				            mail2,
+				            commentaire,
 				            rsAdherent.getString("dernierelicenceactive"),
-				            rsAdherent.getString("contact1"),
-				            rsAdherent.getString("contact2"),
-				            rsAdherent.getString("sexe"),
-				            rsAdherent.getString("droitimage"),
+				            contact1,
+				            contact2,
+				            sexe,
+				            droitimage,
 				            categoriesAdh
 				            //dao
 				        ));

@@ -72,7 +72,7 @@ public class FicheAdministrative extends HttpServlet {
 							+ "<tr><td>Téléphone 2 : </td><td><input align=center type='text' name='telephone2' value='"+a.getTel2()+"'></br></td></tr>"
 							+ "<tr><td>Adresse 1 : </td><td><input type='text' name='adresse1' value='"+a.getAdresse1()+"'></br></td></tr>"
 							+ "<tr><td>Adresse 2 : </td><td><input align=center type='text' name='adresse2' value='"+a.getAdresse2()+"'></br></td></tr>"
-							+ "<tr><td>Mail 1 : </td><td><input type='text' name='mail1' value='"+a.getMail1()+"'></br></td></tr>"
+							+ "<tr><td>Mail 1 : </td><td><input type='email' name='mail1' value='"+a.getMail1()+"'></br></td></tr>"
 							+ "<tr><td>Mail 2 : </td><td><input align=center type='text' name='mail2' value='"+a.getMail2()+"'></br></td></tr>"
 							+ "<tr><td>Commentaire : </td><td><input type='text' name='commentaire' value='"+a.getCommentaire()+"'></br></td></tr>"
 							+ "<tr><td>Contact 1 : </td><td><input align=center type='text' name='contact1' value='"+a.getContact1()+"'></br></td></tr>"

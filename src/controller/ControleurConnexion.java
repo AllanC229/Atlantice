@@ -146,12 +146,11 @@ public class ControleurConnexion extends HttpServlet {
 					else if (identification.getInt("tentativeconnexion") >= 1) {
 						
 						
-					/*	boolean checkmdp = false;
-						checkmdp =  BCrypt.checkpw(mdpsaisi, verifMdp.getString("motdepasse")); */
 						
 						if (BCrypt.checkpw(mdpsaisi, verifMdp.getString("motdepasse")) == true) {
 							
-							if (identification.getInt("changementmdp") == 0) {
+							
+							if (identification.getInt("changementmdp") != 1) {
 								request.setAttribute("chgtmdp", "<script> alert ('Veuillez changer votre mot de passe'); </script>");
 							}
 							
@@ -244,7 +243,7 @@ public class ControleurConnexion extends HttpServlet {
 						}	
 				
 						dao.closeConnection();				 
-						response.sendRedirect(request.getContextPath() + "/Accueil");				 
+						request.getRequestDispatcher("/Accueil").forward(request, response);				 
 					}
 				}
 		

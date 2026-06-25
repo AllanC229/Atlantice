@@ -262,8 +262,7 @@ public class ControleurModifInfosProfil extends HttpServlet {
     					
     					while (mdp.next()) {
     						mdpactuelBDD = mdp.getString("motdepasse");	//On stocke le résultat de la requête (donc le mdp de l'utilisateur actif)
-    					}
-    					
+    					}					
     				 
     					if (BCrypt.checkpw(request.getParameter("mdpactuel"), mdpactuelBDD) == true) {	//On verifie si le mdp en BDD correspond bien à celui rentré par l'utilisateur	
 	    					
@@ -278,6 +277,8 @@ public class ControleurModifInfosProfil extends HttpServlet {
 					    			
 					    			modifmdp.executeUpdate();
 					    			activeUser.lastseen(activeUser.getIdConnexion(), " changement de son mot de passe;");
+					    			
+					    			request.setAttribute("succes", "<script> alert ('Mot de passe modifié avec succès'); </script>");
 					    			
 			    				}
 				    			
