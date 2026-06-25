@@ -44,8 +44,6 @@ public class Profil extends HttpServlet {
 		
 		out.print("<!Doctype html><html><head><meta charset=\"utf-8\"/> \r\n"
 				+ "<link href=\"licence.css\" rel=\"stylesheet\">"
-			//	+ "<link href=\"header.css\" rel=\"stylesheet\">"
-				+ "<link href=\"range-slider-fiche-sportive.css\" rel=\"stylesheet\">"
 				+ "</head>");
 				
 		out.println(Header.afficherEntete(activeUser));
@@ -58,7 +56,7 @@ public class Profil extends HttpServlet {
 					+ "<tr><td>Nouveau mot de passe</td><td><input type='password' name='nouvmdp'></td></tr>"
 					+ "<tr><td>Confirmer le mot de passe</td><td><input type='password' name='confnouvmdp'></td></tr>"
 					+ "</table>"
-					+ "<input type='hidden' name='valider' value='validermdp'><input type='submit' value='Valider'>"
+					+ "<input type='hidden' name='valider' value='validermdp'><div class='actions'><input type='submit' value='Valider'></div>"
 					+ "</form></div>");
 			
 	        if (request.getAttribute("erreur") != null) {
@@ -71,7 +69,7 @@ public class Profil extends HttpServlet {
 		else if ("modifinfos".equals(request.getParameter("modifinfos"))) {
 			
 			
-			out.print("<body><h1 align=center>Informations adhérent : </h1></br>"
+			out.print("<body><h1 align=center> Mes informations </h1></br>"
 					+ "<div class='formulaire-adherent'>"
 					+ "<table border>"
 					+ "<form action='ControleurModifInfosProfil' method='POST'>"
@@ -92,7 +90,7 @@ public class Profil extends HttpServlet {
 					+ "<tr><td>Sexe : </td><td><input type='text' name='sexe' placeholder='"+activeAdherent.getSexe()+"'></br></td></tr>"
 					+ "<tr><td>Droit à l'image : </td><td><input type='text' name='droitimage' placeholder='"+activeAdherent.getDroitImage()+"'></br></td></tr>"
 					+ "</table></div>"
-					+ "<div align ='center'><input type='hidden' name='valider' value='validerinfos'> <input type='submit' value='Valider les modifications'> </form></div>");
+					+ "<div align ='center'><input type='hidden' name='valider' value='validerinfos'> <div class='actions'> <input type='submit' value='Valider les modifications'> </div> </form></div>");
 	       
 			if (request.getAttribute("erreur") != null) {
 	        	out.println(request.getAttribute("erreur"));
@@ -102,7 +100,7 @@ public class Profil extends HttpServlet {
 		
 		else {
 						
-		out.println("<h1 align=center>Informations adhérent : </h1></br>"
+		out.println("<h1 align=center> Mes informations </h1></br>"
 				+ "<div class='formulaire-adherent'>"
 				+ "<table border>"
 				+ "<tr><td>Nom : </td><td>"+activeAdherent.getNom()+"</br></td></tr>"
@@ -131,14 +129,20 @@ public class Profil extends HttpServlet {
 						+ "<div class='range-slider__progress'></div></div>");
 			}
 			out.print( "</table></div>"
-						+ "<div align ='center'> "
+						+ "<div class='actions'> "
 						+ "<form action='Profil' method='POST'> <input type='hidden' name='modifinfos' value='modifinfos'> "
 						+ "<input type='submit' name='modifinfos' value='Modifier mes informations'> "
-						+ "</form></div>"
-						+ "<div align ='center'> <form action='Profil' method='POST'> "
+						+ "</form>"
+						+ "<form action='Profil' method='POST'> "
 						+ "<input type='hidden' name='modifmdp' value='modifmdp'> "
 						+ "<input type='submit' name='modifmdp' value='Modifier mon mot de passe'> "
 						+ "</form></div>");
+		}
+		
+		if (request.getAttribute("succes") != null) {
+			out.print("<div class='succes'>");
+			out.print(request.getAttribute("succes"));
+			out.print("</div>");
 		}
 		
         if (request.getAttribute("erreur") != null) {

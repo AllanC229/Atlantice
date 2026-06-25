@@ -74,15 +74,16 @@ public class CreationAdherent extends HttpServlet {
 	        		  +"<tr><td>Numéro de téléphone 2: </td><td><input type='tel' name='numTel2'></td></tr>"
 	        		  +"<tr><td>Adresse postale 1 (*): </td><td><input type='text' name='adresse1' required></td></tr>"
 	        		  +"<tr><td>Adresse postale 2: </td><td><input type='text' name='adresse2'></td></tr>"
-	        		  +"<tr><td>Adresse mail 1 (*): </td><td><input type='email' name='mail1' required></td></tr>"
+	        		  +"<tr><td>Adresse mail 1 (*): </td><td><input type='text' name='mail1' required></td></tr>"
 	        		  +"<tr><td>Adresse mail 2: </td><td><input type='email' name='mail2'></td></tr>"
 	        		  +"<tr><td>Contact 1: </td><td><input type='text' name='contact1'></td></tr>"
 	        		  +"<tr><td>Contact 2: </td><td><input type='text' name='contact2'></td></tr>"
 	        		  +"<tr><td>Sexe : </td><td><input type='text' name='sexe'></td></tr>"
 	        		  +"<tr><td>Droit à l'image : </td><td><input type='text' name='droitImage'></td></tr>"
+	        		  +"<tr><td>Mot de passe provisoire : (*) : </td><td><input type='text' name='mdpprov'></td></tr>"
+	        		  +"<tr><td>Confirmer le mot de passe : (*) : </td><td><input type='text' name='verifmdpprov'></td></tr>"
 	        		  +"<tr><td>Catégorie(s) (*):</td><td>"
 	        		  +"<select id='choix-categorie'>");
-	        //+"<select name='categories[]' id='choix-categorie' multiple required");
 	        
 	        for(Map.Entry<String, String> entry : activeUser.categoriesUser.entrySet()) {
 				
