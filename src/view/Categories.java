@@ -45,34 +45,33 @@ public class Categories extends HttpServlet {
 		System.out.println("role:" + role);
 		
 		
-		out.print("<!Doctype html><html><head><meta charset=\"utf-8\"/>"
-				+ " <link href=\"licence.css\" rel=\"stylesheet\">"
-				+ "<link href='header.css' rel='stylesheet'>"
+		out.print("<!Doctype html><html><head><meta charset='utf-8'/>"
+				+ " <link href='licence.css' rel='stylesheet'>"
 				+ " </head><body>");
 				
 		out.print(Header.afficherEntete(activeUser));
 
-		out.print("<h1 align=center>Catégories : </h1></br>"
-				+ "<div align=center><form action='ControleurCategories' method=POST>"
+		out.print("<div class='formulaire-categories'><h1 align=center>Catégories : </h1></br>"
+				+ "<form action='ControleurCategories' method=POST>"
 				+ "<table border>"
 				+ "<tr><th>Années</th><th>Nom</th></tr>");
 		
 				for(Categorie c : (ArrayList<Categorie>)request.getAttribute("categories")) {
-					out.print("<tr><td><input type=\"text\" name=\"annee\" value='"+c.getNomCateg()+"'></td><td><input type=\"text\" name=\"nom\" value='"+c.getIdCateg()+"'></td></tr>");
+					out.print("<tr><td><input type='text' name='annee' value='"+c.getNomCateg()+"'></td><td><input type='text' name='nom' value='"+c.getIdCateg()+"'></td></tr>");
 				}
 				
 				out.print("</table></div>");
 				
 				if ((activeUser.getRole().equals("admin") || activeUser.getRole().equals("modif"))) {
 				
-					out.print("<div align=center>"
-					+ "<input type=\"submit\" name=\"modifCategories\" value='Valider les modifications'>"
+					out.print("<div class='actions'>"
+					+ "<input type='submit' name='modifCategories' value='Valider les modifications'>"
 					+ "</form><br>"
 					
-					+ "<form action=\"CreationCategorie\" method=POST> <input type=\"submit\" name=\"creationCategorie\" value=\"Créer une catégorie\"></form>"
+					+ "<form action='CreationCategorie' method=POST> <input type='submit' name='creationCategorie' value='Créer une catégorie'></form>"
 					+ "</div>");					
 				
-				/*	out.print("<form action=\"ControleurCategories\" name=\"boutonCreerCateg\" method=\"get\"> <input type = \"submit\" name=\"creationCategorie\" value=\"Créer une catégorie\"> </form>");	*/
+				/*	out.print("<form action='ControleurCategories' name='boutonCreerCateg' method='get'> <input type = 'submit' name='creationCategorie' value='Créer une catégorie'> </form>");	*/
 			
 			        if (request.getAttribute("erreur") != null) {
 			        	out.println(request.getAttribute("erreur"));

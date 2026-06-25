@@ -132,14 +132,9 @@ public class ControleurCategories extends HttpServlet {
 			e.printStackTrace();
 		}
 		//response.sendRedirect("ControleurAccueil?categories=true"); // rafraichir vue Categorie à jour 
-        }
+		response.sendRedirect(request.getContextPath() + "/Accueil");
+	}
    // }
-			
-			
-			
-			
-			
-		
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)

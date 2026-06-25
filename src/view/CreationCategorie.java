@@ -38,22 +38,21 @@ public class CreationCategorie extends HttpServlet {
 
 		
 		//Formulaire d'ajout de classe
-		out.println("<!Doctype html><html><head><meta charset=\"utf-8\"/> \r\n"
-				+ "<link href=\"licence.css\" rel=\"stylesheet\">"
-				+ "<link href=\"header.css\" rel=\"stylesheet\">"
+		out.println("<!Doctype html><html><head><meta charset='utf-8'>"
+				+ "<link href='licence.css' rel='stylesheet'>"
 				+ "</head>");
 					
 		out.println(Header.afficherEntete(activeUser));
 		
-		out.println("<div align=center><form name=\"ajouterCategorie\" action=\"ControleurAjtCategorie\" method=POST>"
-		+ "<h1>Ajouter une catégorie</h1><br>"
-		+ "<br>");
-		
-		out.println("Nom de la catégorie: <input type=\"text\" name=\"nmC\"> </input> <br><br>");
-		out.println("Année de la catégorie: <input type=\"text\" name=\"annee\"> </input> <br><br>");
-
-		out.println("<input type=\"submit\" value = \"Valider\" /></input></div>");   
-		out.println("</form>");
+		out.println("<div class='formulaire-categories'>"
+				+ "<form name='ajouterCategorie' action='ControleurAjtCategorie' method=POST>"
+				+ "<h1>Ajouter une catégorie</h1><br>"
+				+ "<br>"		
+				+ "Nom de la catégorie: <input type='text' name='nmC'><br><br>"
+				+ "Année de la catégorie: <input type='text' name='annee'><br><br>"
+				+ "<div class='actions'> <input type='submit' value = 'Valider'></div>"
+				+ "</div>"   
+				+ "</form>");
 		
         if (request.getAttribute("erreur") != null) {
         	out.println(request.getAttribute("erreur"));
