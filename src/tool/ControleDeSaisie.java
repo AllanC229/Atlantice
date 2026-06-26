@@ -36,16 +36,12 @@ public class ControleDeSaisie {
     
 	//Cette fonction vérifie si la valeur saisie lors de la modifications de critères est bien un entier entre 1 et 5 (inclus). Le but est d'éviter de saisir des valeurs
     //aberrantes ou des chaines de caractères vulnérables aux injections.
-    public static boolean ControleSaisieCritere(String valeur) {
+    public static boolean controleSaisieCritere(String valeur) {
         try {
-            if (Integer.parseInt(valeur) < 0 || Integer.parseInt(valeur) > 5) {          
-            return false;
-        }
-            else {
-            	return true;
-            }
+            int nombre = Integer.parseInt(valeur);
+            return nombre >= 0 && nombre <= 5; // true = valide
         } catch (NumberFormatException e) {
-            return false;
+            return false; // pas un nombre = invalide
         }
     }
 
