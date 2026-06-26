@@ -53,12 +53,11 @@ public class CreationCritere extends HttpServlet {
 			out.println("<div class='formulaire-ficheadmin'><form name='ajouterCritere' action='ControleurAjtCritere' method=POST>" 
 						+ "<h1>Ajouter un nouveau critère </h1><br>"
 						+ "<br>"
-						+ "<h2>Nom du critère : </h2> <br> <input type='text' name='nomCritere'> </input>"
-						+ "<br><br>"
-						+ "<input type='submit' value = 'Valider' /></input>"
+						+ "<h2>Nom du critère : </h2> <br> <input type='text' name='nomCritere'>"
+						+ "<br>"
+						+ "<input type='submit' value = 'Valider'>"
 						+ "</form><br>"
-						+ "<form action=\"Accueil\" name=\"retouraccueil\" value=\"accueil\" method='POST'>"
-						+ "<input type=\"submit\" name=\"retouraccueil\" value=\"Retour à l'accueil\"> </form>"
+						+ "<form action='Accueil' name='retouraccueil' value='accueil' method='POST'>"
 						+ "</div>");   
 			
 	        if (request.getAttribute("erreur") != null) {
