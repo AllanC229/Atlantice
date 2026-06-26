@@ -51,10 +51,10 @@ import tool.ControleDeSaisie;
 			
 	     //   String[] categories = request.getParameterValues("categories[]");
 
-	        String[] criteresTab = request.getParameterValues("criteres[]");
-	        System.out.println(criteresTab);
+	       // String[] criteresTab = request.getParameterValues("criteres[]");
+	       // System.out.println(criteresTab);
 	        
-	        if (request.getParameterValues("criteres[]").length > 0) {
+	       /* if (request.getParameterValues("criteres[]").length > 0) {
 	        	System.out.println("if controle: "+ criteresTab[0]);
 	            for (String critereTabCheck : criteresTab) {
 	    	        System.out.println("criteretabcheck: "+ critereTabCheck);
@@ -73,7 +73,7 @@ import tool.ControleDeSaisie;
 	                	return;
 	                }
 	            }
-	        }
+	        }*/
 
 			
 			try {
@@ -90,7 +90,7 @@ import tool.ControleDeSaisie;
 				
 				String numeroLicence = numLic;
 				String nomcritere = entry.getKey();
-				int valcritere = entry.getValue();   //(request.getParameter(nomcritere));
+				int valcritere = Integer.parseInt(request.getParameter(nomcritere));
 			
 				pst.setInt (1, valcritere);
 				pst.setString (2, numeroLicence);

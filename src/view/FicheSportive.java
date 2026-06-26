@@ -73,7 +73,7 @@ public class FicheSportive extends HttpServlet {
 						for (HashMap.Entry<String, Integer> entry : criteres.entrySet()) {
 							out.println("<tr><td>"+entry.getKey()+"</td><td>"
 										+ "<div class='range-slider' style='--value-a: 0; width: 350px;'>"
-										+ "<input id='"+entry.getKey()+"' name='criteres[]' type='range' min='0' max='5' value='" + entry.getValue() 
+										+ "<input id='"+entry.getKey()+"' name='"+ entry.getKey() +"' type='range' min='0' max='5' value='" + entry.getValue() 
 																					+"'oninput='this.parentNode.style.setProperty('--value-a', this.value)'>"
 										+ "<div class='range-slider__values'>0 1 2 3 4 5</div>"
 										+ "<div class='range-slider__progress'></div></div>");
