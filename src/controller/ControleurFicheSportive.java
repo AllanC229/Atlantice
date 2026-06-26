@@ -49,15 +49,20 @@ import tool.ControleDeSaisie;
 					
 			HashMap<String, Integer> criteres = (HashMap<String, Integer>) h.getAttribute("criteres"); 
 			
-	        String[] criteresTab = request.getParameterValues("criteres");
+	     //   String[] categories = request.getParameterValues("categories[]");
+
+	        String[] criteresTab = request.getParameterValues("criteres[]");
 	        System.out.println(criteresTab);
 	        
-	        if (criteresTab != null) {
+	        if (request.getParameterValues("criteres[]").length > 0) {
+	        	System.out.println("if controle: "+ criteresTab[0]);
 	            for (String critereTabCheck : criteresTab) {
+	    	        System.out.println("criteretabcheck: "+ critereTabCheck);
 	                if (ControleDeSaisie.caractereInterdit(critereTabCheck)) {
 	    				// insérer la tentative d'injection dans les logs : 
 	                	try {
 							activeUser.lastseen(activeUser.getIdConnexion(), " tentative insertion caractère interdit dans modif critereAdh;");
+							System.out.println("toto");
 						} catch (SQLException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
@@ -85,8 +90,8 @@ import tool.ControleDeSaisie;
 				
 				String numeroLicence = numLic;
 				String nomcritere = entry.getKey();
-				int valcritere = Integer.parseInt(request.getParameter(nomcritere));
-				
+				int valcritere = entry.getValue();   //(request.getParameter(nomcritere));
+			
 				pst.setInt (1, valcritere);
 				pst.setString (2, numeroLicence);
 				pst.setString (3, nomcritere); 
