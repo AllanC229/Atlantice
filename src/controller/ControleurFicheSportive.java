@@ -49,32 +49,21 @@ import tool.ControleDeSaisie;
 					
 			HashMap<String, Integer> criteres = (HashMap<String, Integer>) h.getAttribute("criteres"); 
 			
-	     //   String[] categories = request.getParameterValues("categories[]");
-
-	       // String[] criteresTab = request.getParameterValues("criteres[]");
-	       // System.out.println(criteresTab);
-	        
-	       /* if (request.getParameterValues("criteres[]").length > 0) {
-	        	System.out.println("if controle: "+ criteresTab[0]);
-	            for (String critereTabCheck : criteresTab) {
-	    	        System.out.println("criteretabcheck: "+ critereTabCheck);
-	                if (ControleDeSaisie.caractereInterdit(critereTabCheck)) {
-	    				// insérer la tentative d'injection dans les logs : 
-	                	try {
-							activeUser.lastseen(activeUser.getIdConnexion(), " tentative insertion caractère interdit dans modif critereAdh;");
-							System.out.println("toto");
-						} catch (SQLException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-	                	// pas donner d'indice quant à la nature de l'erreur ?
-	                	request.setAttribute("erreur", "Caractère interdit détecté");
-	                    getServletContext().getRequestDispatcher("/FicheSportive").forward(request, response);
-	                	return;
-	                }
-	            }
-	        }*/
-
+			for (HashMap.Entry<String, Integer> entry : criteres.entrySet()) {
+				
+				System.out.println(request.getParameter(""+entry.getKey()+""));
+				
+				boolean resultat = ControleDeSaisie.controleSaisieCritere(request.getParameter(""+entry.getKey()+""));
+				System.out.println("Résultat contrôle : " + resultat);
+				
+				if (ControleDeSaisie.controleSaisieCritere(request.getParameter(""+entry.getKey()+"")) == false) {
+					System.out.println("ERREUR");
+					request.setAttribute("erreur", "Action interdite");
+					getServletContext().getRequestDispatcher("/FicheSportive").forward(request, response);
+					return;
+				}
+				
+			}
 			
 			try {
 				DAOAcces dao = new DAOAcces("com.mysql.cj.jdbc.Driver", "webadherents", "root", "");			
